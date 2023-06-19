@@ -4,34 +4,50 @@ using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Events.Input;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Systems.Input
 {
     internal sealed class InputShootSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<InputShootComponent>> _inputFilter = default;
+        private readonly EcsFilterInject<Inc<InputComponent, ShootingComponent>> _shootingFilter = default;
 
-        private readonly EcsSharedInject<SharedData> _sharedData;
+        private readonly EcsSharedInject<SharedData> _sharedData = default;
 
         public void Run(IEcsSystems systems)
         {
-            if (!_sharedData.Value.EventsBus.HasEventSingleton<InputShootEvent>(out var eventBody)) return;
+            var eventsBus = _sharedData.Value.EventsBus;
 
-            UnityEngine.Debug.Log($"Shoot {eventBody.ScreenPosition}");
-
-            //SetInputAxis(ref eventBody.Axis);
+            if (eventsBus.HasEventSingleton<InputShootStartedEvent>())
+            {
+                StartProcessShoot();
+            }
+            if (eventsBus.HasEventSingleton<InputShootEndedEvent>())
+            {
+                EndProcessShoot();
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SetInputAxis(ref Vector2 position)
+        private void StartProcessShoot()
         {
-            foreach (var entity in _inputFilter.Value)
-            {
-                var pools = _inputFilter.Pools;
+            ProcessShoot(true);
+        }
 
-                ref var moveInput = ref pools.Inc1.Get(entity).MoveInput;
-                //moveInput = axis;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void EndProcessShoot()
+        {
+            ProcessShoot(false);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ProcessShoot(bool value)
+        {
+            var pools = _shootingFilter.Pools;
+
+            foreach (var entity in _shootingFilter.Value)
+            {
+                ref var shootingComponent = ref pools.Inc2.Get(entity);
+                shootingComponent.IsShooting = value;
             }
         }
     }

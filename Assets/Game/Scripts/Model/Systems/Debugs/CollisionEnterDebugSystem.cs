@@ -1,8 +1,9 @@
 ﻿using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
-namespace Assets.Game.Scripts.Model.Systems.Debug
+namespace Assets.Game.Scripts.Model.Systems.Debugs
 {
     internal sealed class CollisionEnterDebugSystem : IEcsRunSystem
     {
@@ -16,7 +17,7 @@ namespace Assets.Game.Scripts.Model.Systems.Debug
 
                 ref var collisionEnterEvent = ref pools.Inc1.Get(entity);
 
-                UnityEngine.Debug.Log("[ Event: OnCollisionEnterEvent ] " +
+                Debug.Log("[ Event: OnCollisionEnterEvent ] " +
                                       $"[ Sender: {collisionEnterEvent.SenderGameObject.name} ] " +
                                       $"[ Other: {collisionEnterEvent.FirstContactPoint.otherCollider.gameObject.name} ]");
             }

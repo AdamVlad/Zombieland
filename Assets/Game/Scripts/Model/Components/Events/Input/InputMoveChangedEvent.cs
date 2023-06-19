@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Components.Events.Input
 {
-    internal struct InputMoveEvent : IEventSingleton
+    internal struct InputMoveChangedEvent : IEventSingleton
     {
         public Vector2 Axis;
     }

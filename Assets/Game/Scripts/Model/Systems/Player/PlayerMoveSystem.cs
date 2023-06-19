@@ -2,30 +2,50 @@
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerMoveSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<MonoLink<Transform>, InputMoveComponent, MoveComponent>> _filter = default;
+        private readonly EcsFilterInject<Inc<PlayerTagComponent,MonoLink<Transform>, MoveComponent, ShootingComponent>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {
+            var pools = _filter.Pools;
+
             foreach (var entity in _filter.Value)
             {
-                var pools = _filter.Pools;
+                ref var transform = ref pools.Inc2.Get(entity).Value;
+                ref var moveComponent = ref pools.Inc3.Get(entity);
+                ref var shootingComponent = ref pools.Inc4.Get(entity);
 
-                ref var transform = ref pools.Inc1.Get(entity).Value;
-                ref var inputMoveComponent = ref pools.Inc2.Get(entity);
-                ref var moveSpeed = ref pools.Inc3.Get(entity).Speed;
+                if (!moveComponent.IsMoving) continue;
 
-                //transform.position += new Vector3(moveInput.x * moveSpeed, 0, moveInput.y * moveSpeed);
-
-                if (!inputMoveComponent.IsMoveInputStarted) continue;
-
-                transform.position += transform.forward * moveSpeed;
+                if (shootingComponent.IsShooting)
+                {
+                    MoveInAllDirections(ref transform, ref moveComponent);
+                }
+                else
+                {
+                    MoveOnlyForward(ref transform, ref moveComponent);
+                }
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void MoveInAllDirections(ref Transform transform, ref MoveComponent moveComponent)
+        {
+            transform.position += new Vector3(
+                moveComponent.MoveInputAxis.x * moveComponent.Speed,
+                0, moveComponent.MoveInputAxis.y * moveComponent.Speed);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void MoveOnlyForward(ref Transform transform, ref MoveComponent moveComponent)
+        {
+            transform.position += transform.forward * moveComponent.Speed;
         }
     }
 }

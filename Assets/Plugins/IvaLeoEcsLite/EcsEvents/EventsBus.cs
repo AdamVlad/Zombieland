@@ -6,15 +6,15 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
 {
     public class EventsBus
     {
-        private readonly EcsWorld eventsWorld;
-        private readonly Dictionary<Type, int> singletonEntities;
-        private readonly Dictionary<Type, EcsFilter> cachedFilters;
+        private readonly EcsWorld _eventsWorld;
+        private readonly Dictionary<Type, int> _singletonEntities;
+        private readonly Dictionary<Type, EcsFilter> _cachedFilters;
 
         public EventsBus(int capacityEvents = 8, int capacityEventsSingleton = 8)
         {
-            eventsWorld = new EcsWorld();
-            singletonEntities = new Dictionary<Type, int>(capacityEventsSingleton);
-            cachedFilters = new Dictionary<Type, EcsFilter>(capacityEvents);
+            _eventsWorld = new EcsWorld();
+            _singletonEntities = new Dictionary<Type, int>(capacityEventsSingleton);
+            _cachedFilters = new Dictionary<Type, EcsFilter>(capacityEvents);
         }
 
         #region EventsSingleton
@@ -22,11 +22,11 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
         public ref T NewEventSingleton<T>() where T : struct, IEventSingleton
         {
             var type = typeof(T);
-            var eventsPool = eventsWorld.GetPool<T>();
-            if (!singletonEntities.TryGetValue(type, out var eventEntity))
+            var eventsPool = _eventsWorld.GetPool<T>();
+            if (!_singletonEntities.TryGetValue(type, out var eventEntity))
             {
-                eventEntity = eventsWorld.NewEntity();
-                singletonEntities.Add(type, eventEntity);
+                eventEntity = _eventsWorld.NewEntity();
+                _singletonEntities.Add(type, eventEntity);
                 return ref eventsPool.Add(eventEntity);
             }
 
@@ -35,30 +35,30 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
 
         public bool HasEventSingleton<T>() where T : struct, IEventSingleton
         {
-            return singletonEntities.ContainsKey(typeof(T));
+            return _singletonEntities.ContainsKey(typeof(T));
         }
 
         public bool HasEventSingleton<T>(out T eventBody) where T : struct, IEventSingleton
         {
-            var hasEvent = singletonEntities.TryGetValue(typeof(T), out var eventEntity);
-            eventBody = hasEvent ? eventsWorld.GetPool<T>().Get(eventEntity) : default;
+            var hasEvent = _singletonEntities.TryGetValue(typeof(T), out var eventEntity);
+            eventBody = hasEvent ? _eventsWorld.GetPool<T>().Get(eventEntity) : default;
             return hasEvent;
         }
 
         public ref T GetEventBodySingleton<T>() where T : struct, IEventSingleton
         {
-            var eventEntity = singletonEntities[typeof(T)];
-            var eventsPool = eventsWorld.GetPool<T>();
+            var eventEntity = _singletonEntities[typeof(T)];
+            var eventsPool = _eventsWorld.GetPool<T>();
             return ref eventsPool.Get(eventEntity);
         }
 
         public void DestroyEventSingleton<T>() where T : struct, IEventSingleton
         {
             var type = typeof(T);
-            if (singletonEntities.TryGetValue(type, out var eventEntity))
+            if (_singletonEntities.TryGetValue(type, out var eventEntity))
             {
-                eventsWorld.DelEntity(eventEntity);
-                singletonEntities.Remove(type);
+                _eventsWorld.DelEntity(eventEntity);
+                _singletonEntities.Remove(type);
             }
         }
 
@@ -68,17 +68,17 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
 
         public ref T NewEvent<T>() where T : struct, IEventReplicant
         {
-            var newEntity = eventsWorld.NewEntity();
-            return ref eventsWorld.GetPool<T>().Add(newEntity);
+            var newEntity = _eventsWorld.NewEntity();
+            return ref _eventsWorld.GetPool<T>().Add(newEntity);
         }
 
         private EcsFilter GetFilter<T>() where T : struct, IEventReplicant
         {
             var type = typeof(T);
-            if (!cachedFilters.TryGetValue(type, out var filter))
+            if (!_cachedFilters.TryGetValue(type, out var filter))
             {
-                filter = eventsWorld.Filter<T>().End();
-                cachedFilters.Add(type, filter);
+                filter = _eventsWorld.Filter<T>().End();
+                _cachedFilters.Add(type, filter);
             }
 
             return filter;
@@ -86,7 +86,7 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
 
         public EcsFilter GetEventBodies<T>(out EcsPool<T> pool) where T : struct, IEventReplicant
         {
-            pool = eventsWorld.GetPool<T>();
+            pool = _eventsWorld.GetPool<T>();
             return GetFilter<T>();
         }
 
@@ -100,7 +100,7 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
         {
             foreach (var eventEntity in GetFilter<T>())
             {
-                eventsWorld.DelEntity(eventEntity);
+                _eventsWorld.DelEntity(eventEntity);
             }
         }
 
@@ -108,14 +108,14 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
 
         public EcsWorld GetEventsWorld()
         {
-            return eventsWorld;
+            return _eventsWorld;
         }
 
         public void Destroy()
         {
-            singletonEntities.Clear();
-            cachedFilters.Clear();
-            eventsWorld.Destroy();
+            _singletonEntities.Clear();
+            _cachedFilters.Clear();
+            _eventsWorld.Destroy();
         }
     }
 }

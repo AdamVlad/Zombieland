@@ -15,4 +15,4 @@ MonoBehaviour:
   _prefab: {fileID: 1315996973343497886, guid: b5cd9f68df5186d4d85a293432fb3d58, type: 3}
   _moveSpeed: 70
   _rotationSpeed: 25
-  _smoothTurningAngle: 120
+  _smoothTurningAngle: 140

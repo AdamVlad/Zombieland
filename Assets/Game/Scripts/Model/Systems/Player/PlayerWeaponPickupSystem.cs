@@ -10,7 +10,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerWeaponPickupSystem : IEcsRunSystem
     {
-        private readonly EcsSharedInject<SharedData> _sharedData;
+        private readonly EcsSharedInject<SharedData> _sharedData = default;
 
         private readonly EcsPoolInject<BackpackComponent> _backpackComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;

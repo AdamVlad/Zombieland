@@ -10,13 +10,13 @@ namespace Assets.Game.Scripts.Model.Systems.Input
 {
     internal sealed class InputMoveSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<InputMoveComponent>> _inputFilter = default;
+        private readonly EcsFilterInject<Inc<InputComponent, MoveComponent>> _movingFilter = default;
 
-        private readonly EcsSharedInject<SharedData> _sharedData;
+        private readonly EcsSharedInject<SharedData> _sharedData = default;
 
         public void Run(IEcsSystems systems)
         {
-            if (!_sharedData.Value.EventsBus.HasEventSingleton<InputMoveEvent>(out var eventBody)) return;
+            if (!_sharedData.Value.EventsBus.HasEventSingleton<InputMoveChangedEvent>(out var eventBody)) return;
 
             SetInputAxis(ref eventBody.Axis);
         }
@@ -24,12 +24,12 @@ namespace Assets.Game.Scripts.Model.Systems.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetInputAxis(ref Vector2 axis)
         {
-            foreach (var entity in _inputFilter.Value)
-            {
-                var pools = _inputFilter.Pools;
+            var pools = _movingFilter.Pools;
 
-                ref var moveInput = ref pools.Inc1.Get(entity).MoveInput;
-                moveInput = axis;
+            foreach (var entity in _movingFilter.Value)
+            {
+                ref var moveInputAxis = ref pools.Inc2.Get(entity).MoveInputAxis;
+                moveInputAxis = axis;
             }
         }
     }

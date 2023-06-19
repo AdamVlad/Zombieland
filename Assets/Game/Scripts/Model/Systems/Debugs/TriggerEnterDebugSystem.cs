@@ -1,8 +1,10 @@
-﻿using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Events;
+﻿using Assets.Plugins.IvaLeoEcsLite.EcsEvents;
+using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
-namespace Assets.Game.Scripts.Model.Systems.Debug
+namespace Assets.Game.Scripts.Model.Systems.Debugs
 {
     internal sealed class TriggerEnterDebugSystem : IEcsRunSystem
     {
@@ -16,7 +18,7 @@ namespace Assets.Game.Scripts.Model.Systems.Debug
 
                 ref var triggerEnterEvent = ref pools.Inc1.Get(entity);
 
-                UnityEngine.Debug.Log("[ Event: OnTriggerEnterEvent ] " +
+                Debug.Log("[ Event: OnTriggerEnterEvent ] " +
                                       $"[ Sender: {triggerEnterEvent.SenderGameObject.name} ] " +
                                       $"[ Other: {triggerEnterEvent.OtherCollider.gameObject.name} ]");
             }

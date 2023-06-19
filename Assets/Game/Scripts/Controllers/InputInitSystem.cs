@@ -19,37 +19,63 @@ namespace Assets.Game.Scripts.Controllers
             _inputControls = new InputControls();
 
             // Move
-            _inputControls.ActionMap.Move.performed += SetInputAxis;
-            _inputControls.ActionMap.Move.canceled += SetInputAxis;
+            _inputControls.ActionMap.Move.performed += OnInputMoveEvent;
+            _inputControls.ActionMap.Move.canceled += OnInputMoveEvent;
 
             // Shoot
-            _inputControls.ActionMap.Shoot.started += _ => _isShooting = true;
-            _inputControls.ActionMap.Shoot.canceled += _ => _isShooting = false;
-            _inputControls.ActionMap.MouseClickPosition.started += SetClickPosition;
-            _inputControls.ActionMap.MouseClickPosition.performed += SetClickPosition;
+            _inputControls.ActionMap.Shoot.started += OnInputShootStartedEvent;
+            _inputControls.ActionMap.Shoot.canceled += OnInputShootEndedEvent;
+
+            _inputControls.ActionMap.MouseClickPosition.started += OnInputShootDirectionChangedEvent;
+            _inputControls.ActionMap.MouseClickPosition.performed += OnInputShootDirectionChangedEvent;
+            _inputControls.ActionMap.MouseClickPosition.canceled += OnInputShootDirectionChangedEvent;
 
             _inputControls.Enable();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SetInputAxis(InputAction.CallbackContext context)
+        private void OnInputMoveEvent(InputAction.CallbackContext context)
         {
-            _sharedData.Value.EventsBus.NewEventSingleton<InputMoveEvent>() =
-                new InputMoveEvent
+            _sharedData.Value.EventsBus.NewEventSingleton<InputMoveChangedEvent>() =
+                new InputMoveChangedEvent
                 {
                     Axis = context.ReadValue<Vector2>()
                 };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SetClickPosition(InputAction.CallbackContext context)
+        private void OnInputShootStartedEvent(InputAction.CallbackContext context)
+        {
+            _isShooting = true;
+
+            _sharedData.Value.EventsBus.NewEventSingleton<InputShootStartedEvent>() =
+                new InputShootStartedEvent
+                {
+                    ScreenPosition = _inputControls.ActionMap.MouseClickPosition.ReadValue<Vector2>()
+                };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void OnInputShootEndedEvent(InputAction.CallbackContext context)
+        {
+            _isShooting = false;
+
+            _sharedData.Value.EventsBus.NewEventSingleton<InputShootEndedEvent>() =
+                new InputShootEndedEvent
+                {
+                    ScreenPosition = _inputControls.ActionMap.MouseClickPosition.ReadValue<Vector2>()
+                };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void OnInputShootDirectionChangedEvent(InputAction.CallbackContext context)
         {
             if (!_isShooting) return;
 
-            _sharedData.Value.EventsBus.NewEventSingleton<InputShootEvent>() =
-                new InputShootEvent
+            _sharedData.Value.EventsBus.NewEventSingleton<InputShootDirectionChangedEvent>() =
+                new InputShootDirectionChangedEvent
                 {
-                    ScreenPosition = context.ReadValue<Vector2>()
+                    ScreenClickPosition = context.ReadValue<Vector2>()
                 };
         }
 

@@ -4,7 +4,6 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Assets.Game.Scripts.Model.ScriptableObjects;
 using UnityEngine;
-using Assets.Game.Scripts.Model.Systems.Debug;
 using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Emitter;
 using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents.EntityReference;
@@ -12,8 +11,9 @@ using Assets.Game.Scripts.Model.AppData;
 using Assets.Plugins.IvaLeoEcsLite.EcsEvents;
 using Assets.Game.Scripts.Model.Components.Events;
 using Assets.Game.Scripts.Model.Systems.Player;
-using Assets.Game.Scripts.Model.Systems.Input;
 using Assets.Game.Scripts.Model.Components.Events.Input;
+using Assets.Game.Scripts.Model.Systems.Debugs;
+using Assets.Game.Scripts.Model.Systems.Input;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -24,6 +24,7 @@ namespace Assets.Game.Scripts
     internal sealed class GameEntryPoint : MonoBehaviour
     {
         [SerializeField] private BobConfigurationSO _bobSettings; 
+        [SerializeField] private LayerMask _raycastableMask; 
 
         private EcsWorld _world;
 
@@ -42,7 +43,9 @@ namespace Assets.Game.Scripts
 
             _sharedData = new SharedData
             {
-                EventsBus = new EventsBus()
+                EventsBus = new EventsBus(),
+                MainCamera = Camera.main,
+                RaycastableMask = _raycastableMask
             };
 
             _initSystems = new EcsSystems(_world, _sharedData);
@@ -64,11 +67,13 @@ namespace Assets.Game.Scripts
 #endif
                 .Add(new InputMoveSystem())
                 .Add(new InputShootSystem())
+                .Add(new InputShootDirectionSystem())
                 .Add(new PlayerItemPickupSystem())
                 .DelHerePhysics()
                 .Add(new PlayerWeaponPickupSystem())
 #if UNITY_EDITOR
                 .Add(new PickUpItemDebugSystem())
+                .Add(new ShootStartedOrCanceledDebugSystem())
 #endif
                 .Add(new PlayerMoveAnimationSystem())
                 .Add(GetEventsDestroySystem())
@@ -96,8 +101,10 @@ namespace Assets.Game.Scripts
         private IEcsSystem GetEventsDestroySystem()
         {
             return new DestroyEventsSystem(_sharedData.EventsBus, 16)
-                .IncSingleton<InputMoveEvent>()
-                .IncSingleton<InputShootEvent>()
+                .IncSingleton<InputMoveChangedEvent>()
+                .IncSingleton<InputShootStartedEvent>()
+                .IncSingleton<InputShootEndedEvent>()
+                .IncSingleton<InputShootDirectionChangedEvent>()
                 .IncSingleton<PlayerPickUpWeaponEvent>();
         }
 
