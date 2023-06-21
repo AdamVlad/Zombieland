@@ -9,13 +9,12 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerRotationSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<
-                PlayerTagComponent,
-                MonoLink<Transform>,
-                RotationComponent,
-                MoveComponent,
-                ShootingComponent>> _filter = default;
+        private readonly EcsFilterInject<Inc<
+            PlayerTagComponent,
+            MonoLink<Transform>,
+            RotationComponent,
+            MoveComponent,
+            ShootingComponent>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -49,7 +48,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
         {
             var direction = 
                 (Vector3.forward * moveComponent.MoveInputAxis.y + Vector3.right * moveComponent.MoveInputAxis.x).normalized;
-            RotateByDirection(ref direction, ref transform, ref rotationComponent);
+            RotateByDirection(ref direction, ref transform, ref rotationComponent, false);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -58,19 +57,19 @@ namespace Assets.Game.Scripts.Model.Systems.Player
             ref Transform transform,
             ref RotationComponent rotationComponent)
         {
-            var direction = (shootingComponent.DirectionPoint - transform.position).normalized;
-            RotateByDirection(ref direction, ref transform, ref rotationComponent);
+            RotateByDirection(ref shootingComponent.Direction, ref transform, ref rotationComponent, true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RotateByDirection(
             ref Vector3 direction,
             ref Transform transform,
-            ref RotationComponent rotationComponent)
+            ref RotationComponent rotationComponent, 
+            bool isSmoothingAlways)
         {
             var targetRotation = Quaternion.LookRotation(direction);
 
-            if (Quaternion.Angle(transform.rotation, targetRotation) < rotationComponent.SmoothTurningAngle)
+            if (isSmoothingAlways || Quaternion.Angle(transform.rotation, targetRotation) < rotationComponent.SmoothTurningAngle)
             {
                 transform.rotation =
                     Quaternion.Lerp(transform.rotation, targetRotation, rotationComponent.Speed * Time.deltaTime);

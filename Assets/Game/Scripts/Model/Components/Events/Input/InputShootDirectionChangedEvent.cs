@@ -5,6 +5,6 @@ namespace Assets.Game.Scripts.Model.Components.Events.Input
 {
     internal struct InputShootDirectionChangedEvent : IEventSingleton
     {
-        public Vector2 ScreenClickPosition;
+        public Vector2 ScreenInputPosition;
     }
 }

@@ -8,7 +8,7 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
 {
     internal sealed class ShootStartedOrCanceledDebugSystem : IEcsRunSystem
     {
-        private readonly EcsSharedInject<SharedData> _sharedData;
+        private readonly EcsSharedInject<SharedData> _sharedData = default;
 
         public void Run(IEcsSystems systems)
         {

@@ -75,7 +75,7 @@ namespace Assets.Game.Scripts.Controllers
             _sharedData.Value.EventsBus.NewEventSingleton<InputShootDirectionChangedEvent>() =
                 new InputShootDirectionChangedEvent
                 {
-                    ScreenClickPosition = context.ReadValue<Vector2>()
+                    ScreenInputPosition = context.ReadValue<Vector2>()
                 };
         }
 

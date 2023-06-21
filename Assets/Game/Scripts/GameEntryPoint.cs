@@ -14,6 +14,7 @@ using Assets.Game.Scripts.Model.Systems.Player;
 using Assets.Game.Scripts.Model.Components.Events.Input;
 using Assets.Game.Scripts.Model.Systems.Debugs;
 using Assets.Game.Scripts.Model.Systems.Input;
+using Assets.Game.Scripts.Model.Systems;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -53,28 +54,36 @@ namespace Assets.Game.Scripts
                 .Add(new PlayerInitSystem())
                 .Add(new EntityReferenceInitSystem())
                 .Add(new InputInitSystem())
+                .Add(new ScreenInitSystem())
                 .Inject(_bobSettings)
                 .ConvertScene()
                 .Init();
 
             _updateSystems = new EcsSystems(_world, _sharedData);
             _updateSystems
+                #region Debug Systems
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
                 .Add(new EcsSystemsDebugSystem())
                 .Add(new CollisionEnterDebugSystem())
                 .Add(new TriggerEnterDebugSystem())
 #endif
+                #endregion
                 .Add(new InputMoveSystem())
+                .Add(new InputScreenPositionSystem())
                 .Add(new InputShootSystem())
-                .Add(new InputShootDirectionSystem())
+                .Add(new InputShootDirectionChangingSystem())
                 .Add(new PlayerItemPickupSystem())
                 .DelHerePhysics()
                 .Add(new PlayerWeaponPickupSystem())
+                #region Debug Systems
 #if UNITY_EDITOR
                 .Add(new PickUpItemDebugSystem())
                 .Add(new ShootStartedOrCanceledDebugSystem())
+                .Add(new PlayerRotationDebugRaycastSystem())
+                .Add(new ShootingDirectionDebugRaycastSystem())
 #endif
+                #endregion
                 .Add(new PlayerMoveAnimationSystem())
                 .Add(GetEventsDestroySystem())
                 .Inject(_bobSettings)

@@ -551,6 +551,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bobSettings: {fileID: 11400000, guid: df45059558b26af4cb8c471074e39450, type: 2}
+  _raycastableMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1562852450
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +874,7 @@ GameObject:
   - component: {fileID: 2064302467}
   - component: {fileID: 2064302469}
   - component: {fileID: 2064302468}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}

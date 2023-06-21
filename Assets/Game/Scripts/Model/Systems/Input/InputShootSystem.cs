@@ -17,6 +17,8 @@ namespace Assets.Game.Scripts.Model.Systems.Input
         {
             var eventsBus = _sharedData.Value.EventsBus;
 
+            // по-хорошему тут нужно прокидывать entity, который вызвал событие, и именно для
+            // него вызывать соответствующие процессы
             if (eventsBus.HasEventSingleton<InputShootStartedEvent>())
             {
                 StartProcessShoot();

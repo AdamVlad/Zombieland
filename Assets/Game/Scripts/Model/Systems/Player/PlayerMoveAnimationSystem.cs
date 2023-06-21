@@ -1,15 +1,23 @@
-﻿using Assets.Game.Scripts.Model.Components;
+﻿using Assets.Game.Scripts.Model.AppData;
+using Assets.Game.Scripts.Model.Components;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerMoveAnimationSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<MonoLink<Animator>, MoveComponent, BackpackComponent, ShootingComponent>> _filter = default;
+        private readonly EcsFilterInject<Inc<
+            MonoLink<Animator>,
+            MonoLink<Transform>,
+            MoveComponent,
+            BackpackComponent,
+            ShootingComponent>> _filter = default;
+
+        private readonly EcsSharedInject<SharedData> _sharedData = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -18,27 +26,35 @@ namespace Assets.Game.Scripts.Model.Systems.Player
             foreach (var entity in _filter.Value)
             {
                 ref var animator = ref pools.Inc1.Get(entity).Value;
-                ref var moveInputAxis = ref pools.Inc2.Get(entity).MoveInputAxis;
-                ref var weaponEntity = ref pools.Inc3.Get(entity).WeaponEntity;
-                ref var shootingComponent = ref pools.Inc4.Get(entity);
+                ref var transform = ref pools.Inc2.Get(entity).Value;
+                ref var moveComponent = ref pools.Inc3.Get(entity);
+                ref var weaponEntity = ref pools.Inc4.Get(entity).WeaponEntity;
+                ref var shootingComponent = ref pools.Inc5.Get(entity);
+
+                ref var moveInputAxis = ref moveComponent.MoveInputAxis;
 
                 animator.SetBool("WeaponInHand", weaponEntity != -1);
+
                 if (shootingComponent.IsShooting)
                 {
-                    //var inputAngleByY = GetAngleByTan(moveInputAxis.x, moveInputAxis.y);
+                    var rotationAngle = GetRotationAngle(ref shootingComponent.Direction, transform.rotation);
 
+                    Debug.Log($"Angle = {rotationAngle}");
 
-                    //Debug.Log("Not Shift = " + inputAngleByY);
+                    var axisXInShiftingSystemCoordinate =
+                        moveInputAxis.x * Mathf.Cos(rotationAngle) +
+                        moveInputAxis.y * Mathf.Sin(rotationAngle);
 
-                    //Debug.Log("Shift = " + shiftInputAngleByY);
+                    var axisYInShiftingSystemCoordinate =
+                        moveInputAxis.y * Mathf.Cos(rotationAngle) -
+                        moveInputAxis.x * Mathf.Sin(rotationAngle);
 
-                    //var angleByShiftSystem = inputAngleByY + shiftInputAngleByY - 90;
+                    animator.SetFloat("x", axisXInShiftingSystemCoordinate);
+                    animator.SetFloat("y", axisYInShiftingSystemCoordinate);
 
-                    //Console.WriteLine("The previous tangent is equivalent to {0} degrees.", angle);
+                    var moveDirection = new Vector3(axisXInShiftingSystemCoordinate, 0, axisYInShiftingSystemCoordinate).normalized;
 
-
-                    animator.SetFloat("x", moveInputAxis.x);
-                    animator.SetFloat("y", moveInputAxis.y);
+                    Debug.DrawRay(transform.position, moveDirection * 10, Color.yellow);
                 }
                 else
                 {
@@ -48,16 +64,13 @@ namespace Assets.Game.Scripts.Model.Systems.Player
             }
         }
 
-        private double GetAngleByTan(float x, float y)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private float GetRotationAngle(ref Vector3 direction, Quaternion ownRotation)
         {
-            var radians = Math.Atan(x / y) * (180 / Math.PI);
+            var targetRotation = Quaternion.LookRotation(direction);
+            var angle = Quaternion.Angle(ownRotation, targetRotation);
 
-            if (radians < 0)
-            {
-                return radians + 360f;
-            }
-
-            return radians;
+            return direction.x > 0 ? 360 - angle : angle;
         }
     }
 }
