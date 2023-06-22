@@ -1,5 +1,4 @@
-﻿using Assets.Plugins.IvaLeoEcsLite.EcsEvents;
-using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Events;
+﻿using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;

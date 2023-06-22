@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Systems.Debugs
 {
-    internal sealed class PlayerRotationDebugRaycastSystem : IEcsRunSystem
+    internal sealed class PlayerRotationRaycastSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<
             PlayerTagComponent,
