@@ -11,7 +11,7 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
 
         public DestroyEventsSystem(EventsBus eventsBus, int capacity)
         {
-            this._eventsBus = eventsBus;
+            _eventsBus = eventsBus;
             _destructionActions = new FastList<Action>(capacity);
         }
 

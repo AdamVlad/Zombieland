@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Model.Components;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -15,11 +16,9 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
 
         public void Run(IEcsSystems systems)
         {
-            var pools = _filter.Pools;
-
             foreach (var entity in _filter.Value)
             {
-                ref var transform = ref pools.Inc2.Get(entity).Value;
+                ref var transform = ref _filter.Get2(entity).Value;
 
                 Debug.DrawRay(transform.position, transform.forward * 10, Color.blue);
             }

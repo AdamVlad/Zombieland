@@ -1,3 +1,4 @@
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -13,7 +14,7 @@ namespace Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents.EntityReference
         {
             foreach (var entity in _filter.Value)
             {
-                ref var entityReference = ref _entityPool.Value.Get(entity);
+                ref var entityReference = ref _entityPool.Get(entity);
                 entityReference.Value.Pack(entity);
             }
         }

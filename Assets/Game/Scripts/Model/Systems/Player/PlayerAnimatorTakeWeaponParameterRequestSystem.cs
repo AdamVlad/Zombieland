@@ -18,11 +18,9 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
         public void Run(IEcsSystems systems)
         {
-            var pools = _filter.Pools;
-
             foreach (var entity in _filter.Value)
             {
-                var hasWeapon = pools.Inc2.Get(entity).WeaponEntity != -1;
+                var hasWeapon = _filter.Get2(entity).WeaponEntity != -1;
 
                 if (_animatorRequestPool.Has(entity))
                 {

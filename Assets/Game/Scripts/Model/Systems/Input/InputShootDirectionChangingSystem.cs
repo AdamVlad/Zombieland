@@ -1,5 +1,6 @@
 ﻿using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib;
 using Leopotam.EcsLite;
@@ -22,20 +23,17 @@ namespace Assets.Game.Scripts.Model.Systems.Input
 
         public void Run(IEcsSystems systems)
         {
-            var shootingPools = _shootingFilter.Pools;
-            var screenPools = _screenFilter.Pools;
-
             foreach (var entity in _shootingFilter.Value)
             {
-                ref var shootingComponent = ref shootingPools.Inc3.Get(entity);
+                ref var shootingComponent = ref _shootingFilter.Get3(entity);
 
                 if (!shootingComponent.IsShooting) continue;
 
-                ref var transform = ref shootingPools.Inc2.Get(entity).Value;
+                ref var transform = ref _shootingFilter.Get2(entity).Value;
 
                 foreach (var screenEntity in _screenFilter.Value)
                 {
-                    ref var screenInputPosition = ref screenPools.Inc1.Get(screenEntity).Position;
+                    ref var screenInputPosition = ref _screenFilter.Get1(screenEntity).Position;
 
                     if (!ScreenPointToWorldConverter.GetWorldPointFrom(
                             ref screenInputPosition,

@@ -23,13 +23,11 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
         public void Run(IEcsSystems systems)
         {
-            var pools = _filter.Pools;
-
             foreach (var entity in _filter.Value)
             {
-                ref var moveComponent = ref pools.Inc2.Get(entity);
-                ref var shootingComponent = ref pools.Inc3.Get(entity);
-                ref var backpackComponent = ref pools.Inc4.Get(entity);
+                ref var moveComponent = ref _filter.Get2(entity);
+                ref var shootingComponent = ref _filter.Get3(entity);
+                ref var backpackComponent = ref _filter.Get4(entity);
 
                 if (!moveComponent.IsMoving)
                 {

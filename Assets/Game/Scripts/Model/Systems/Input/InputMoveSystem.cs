@@ -2,6 +2,7 @@
 using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Events.Input;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -27,11 +28,9 @@ namespace Assets.Game.Scripts.Model.Systems.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetInputAxis(ref Vector2 axis)
         {
-            var pools = _movingFilter.Pools;
-
             foreach (var entity in _movingFilter.Value)
             {
-                ref var moveInputAxis = ref pools.Inc2.Get(entity).MoveInputAxis;
+                ref var moveInputAxis = ref _movingFilter.Get2(entity).MoveInputAxis;
                 moveInputAxis = axis;
             }
         }

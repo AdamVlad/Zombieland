@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Model.Components;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -16,12 +17,10 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
 
         public void Run(IEcsSystems systems)
         {
-            var pools = _filter.Pools;
-
             foreach (var entity in _filter.Value)
             {
-                ref var transform = ref pools.Inc2.Get(entity).Value;
-                ref var shootingComponent = ref pools.Inc3.Get(entity);
+                ref var transform = ref _filter.Get2(entity).Value;
+                ref var shootingComponent = ref _filter.Get3(entity);
 
                 if (!shootingComponent.IsShooting) return;
 

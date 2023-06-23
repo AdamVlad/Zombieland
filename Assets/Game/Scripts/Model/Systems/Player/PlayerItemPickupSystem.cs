@@ -23,11 +23,9 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
         public void Run(IEcsSystems systems)
         {
-            var filterPools = _filter.Pools;
-
             foreach (var playerEntity in _filter.Value)
             {
-                ref var triggerEnterEvent = ref filterPools.Inc2.Get(playerEntity);
+                ref var triggerEnterEvent = ref _filter.Get2(playerEntity);
 
                 if (!triggerEnterEvent.OtherCollider.TryGetComponent<EntityReference>(out var otherEntityReference)) return;
 

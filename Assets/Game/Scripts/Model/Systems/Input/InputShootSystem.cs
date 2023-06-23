@@ -2,6 +2,7 @@
 using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Events.Input;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -47,11 +48,9 @@ namespace Assets.Game.Scripts.Model.Systems.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ProcessShoot(bool value)
         {
-            var pools = _shootingFilter.Pools;
-
             foreach (var entity in _shootingFilter.Value)
             {
-                ref var shootingComponent = ref pools.Inc2.Get(entity);
+                ref var shootingComponent = ref _shootingFilter.Get2(entity);
                 shootingComponent.IsShooting = value;
             }
         }

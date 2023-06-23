@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Requests;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -18,12 +19,10 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
         public void Run(IEcsSystems systems)
         {
-            var pools = _filter.Pools;
-
             foreach (var entity in _filter.Value)
             {
-                ref var animator = ref pools.Inc2.Get(entity).Value;
-                ref var animatorParameterRequests = ref pools.Inc3.Get(entity);
+                ref var animator = ref _filter.Get2(entity).Value;
+                ref var animatorParameterRequests = ref _filter.Get3(entity);
 
                 foreach (var request in animatorParameterRequests.Requests)
                 {

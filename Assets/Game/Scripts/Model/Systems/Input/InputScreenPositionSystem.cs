@@ -2,6 +2,7 @@
 using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Events.Input;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -37,11 +38,9 @@ namespace Assets.Game.Scripts.Model.Systems.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetScreenInputPosition(ref Vector2 screenInputPosition)
         {
-            var pools = _screenFilter.Pools;
-
             foreach (var entity in _screenFilter.Value)
             {
-                ref var inputScreenPositionComponent = ref pools.Inc1.Get(entity);
+                ref var inputScreenPositionComponent = ref _screenFilter.Get1(entity);
 
                 inputScreenPositionComponent.Position = screenInputPosition;
             }

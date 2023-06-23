@@ -3,6 +3,7 @@ using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
@@ -20,15 +21,13 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
         public void Run(IEcsSystems systems)
         {
-            var pools = _filter.Pools;
-
             foreach (var entity in _filter.Value)
             {
-                ref var transform = ref pools.Inc2.Get(entity).Value;
-                ref var rotationComponent = ref pools.Inc3.Get(entity);
-                ref var moveComponent = ref pools.Inc4.Get(entity);
-                ref var shootingComponent = ref pools.Inc5.Get(entity);
-                ref var backpackComponent = ref pools.Inc6.Get(entity);
+                ref var transform = ref _filter.Get2(entity).Value;
+                ref var rotationComponent = ref _filter.Get3(entity);
+                ref var moveComponent = ref _filter.Get4(entity);
+                ref var shootingComponent = ref _filter.Get5(entity);
+                ref var backpackComponent = ref _filter.Get6(entity);
 
                 if (!moveComponent.IsMoving && 
                     (!backpackComponent.IsWeaponInHand || !shootingComponent.IsShooting)) continue;

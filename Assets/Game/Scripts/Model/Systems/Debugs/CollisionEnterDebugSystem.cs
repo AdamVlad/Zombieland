@@ -1,4 +1,5 @@
 ﻿using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Events;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -13,9 +14,7 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
         {
             foreach (var entity in _filter.Value)
             {
-                var pools = _filter.Pools;
-
-                ref var collisionEnterEvent = ref pools.Inc1.Get(entity);
+                ref var collisionEnterEvent = ref _filter.Get1(entity);
 
                 Debug.Log("[ Event: OnCollisionEnterEvent ] " +
                                       $"[ Sender: {collisionEnterEvent.SenderGameObject.name} ] " +
