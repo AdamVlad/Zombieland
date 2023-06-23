@@ -9,7 +9,13 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerMoveSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerTagComponent,MonoLink<Transform>, MoveComponent, ShootingComponent>> _filter = default;
+        private readonly EcsFilterInject<
+            Inc<
+                PlayerTagComponent,
+                MonoLink<Transform>,
+                MoveComponent,
+                ShootingComponent,
+                BackpackComponent>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -20,10 +26,11 @@ namespace Assets.Game.Scripts.Model.Systems.Player
                 ref var transform = ref pools.Inc2.Get(entity).Value;
                 ref var moveComponent = ref pools.Inc3.Get(entity);
                 ref var shootingComponent = ref pools.Inc4.Get(entity);
+                ref var backpackComponent = ref pools.Inc5.Get(entity);
 
                 if (!moveComponent.IsMoving) continue;
 
-                if (shootingComponent.IsShooting)
+                if (shootingComponent.IsShooting && backpackComponent.IsWeaponInHand)
                 {
                     MoveInAllDirections(ref transform, ref moveComponent);
                 }

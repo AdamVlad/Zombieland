@@ -9,12 +9,14 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerRotationSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<
-            PlayerTagComponent,
-            MonoLink<Transform>,
-            RotationComponent,
-            MoveComponent,
-            ShootingComponent>> _filter = default;
+        private readonly EcsFilterInject<
+            Inc<
+                PlayerTagComponent,
+                MonoLink<Transform>,
+                RotationComponent,
+                MoveComponent,
+                ShootingComponent,
+                BackpackComponent>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -26,10 +28,12 @@ namespace Assets.Game.Scripts.Model.Systems.Player
                 ref var rotationComponent = ref pools.Inc3.Get(entity);
                 ref var moveComponent = ref pools.Inc4.Get(entity);
                 ref var shootingComponent = ref pools.Inc5.Get(entity);
+                ref var backpackComponent = ref pools.Inc6.Get(entity);
 
-                if (!moveComponent.IsMoving && !shootingComponent.IsShooting) continue;
+                if (!moveComponent.IsMoving && 
+                    (!backpackComponent.IsWeaponInHand || !shootingComponent.IsShooting)) continue;
 
-                if (shootingComponent.IsShooting)
+                if (shootingComponent.IsShooting && backpackComponent.IsWeaponInHand)
                 {
                     RotateInShootingDirection(ref shootingComponent, ref transform, ref rotationComponent);
                 }

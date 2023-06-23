@@ -11,10 +11,10 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerAnimationSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<
-            PlayerTagComponent,
-            MonoLink<Animator>,
-            SetAnimatorParameterRequests>> _filter = default;
+        private readonly EcsFilterInject<
+            Inc<PlayerTagComponent,
+                MonoLink<Animator>,
+                SetAnimatorParameterRequests>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {

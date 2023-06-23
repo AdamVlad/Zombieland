@@ -9,7 +9,10 @@ namespace Assets.Game.Scripts.Model.Systems.Input
 {
     internal sealed class InputShootSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<InputComponent, ShootingComponent>> _shootingFilter = default;
+        private readonly EcsFilterInject<
+            Inc<
+                InputComponent,
+                ShootingComponent>> _shootingFilter = default;
 
         private readonly EcsSharedInject<SharedData> _sharedData = default;
 

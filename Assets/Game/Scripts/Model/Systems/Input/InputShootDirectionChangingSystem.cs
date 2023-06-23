@@ -10,8 +10,9 @@ namespace Assets.Game.Scripts.Model.Systems.Input
 {
     internal sealed class InputShootDirectionChangingSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<
-                InputComponent, 
+        private readonly EcsFilterInject<
+            Inc<
+                InputComponent,
                 MonoLink<Transform>,
                 ShootingComponent>> _shootingFilter = default;
 

@@ -8,9 +8,10 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
 {
     internal sealed class PlayerRotationRaycastSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<
-            PlayerTagComponent,
-            MonoLink<Transform>>> _filter = default;
+        private readonly EcsFilterInject<
+            Inc<
+                PlayerTagComponent,
+                MonoLink<Transform>>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {

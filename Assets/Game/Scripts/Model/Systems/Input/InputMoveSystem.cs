@@ -10,7 +10,10 @@ namespace Assets.Game.Scripts.Model.Systems.Input
 {
     internal sealed class InputMoveSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<InputComponent, MoveComponent>> _movingFilter = default;
+        private readonly EcsFilterInject<
+            Inc<
+                InputComponent,
+                MoveComponent>> _movingFilter = default;
 
         private readonly EcsSharedInject<SharedData> _sharedData = default;
 

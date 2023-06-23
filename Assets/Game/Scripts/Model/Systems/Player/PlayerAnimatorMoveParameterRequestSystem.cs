@@ -2,6 +2,7 @@
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Requests;
 using Assets.Game.Scripts.Model.Extensions;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Plugins.IvaLib;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -11,10 +12,12 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerAnimatorMoveParameterRequestSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<
-            PlayerTagComponent,
-            MoveComponent,
-            ShootingComponent>> _filter = default;
+        private readonly EcsFilterInject<
+            Inc<
+                PlayerTagComponent,
+                MoveComponent,
+                ShootingComponent,
+                BackpackComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
 
@@ -26,6 +29,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
             {
                 ref var moveComponent = ref pools.Inc2.Get(entity);
                 ref var shootingComponent = ref pools.Inc3.Get(entity);
+                ref var backpackComponent = ref pools.Inc4.Get(entity);
 
                 if (!moveComponent.IsMoving)
                 {
@@ -35,7 +39,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
                 Vector2 convertedInputAxis;
 
-                if (!shootingComponent.IsShooting)
+                if (!shootingComponent.IsShooting || !backpackComponent.IsWeaponInHand)
                 {
                     convertedInputAxis = IvaMaths.ConvertCoordinatesToForward(ref moveComponent.MoveInputAxis);
                 }
@@ -59,14 +63,14 @@ namespace Assets.Game.Scripts.Model.Systems.Player
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetRequests(int entity, float x, float y)
         {
-            if (_animatorRequestPool.Value.Has(entity))
+            if (_animatorRequestPool.Has(entity))
             {
-                ref var requests = ref _animatorRequestPool.Value.Get(entity);
+                ref var requests = ref _animatorRequestPool.Get(entity);
                 AddRequest(ref requests, x, y);
             }
             else
             {
-                ref var requests = ref _animatorRequestPool.Value.Add(entity);
+                ref var requests = ref _animatorRequestPool.Add(entity);
                 requests.Initialize();
                 AddRequest(ref requests, x, y);
             }

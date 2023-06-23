@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using Assets.Plugins.IvaLib;
 using Leopotam.EcsLite;
 
 namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
@@ -7,12 +7,12 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsEvents
     public class DestroyEventsSystem : IEcsRunSystem
     {
         private readonly EventsBus _eventsBus;
-        private readonly List<Action> _destructionActions;
+        private readonly FastList<Action> _destructionActions;
 
         public DestroyEventsSystem(EventsBus eventsBus, int capacity)
         {
             this._eventsBus = eventsBus;
-            _destructionActions = new List<Action>(capacity);
+            _destructionActions = new FastList<Action>(capacity);
         }
 
         public void Run(IEcsSystems systems)

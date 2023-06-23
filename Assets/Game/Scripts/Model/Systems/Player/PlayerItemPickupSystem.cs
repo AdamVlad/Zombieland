@@ -7,12 +7,15 @@ using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerItemPickupSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<PlayerTagComponent, OnTriggerEnterEvent>> _filter = default;
+        private readonly EcsFilterInject<
+            Inc<PlayerTagComponent,
+                OnTriggerEnterEvent>> _filter = default;
 
         private readonly EcsSharedInject<SharedData> _sharedData = default;
 
@@ -30,7 +33,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
                 if (!otherEntityReference.Unpack(out var otherEntity)) return;
 
-                if (_weaponComponentPool.Value.Has(otherEntity))
+                if (_weaponComponentPool.Has(otherEntity))
                 {
                     WeaponPickedUpSendEvent(playerEntity, otherEntity);
                 }

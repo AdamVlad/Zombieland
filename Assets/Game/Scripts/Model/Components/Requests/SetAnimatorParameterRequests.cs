@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Plugins.IvaLib;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Components.Requests
@@ -23,7 +24,7 @@ namespace Assets.Game.Scripts.Model.Components.Requests
     {
         public void Initialize(int requestsCount = 4)
         {
-            _requests = new List<AnimatorParameterRequest>(requestsCount);
+            _requests = new FastList<AnimatorParameterRequest>(requestsCount);
         }
 
         public void AddFloat(string parameterName, float value)
@@ -58,6 +59,6 @@ namespace Assets.Game.Scripts.Model.Components.Requests
 
         public IEnumerable<AnimatorParameterRequest> Requests => _requests;
 
-        private List<AnimatorParameterRequest> _requests;
+        private FastList<AnimatorParameterRequest> _requests;
     }
 }

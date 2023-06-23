@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents.EntityReference
 {
+    [DisallowMultipleComponent]
     public class EntityReference : MonoBehaviour
     {
         private EcsPackedEntity _entityPacked;

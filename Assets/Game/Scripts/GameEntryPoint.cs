@@ -1,9 +1,13 @@
+using UnityEngine;
+
 using AB_Utility.FromSceneToEntityConverter;
-using Assets.Game.Scripts.Controllers;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.ExtendedSystems;
+
+using Assets.Game.Scripts.Controllers;
 using Assets.Game.Scripts.Model.ScriptableObjects;
-using UnityEngine;
 using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Emitter;
 using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents.EntityReference;
@@ -15,7 +19,6 @@ using Assets.Game.Scripts.Model.Components.Events.Input;
 using Assets.Game.Scripts.Model.Systems.Debugs;
 using Assets.Game.Scripts.Model.Systems.Input;
 using Assets.Game.Scripts.Model.Systems;
-using Leopotam.EcsLite.ExtendedSystems;
 using Assets.Game.Scripts.Model.Components.Requests;
 
 #if UNITY_EDITOR
@@ -46,7 +49,7 @@ namespace Assets.Game.Scripts
 
             _sharedData = new SharedData
             {
-                EventsBus = new EventsBus(),
+                EventsBus = new EventsBus(16),
                 MainCamera = Camera.main,
                 RaycastableMask = _raycastableMask
             };

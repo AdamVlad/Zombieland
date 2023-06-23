@@ -7,6 +7,9 @@ namespace Assets.Game.Scripts.Model.Components
     internal struct BackpackComponent
     {
         public Transform WeaponHolderPoint;
+
         [HideInInspector] public int WeaponEntity;
+
+        [HideInInspector] public bool IsWeaponInHand => WeaponEntity != -1;
     }
 }
