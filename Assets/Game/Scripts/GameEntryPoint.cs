@@ -104,7 +104,7 @@ namespace Assets.Game.Scripts
                 .Add(new PlayerMoveSystem())
                 .Add(new PlayerAnimatorMoveParameterRequestSystem())
                 .Add(new PlayerAnimatorTakeWeaponParameterRequestSystem())
-                .Add(new PlayerAnimationSystem())
+                .Add(new AnimationSystem())
                 .DelHere<SetAnimatorParameterRequests>()
                 .Inject(_bobSettings)
                 .Init();

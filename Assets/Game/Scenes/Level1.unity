@@ -352,7 +352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _converters:
   - {fileID: 375875775}
-  _destroyAfterConversion: 0
+  _destroyAfterConversion: 1
 --- !u!1 &427684895
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,10 +582,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameSettings: {fileID: 11400000, guid: 9880a129ca5f3314a98e17be6671a06d, type: 2}
+  _sceneSettings: {fileID: 11400000, guid: 9e3cb7b0eb67cf944bd6100921300de3, type: 2}
   _bobSettings: {fileID: 11400000, guid: df45059558b26af4cb8c471074e39450, type: 2}
-  _raycastableMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!1 &1562852450
 GameObject:
   m_ObjectHideFlags: 0
