@@ -20,18 +20,18 @@ namespace Assets.Game.Scripts.Model.Systems.Player
         {
             foreach (var entity in _filter.Value)
             {
-                var hasWeapon = _filter.Get2(entity).WeaponEntity != -1;
+                var isWeaponInHand = _filter.Get2(entity).IsWeaponInHand;
 
                 if (_animatorRequestPool.Has(entity))
                 {
                     ref var requests = ref _animatorRequestPool.Get(entity);
-                    requests.Add("WeaponInHand", hasWeapon);
+                    requests.Add("WeaponInHand", isWeaponInHand);
                 }
                 else
                 {
                     ref var requests = ref _animatorRequestPool.Add(entity);
                     requests.Initialize();
-                    requests.Add("WeaponInHand", hasWeapon);
+                    requests.Add("WeaponInHand", isWeaponInHand);
                 }
             }
         }

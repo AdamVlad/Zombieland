@@ -20,6 +20,7 @@ using Assets.Game.Scripts.Model.Systems.Debugs;
 using Assets.Game.Scripts.Model.Systems.Input;
 using Assets.Game.Scripts.Model.Systems;
 using Assets.Game.Scripts.Model.Components.Requests;
+using Assets.Game.Scripts.View.Systems;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -60,6 +61,7 @@ namespace Assets.Game.Scripts
                 .Add(new EntityReferenceInitSystem())
                 .Add(new InputInitSystem())
                 .Add(new ScreenInitSystem())
+                .Add(new VmCameraInitSystem())
                 .Inject(_bobSettings)
                 .ConvertScene()
                 .Init();
