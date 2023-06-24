@@ -8,7 +8,7 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Emitter
     {
         public static EcsWorld World;
 
-        public static void RegisterTriggerEnterEvent(GameObject senderGameObject, int senderEntity, Collider collider)
+        public static void RegisterTriggerEnterEvent(int senderEntity, Collider collider)
         {
             var pool = World.GetPool<OnTriggerEnterEvent>();
 
@@ -16,11 +16,11 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Emitter
 
             ref var eventComponent = ref pool.Add(senderEntity);
 
-            eventComponent.SenderGameObject = senderGameObject;
+            eventComponent.SenderEntity = senderEntity;
             eventComponent.OtherCollider = collider;
         }
 
-        public static void RegisterCollisionEnterEvent(GameObject senderGameObject, int senderEntity, Collider collider, ContactPoint firstContactPoint, Vector3 relativeVelocity)
+        public static void RegisterCollisionEnterEvent(int senderEntity, Collider collider)
         {
             var pool = World.GetPool<OnCollisionEnterEvent>();
 
@@ -28,10 +28,8 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Emitter
 
             ref var eventComponent = ref pool.Add(senderEntity);
 
-            eventComponent.SenderGameObject = senderGameObject;
+            eventComponent.SenderEntity = senderEntity;
             eventComponent.OtherCollider = collider;
-            eventComponent.FirstContactPoint = firstContactPoint;
-            eventComponent.RelativeVelocity = relativeVelocity;
         }
     }
 }

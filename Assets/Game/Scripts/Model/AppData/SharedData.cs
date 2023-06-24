@@ -7,6 +7,5 @@ namespace Assets.Game.Scripts.Model.AppData
     {
         public EventsBus EventsBus { get; set; }
         public Camera MainCamera { get; set; }
-        public LayerMask RaycastableMask { get; set; }
     }
 }

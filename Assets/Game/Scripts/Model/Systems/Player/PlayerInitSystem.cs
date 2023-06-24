@@ -11,6 +11,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
     internal sealed class PlayerInitSystem : IEcsInitSystem
     {
         private readonly EcsCustomInject<BobConfigurationSO> _bobSettings = default;
+        private readonly EcsCustomInject<GameConfigurationSo> _gameSettings = default;
 
         private readonly EcsFilterInject<Inc<PlayerTagComponent>> _filter = default;
 
@@ -33,8 +34,8 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
                 ref var backpackComponent = ref _backpackComponentPool.Get(entity);
 
-                moveComponent.Speed = _bobSettings.Value.MoveSpeed / 1000; // Сделать настройки игры и задать параметр срезания скорости
-                rotationComponent.Speed = _bobSettings.Value.RotationSpeed / 5;
+                moveComponent.Speed = _bobSettings.Value.MoveSpeed / _gameSettings.Value.MoveSpeedDivider;
+                rotationComponent.Speed = _bobSettings.Value.RotationSpeed / _gameSettings.Value.RotationSpeedDivider;
                 rotationComponent.SmoothTurningAngle = _bobSettings.Value.SmoothTurningAngle;
                 backpackComponent.WeaponEntity = -1;
             }

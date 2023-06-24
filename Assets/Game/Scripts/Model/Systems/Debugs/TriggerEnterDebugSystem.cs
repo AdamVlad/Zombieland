@@ -17,7 +17,7 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
                 ref var triggerEnterEvent = ref _filter.Get1(entity);
 
                 Debug.Log("[ Event: OnTriggerEnterEvent ] " +
-                                      $"[ Sender: {triggerEnterEvent.SenderGameObject.name} ] " +
+                                      $"[ Sender: {triggerEnterEvent.SenderEntity} ] " +
                                       $"[ Other: {triggerEnterEvent.OtherCollider.gameObject.name} ]");
             }
         }

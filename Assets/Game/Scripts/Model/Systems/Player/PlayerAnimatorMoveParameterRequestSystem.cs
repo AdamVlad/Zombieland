@@ -13,8 +13,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
     internal sealed class PlayerAnimatorMoveParameterRequestSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<
-            Inc<
-                PlayerTagComponent,
+            Inc<PlayerTagComponent,
                 MoveComponent,
                 ShootingComponent,
                 BackpackComponent>> _filter = default;

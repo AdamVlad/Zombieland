@@ -10,8 +10,7 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
     internal sealed class ShootingDirectionRaycastSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<
-            Inc<
-                PlayerTagComponent,
+            Inc<PlayerTagComponent,
                 MonoLink<Transform>,
                 ShootingComponent>> _filter = default;
 

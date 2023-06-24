@@ -12,8 +12,7 @@ namespace Assets.Game.Scripts.View.Systems
     {
         private readonly EcsFilterInject<Inc<MonoLink<CinemachineVirtualCamera>>> _cameraFilter = default;
         private readonly EcsFilterInject<
-            Inc<
-                PlayerTagComponent,
+            Inc<PlayerTagComponent,
                 MonoLink<Transform>>> _playerFilter = default;
 
         public void Init(IEcsSystems systems)

@@ -10,7 +10,6 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Checkers
             if (_entityReference.Unpack(out var entity))
             {
                 EcsPhysicsEvents.RegisterTriggerEnterEvent(
-                    gameObject,
                     entity,
                     other);
             }

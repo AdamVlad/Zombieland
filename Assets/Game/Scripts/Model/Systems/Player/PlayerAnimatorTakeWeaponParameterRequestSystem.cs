@@ -10,8 +10,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
     internal sealed class PlayerAnimatorTakeWeaponParameterRequestSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<
-            Inc<
-                PlayerTagComponent,
+            Inc<PlayerTagComponent,
                 BackpackComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;

@@ -4,9 +4,7 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Events
 {
     public struct OnCollisionEnterEvent
     {
-        public GameObject SenderGameObject;
+        public int SenderEntity;
         public Collider OtherCollider;
-        public ContactPoint FirstContactPoint;
-        public Vector3 RelativeVelocity;
     }
 }

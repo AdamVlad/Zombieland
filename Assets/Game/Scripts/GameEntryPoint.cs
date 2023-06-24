@@ -30,8 +30,9 @@ namespace Assets.Game.Scripts
 {
     internal sealed class GameEntryPoint : MonoBehaviour
     {
-        [SerializeField] private BobConfigurationSO _bobSettings; 
-        [SerializeField] private LayerMask _raycastableMask; 
+        [SerializeField] private GameConfigurationSo _gameSettings; 
+        [SerializeField] private SceneConfigurationSo _sceneSettings; 
+        [SerializeField] private BobConfigurationSO _bobSettings;
 
         private EcsWorld _world;
 
@@ -52,7 +53,6 @@ namespace Assets.Game.Scripts
             {
                 EventsBus = new EventsBus(16),
                 MainCamera = Camera.main,
-                RaycastableMask = _raycastableMask
             };
 
             _initSystems = new EcsSystems(_world, _sharedData);
@@ -63,6 +63,7 @@ namespace Assets.Game.Scripts
                 .Add(new ScreenInitSystem())
                 .Add(new VmCameraInitSystem())
                 .Inject(_bobSettings)
+                .Inject(_gameSettings)
                 .ConvertScene()
                 .Init();
 
@@ -94,6 +95,7 @@ namespace Assets.Game.Scripts
 
                 .Add(GetEventsDestroySystem())
                 .Inject(_bobSettings)
+                .Inject(_sceneSettings)
                 .Init();
 
             _fixedUpdateSystems = new EcsSystems(_world);

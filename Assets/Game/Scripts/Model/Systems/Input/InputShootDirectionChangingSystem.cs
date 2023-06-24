@@ -1,5 +1,6 @@
 ﻿using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
+using Assets.Game.Scripts.Model.ScriptableObjects;
 using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib;
@@ -12,13 +13,12 @@ namespace Assets.Game.Scripts.Model.Systems.Input
     internal sealed class InputShootDirectionChangingSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<
-            Inc<
-                InputComponent,
+            Inc<InputComponent,
                 MonoLink<Transform>,
                 ShootingComponent>> _shootingFilter = default;
 
         private readonly EcsFilterInject<Inc<InputScreenPositionComponent>> _screenFilter = default;
-
+        private readonly EcsCustomInject<SceneConfigurationSo> _sceneSettings = default;
         private readonly EcsSharedInject<SharedData> _sharedData = default;
 
         public void Run(IEcsSystems systems)
@@ -38,7 +38,7 @@ namespace Assets.Game.Scripts.Model.Systems.Input
                     if (!ScreenPointToWorldConverter.GetWorldPointFrom(
                             ref screenInputPosition,
                             _sharedData.Value.MainCamera,
-                            _sharedData.Value.RaycastableMask,
+                            _sceneSettings.Value.RaycastableMask,
                             out var shootDirectionPoint
                         )) return;
 

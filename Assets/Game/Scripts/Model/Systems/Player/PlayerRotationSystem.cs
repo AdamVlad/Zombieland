@@ -11,8 +11,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
     internal sealed class PlayerRotationSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<
-            Inc<
-                PlayerTagComponent,
+            Inc<PlayerTagComponent,
                 MonoLink<Transform>,
                 RotationComponent,
                 MoveComponent,

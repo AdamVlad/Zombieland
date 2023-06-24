@@ -10,11 +10,8 @@ namespace Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Checkers
             if (_entityReference.Unpack(out var entity))
             {
                 EcsPhysicsEvents.RegisterCollisionEnterEvent(
-                    gameObject,
                     entity,
-                    other.collider,
-                    other.GetContact(0),
-                    other.relativeVelocity);
+                    other.collider);
             }
         }
     }

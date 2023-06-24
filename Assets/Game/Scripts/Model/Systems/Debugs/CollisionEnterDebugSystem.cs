@@ -17,8 +17,8 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
                 ref var collisionEnterEvent = ref _filter.Get1(entity);
 
                 Debug.Log("[ Event: OnCollisionEnterEvent ] " +
-                                      $"[ Sender: {collisionEnterEvent.SenderGameObject.name} ] " +
-                                      $"[ Other: {collisionEnterEvent.FirstContactPoint.otherCollider.gameObject.name} ]");
+                                      $"[ Sender: {collisionEnterEvent.SenderEntity} ] " +
+                                      $"[ Other: {collisionEnterEvent.OtherCollider.gameObject.name} ]");
             }
         }
     }
