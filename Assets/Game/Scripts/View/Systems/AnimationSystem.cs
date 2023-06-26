@@ -43,6 +43,9 @@ namespace Assets.Game.Scripts.View.Systems
                 case AnimatorParameterType.Bool:
                     animator.SetBool(request.Hash, request.BoolValue);
                     break;
+                case AnimatorParameterType.Trigger:
+                    animator.SetTrigger(request.Hash);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -15,4 +15,9 @@ MonoBehaviour:
   _prefab: {fileID: 2512215831435377081, guid: 3bcefbedc8872934fb4dd799fdd080ae, type: 3}
   _moveSpeed: 70
   _rotationSpeed: 25
-  _smoothTurningAngle: 140
+  _smoothTurningAngle: 200
+  _moveXParameter: x
+  _moveYParameter: y
+  _isWeaponInHandParameter: WeaponInHand
+  _isShootingParameter: IsShooting
+  _shootParameter: Shoot

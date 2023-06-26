@@ -27,5 +27,11 @@ namespace Assets.Game.Scripts.Model.Extensions
             requests.AddInt(parameterName, value);
             return requests;
         }
+
+        public static SetAnimatorParameterRequests Add(this SetAnimatorParameterRequests requests, string parameterName)
+        {
+            requests.AddTrigger(parameterName);
+            return requests;
+        }
     }
 }

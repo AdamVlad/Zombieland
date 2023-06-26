@@ -8,11 +8,11 @@ using Leopotam.EcsLite.Di;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
 {
-    internal sealed class PlayerAnimatorTakeWeaponParameterRequestSystem : IEcsRunSystem
+    internal sealed class PlayerAnimatorShootParameterRequestSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<
             Inc<PlayerTagComponent,
-                BackpackComponent>> _filter = default;
+                ShootingComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
         private readonly EcsCustomInject<BobConfigurationSO> _playerSettings = default;
@@ -21,18 +21,24 @@ namespace Assets.Game.Scripts.Model.Systems.Player
         {
             foreach (var entity in _filter.Value)
             {
-                var isWeaponInHand = _filter.Get2(entity).IsWeaponInHand;
+                var isShooting = _filter.Get2(entity).IsShooting;
 
                 if (_animatorRequestPool.Has(entity))
                 {
                     ref var requests = ref _animatorRequestPool.Get(entity);
-                    requests.Add(_playerSettings.Value.IsWeaponInHandParameter, isWeaponInHand);
+
+                    requests.Add(_playerSettings.Value.IsShootingParameter, isShooting);
+                    if (!isShooting) continue;
+                    requests.Add(_playerSettings.Value.ShootParameter);
                 }
                 else
                 {
                     ref var requests = ref _animatorRequestPool.Add(entity);
                     requests.Initialize();
-                    requests.Add(_playerSettings.Value.IsWeaponInHandParameter, isWeaponInHand);
+
+                    requests.Add(_playerSettings.Value.IsShootingParameter, isShooting);
+                    if (!isShooting) continue;
+                    requests.Add(_playerSettings.Value.ShootParameter);
                 }
             }
         }

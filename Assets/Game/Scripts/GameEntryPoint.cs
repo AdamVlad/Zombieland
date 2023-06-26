@@ -11,6 +11,7 @@ using Assets.Game.Scripts.Model.ScriptableObjects;
 using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Emitter;
 using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents.EntityReference;
+using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Game.Scripts.Model.AppData;
 using Assets.Plugins.IvaLeoEcsLite.EcsEvents;
 using Assets.Game.Scripts.Model.Components.Events;
@@ -21,6 +22,7 @@ using Assets.Game.Scripts.Model.Systems.Input;
 using Assets.Game.Scripts.Model.Systems;
 using Assets.Game.Scripts.Model.Components.Requests;
 using Assets.Game.Scripts.View.Systems;
+using System;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -28,11 +30,27 @@ using Leopotam.EcsLite.UnityEditor;
 
 namespace Assets.Game.Scripts
 {
+    [Serializable]
+    internal struct DebugControls
+    {
+        public bool IsEcsWorldDebugEnable;
+        public bool IsCollisionEnterDebugEnable;
+        public bool IsTriggerEnterDebugEnable;
+        public bool IsPickUpItemDebugEnable;
+        public bool IsShootStartedOrCanceledDebugEnable;
+        public bool IsPlayerRotationRaycastEnable;
+        public bool IsShootingDirectionRaycastEnable;
+    }
+
     internal sealed class GameEntryPoint : MonoBehaviour
     {
+        [Header("Settings")]
         [SerializeField] private GameConfigurationSo _gameSettings; 
         [SerializeField] private SceneConfigurationSo _sceneSettings; 
         [SerializeField] private BobConfigurationSO _bobSettings;
+
+        [Space, Header("Debugs")]
+        [SerializeField] private DebugControls _debugControls;
 
         private EcsWorld _world;
 
@@ -71,10 +89,10 @@ namespace Assets.Game.Scripts
             _updateSystems
                 #region Debug Systems
 #if UNITY_EDITOR
-                .Add(new EcsWorldDebugSystem())
-                .Add(new EcsSystemsDebugSystem())
-                .Add(new CollisionEnterDebugSystem())
-                .Add(new TriggerEnterDebugSystem())
+                .Add(new EcsWorldDebugSystem(), _debugControls.IsEcsWorldDebugEnable)
+                .Add(new EcsSystemsDebugSystem(), _debugControls.IsEcsWorldDebugEnable)
+                .Add(new CollisionEnterDebugSystem(), _debugControls.IsCollisionEnterDebugEnable)
+                .Add(new TriggerEnterDebugSystem(), _debugControls.IsTriggerEnterDebugEnable)
 #endif
                 #endregion
                 .Add(new InputMoveSystem())
@@ -86,26 +104,26 @@ namespace Assets.Game.Scripts
                 .Add(new PlayerWeaponPickupSystem())
                 #region Debug Systems
 #if UNITY_EDITOR
-                .Add(new PickUpItemDebugSystem())
-                .Add(new ShootStartedOrCanceledDebugSystem())
-                .Add(new PlayerRotationRaycastSystem())
-                .Add(new ShootingDirectionRaycastSystem())
+                .Add(new PickUpItemDebugSystem(), _debugControls.IsPickUpItemDebugEnable)
+                .Add(new ShootStartedOrCanceledDebugSystem(), _debugControls.IsShootStartedOrCanceledDebugEnable)
+                .Add(new PlayerRotationRaycastSystem(), _debugControls.IsPlayerRotationRaycastEnable)
+                .Add(new ShootingDirectionRaycastSystem(), _debugControls.IsShootingDirectionRaycastEnable)
 #endif
                 #endregion
-
-                .Add(GetEventsDestroySystem())
                 .Inject(_bobSettings)
                 .Inject(_sceneSettings)
                 .Init();
 
-            _fixedUpdateSystems = new EcsSystems(_world);
+            _fixedUpdateSystems = new EcsSystems(_world, _sharedData);
             _fixedUpdateSystems
                 .Add(new PlayerRotationSystem())
                 .Add(new PlayerMoveSystem())
                 .Add(new PlayerAnimatorMoveParameterRequestSystem())
                 .Add(new PlayerAnimatorTakeWeaponParameterRequestSystem())
+                .Add(new PlayerAnimatorShootParameterRequestSystem())
                 .Add(new AnimationSystem())
                 .DelHere<SetAnimatorParameterRequests>()
+                .Add(GetEventsDestroySystem())
                 .Inject(_bobSettings)
                 .Init();
         }

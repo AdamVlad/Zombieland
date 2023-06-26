@@ -5,6 +5,7 @@ using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
 using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using UnityEngine;
+using Assets.Plugins.IvaLib;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
 {
@@ -69,12 +70,11 @@ namespace Assets.Game.Scripts.Model.Systems.Player
             ref RotationComponent rotationComponent, 
             bool isSmoothingAlways)
         {
-            var targetRotation = Quaternion.LookRotation(direction);
-
-            if (isSmoothingAlways || Quaternion.Angle(transform.rotation, targetRotation) < rotationComponent.SmoothTurningAngle)
+            var position = transform.position;
+            if (isSmoothingAlways || IvaMaths.GetAngle180Between(ref position, ref direction) < rotationComponent.SmoothTurningAngle)
             {
                 transform.rotation =
-                    Quaternion.Lerp(transform.rotation, targetRotation, rotationComponent.Speed * Time.deltaTime);
+                    Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), rotationComponent.Speed * Time.deltaTime);
             }
             else
             {

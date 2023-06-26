@@ -2,6 +2,7 @@
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Requests;
 using Assets.Game.Scripts.Model.Extensions;
+using Assets.Game.Scripts.Model.ScriptableObjects;
 using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Plugins.IvaLib;
 using Leopotam.EcsLite;
@@ -19,6 +20,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
                 BackpackComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
+        private readonly EcsCustomInject<BobConfigurationSO> _playerSettings = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -43,7 +45,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
                 else
                 {
                     var origin = Vector3.zero;
-                    var angle = IvaMaths.GetAngleBetween(
+                    var angle = IvaMaths.GetAngle360Between(
                         ref origin,
                         ref shootingComponent.Direction);
 
@@ -77,8 +79,8 @@ namespace Assets.Game.Scripts.Model.Systems.Player
         private void AddRequest(ref SetAnimatorParameterRequests requests, float x, float y)
         {
             requests
-                .Add("x", x)    // задать в настройках
-                .Add("y", y);
+                .Add(_playerSettings.Value.MoveXParameter, x)
+                .Add(_playerSettings.Value.MoveYParameter, y);
         }
     }
 }

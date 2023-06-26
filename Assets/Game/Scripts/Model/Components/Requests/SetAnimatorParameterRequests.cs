@@ -8,7 +8,8 @@ namespace Assets.Game.Scripts.Model.Components.Requests
     {
         Int,
         Float,
-        Bool
+        Bool,
+        Trigger
     }
 
     public struct AnimatorParameterRequest
@@ -54,6 +55,15 @@ namespace Assets.Game.Scripts.Model.Components.Requests
                 Type = AnimatorParameterType.Int,
                 Hash = Animator.StringToHash(parameterName),
                 IntValue = value
+            });
+        }
+
+        public void AddTrigger(string parameterName)
+        {
+            _requests.Add(new AnimatorParameterRequest
+            {
+                Type = AnimatorParameterType.Trigger,
+                Hash = Animator.StringToHash(parameterName)
             });
         }
 

@@ -26,13 +26,20 @@ namespace Assets.Plugins.IvaLib
             return new Vector2(convertedX, convertedY);
         }
 
-        public static float GetAngleBetween(ref Vector3 fromPoint, ref Vector3 toPoint)
+        public static float GetAngle360Between(ref Vector3 fromPoint, ref Vector3 toPoint)
+        {
+            var angle = GetAngle180Between(ref fromPoint, ref toPoint);
+
+            return toPoint.x > 0 ? 360 - angle : angle;
+        }
+
+        public static float GetAngle180Between(ref Vector3 fromPoint, ref Vector3 toPoint)
         {
             var from = Quaternion.Euler(fromPoint);
             var to = Quaternion.LookRotation(toPoint);
             var angle = Quaternion.Angle(from, to);
 
-            return toPoint.x > 0 ? 360 - angle : angle;
+            return angle;
         }
     }
 }
