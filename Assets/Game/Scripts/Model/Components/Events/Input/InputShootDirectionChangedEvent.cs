@@ -1,4 +1,4 @@
-﻿using Assets.Plugins.IvaLeoEcsLite.EcsEvents;
+﻿using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Components.Events.Input

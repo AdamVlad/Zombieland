@@ -1,5 +1,5 @@
 ﻿using AB_Utility.FromSceneToEntityConverter;
-using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Cinemachine;
 
 namespace Assets.Game.Scripts.View.Components.MonoConverters

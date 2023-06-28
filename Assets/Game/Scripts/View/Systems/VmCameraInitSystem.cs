@@ -1,6 +1,6 @@
 ﻿using Assets.Game.Scripts.Model.Components;
-using Assets.Plugins.IvaLeoEcsLite.Extensions;
-using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
+using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Cinemachine;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;

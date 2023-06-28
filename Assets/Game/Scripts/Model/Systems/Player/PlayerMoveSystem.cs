@@ -1,9 +1,9 @@
 ﻿using Assets.Game.Scripts.Model.Components;
-using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
-using Assets.Plugins.IvaLeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Systems.Player

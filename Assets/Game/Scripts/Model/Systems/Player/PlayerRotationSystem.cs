@@ -1,11 +1,12 @@
 ﻿using Assets.Game.Scripts.Model.Components;
-using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
-using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using UnityEngine;
 using Assets.Plugins.IvaLib;
+using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
+using Assets.Plugins.IvaLib.UnityLib;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
 {

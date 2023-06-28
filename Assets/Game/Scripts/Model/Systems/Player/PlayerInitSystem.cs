@@ -1,7 +1,7 @@
 ﻿using AB_Utility.FromSceneToEntityConverter;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.ScriptableObjects;
-using Assets.Plugins.IvaLeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;

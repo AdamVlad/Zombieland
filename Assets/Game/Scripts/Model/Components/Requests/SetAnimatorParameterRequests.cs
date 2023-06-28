@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Plugins.IvaLib;
+using Assets.Plugins.IvaLib.UnityLib;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Components.Requests

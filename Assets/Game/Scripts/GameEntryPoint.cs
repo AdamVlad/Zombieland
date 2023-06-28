@@ -8,12 +8,7 @@ using Leopotam.EcsLite.ExtendedSystems;
 
 using Assets.Game.Scripts.Controllers;
 using Assets.Game.Scripts.Model.ScriptableObjects;
-using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Emitter;
-using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Extensions;
-using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents.EntityReference;
-using Assets.Plugins.IvaLeoEcsLite.Extensions;
 using Assets.Game.Scripts.Model.AppData;
-using Assets.Plugins.IvaLeoEcsLite.EcsEvents;
 using Assets.Game.Scripts.Model.Components.Events;
 using Assets.Game.Scripts.Model.Systems.Player;
 using Assets.Game.Scripts.Model.Components.Events.Input;
@@ -23,6 +18,11 @@ using Assets.Game.Scripts.Model.Systems;
 using Assets.Game.Scripts.Model.Components.Requests;
 using Assets.Game.Scripts.View.Systems;
 using System;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Emitter;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -101,6 +101,7 @@ namespace Assets.Game.Scripts
                 .Add(new InputShootDirectionChangingSystem())
                 .Add(new PlayerItemPickupSystem())
                 .DelHerePhysics()
+                .Add(new PlayerWeaponDropSystem())
                 .Add(new PlayerWeaponPickupSystem())
                 #region Debug Systems
 #if UNITY_EDITOR
@@ -109,7 +110,8 @@ namespace Assets.Game.Scripts
                 .Add(new PlayerRotationRaycastSystem(), _debugControls.IsPlayerRotationRaycastEnable)
                 .Add(new ShootingDirectionRaycastSystem(), _debugControls.IsShootingDirectionRaycastEnable)
 #endif
-                #endregion
+            #endregion
+                .Add(GetEventsDestroySystem())
                 .Inject(_bobSettings)
                 .Inject(_sceneSettings)
                 .Init();
@@ -123,7 +125,6 @@ namespace Assets.Game.Scripts
                 .Add(new PlayerAnimatorShootParameterRequestSystem())
                 .Add(new AnimationSystem())
                 .DelHere<SetAnimatorParameterRequests>()
-                .Add(GetEventsDestroySystem())
                 .Inject(_bobSettings)
                 .Init();
         }

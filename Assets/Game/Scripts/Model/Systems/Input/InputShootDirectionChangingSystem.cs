@@ -1,9 +1,10 @@
 ﻿using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.ScriptableObjects;
-using Assets.Plugins.IvaLeoEcsLite.Extensions;
-using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib;
+using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
+using Assets.Plugins.IvaLib.UnityLib;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;

@@ -2,12 +2,12 @@
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Events;
 using Assets.Game.Scripts.Model.Components.Items;
-using Assets.Plugins.IvaLeoEcsLite.EcsPhysics.Events;
-using Assets.Plugins.IvaLeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
-using Assets.Plugins.IvaLeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
+using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
 {
