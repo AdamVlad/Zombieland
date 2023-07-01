@@ -3,7 +3,6 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using Assets.Plugins.IvaLib;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.UnityLib;

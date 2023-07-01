@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _component:
-    WeaponHolderPoint: {fileID: 2046526075037379075}
+    WeaponHolderPoint: {fileID: 3926061737171606090}
     WeaponEntity: 0
 --- !u!114 &-7219454522169432850
 MonoBehaviour:
@@ -144,6 +144,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _component:
     Value: {fileID: 6105053693445810266}
+--- !u!1 &1670772773603857528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3926061737171606090}
+  m_Layer: 6
+  m_Name: WeaponPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3926061737171606090
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670772773603857528}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: -0, y: 0.1085, z: 0.0315}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2046526075037379075}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
 --- !u!1001 &419701545702430155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -478,7 +509,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1852576806548013000, guid: 854bca10827558346bd049dd84164649, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3926061737171606090}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 854bca10827558346bd049dd84164649, type: 3}
 --- !u!4 &169356850359956000 stripped

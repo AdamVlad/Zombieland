@@ -16,7 +16,7 @@ namespace Assets.Game.Scripts.Model.Systems.Debugs
 
             Debug.Log("[ Event: PlayerPickUpWeaponEvent ] " +
                                   $"[ Sender entity: {eventBody.PlayerEntity} ] " +
-                                  $"[ Weapon entity: {eventBody.WeaponEntity} ]");
+                                  $"[ PoolingObject entity: {eventBody.WeaponEntity} ]");
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
         public void Run(IEcsSystems systems)
         {
             var eventsBus = _sharedData.Value.EventsBus;
-            if (!eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out var eventBody)) return;
+            if (!eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out _)) return;
 
             foreach (var playerEntity in _filter.Value)
             {
@@ -49,7 +49,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
                     weaponRigidbody.isKinematic = false;
                     var forceDirection = new Vector3(playerTransform.forward.x, 1, playerTransform.forward.z);
                     weaponRigidbody.AddForce(forceDirection * 150, ForceMode.Force);
-                    SetDestructionTime(playerEntity, 1);
+                    SetDestructionTime(backpackComponent.WeaponEntity, 0.8f);
 
                     backpackComponent.WeaponEntity = -1;
                 }

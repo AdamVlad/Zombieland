@@ -16,6 +16,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
         private readonly EcsPoolInject<BackpackComponent> _backpackComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Collider>> _colliderComponentPool = default;
+        private readonly EcsPoolInject<ParentComponent> _parentComponentPool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -24,6 +25,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
             ref var weaponTransform = ref _transformComponentPool.Get(eventBody.WeaponEntity).Value;
             ref var weaponCollider = ref _colliderComponentPool.Get(eventBody.WeaponEntity).Value;
+            ref var weaponParentComponent = ref _parentComponentPool.Get(eventBody.WeaponEntity);
             ref var backpackComponent = ref _backpackComponentPool.Get(eventBody.PlayerEntity);
 
             weaponTransform.parent = backpackComponent.WeaponHolderPoint;
@@ -32,6 +34,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
             weaponCollider.enabled = false;
 
             backpackComponent.WeaponEntity = eventBody.WeaponEntity;
+            weaponParentComponent.CurrentParentTransform = backpackComponent.WeaponHolderPoint;
         }
     }
 }

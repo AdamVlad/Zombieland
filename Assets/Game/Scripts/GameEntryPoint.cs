@@ -1,4 +1,7 @@
+#region References
+
 using UnityEngine;
+using System;
 
 using AB_Utility.FromSceneToEntityConverter;
 
@@ -17,7 +20,6 @@ using Assets.Game.Scripts.Model.Systems.Input;
 using Assets.Game.Scripts.Model.Systems;
 using Assets.Game.Scripts.Model.Components.Requests;
 using Assets.Game.Scripts.View.Systems;
-using System;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Emitter;
@@ -25,10 +27,14 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Game.Scripts.Model.Components.Delayed;
+using Assets.Game.Scripts.Model.Pools;
+using Assets.Game.Scripts.Model.Services;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
 #endif
+
+#endregion
 
 namespace Assets.Game.Scripts
 {
@@ -49,7 +55,10 @@ namespace Assets.Game.Scripts
         [Header("Settings")]
         [SerializeField] private GameConfigurationSo _gameSettings; 
         [SerializeField] private SceneConfigurationSo _sceneSettings; 
-        [SerializeField] private BobConfigurationSO _bobSettings;
+        [SerializeField] private PlayerConfigurationSO _playerSettings;
+
+        [Space, Header("Services")]
+        [SerializeField] private WeaponsAppearanceService _weaponsAppearanceService;
 
         [Space, Header("Debugs")]
         [SerializeField] private DebugControls _debugControls;
@@ -74,16 +83,20 @@ namespace Assets.Game.Scripts
                 MainCamera = Camera.main,
             };
 
+            _weaponsAppearanceService.Run(_world);
+
             _initSystems = new EcsSystems(_world, _sharedData);
             _initSystems
+                .Add(new WeaponInitSystem())
                 .Add(new PlayerInitSystem())
-                .Add(new ParentHolderInitSystem())
                 .Add(new EntityReferenceInitSystem())
+                .Add(new ParentHolderInitSystem())
                 .Add(new InputInitSystem())
                 .Add(new ScreenInitSystem())
                 .Add(new VmCameraInitSystem())
-                .Inject(_bobSettings)
+                .Inject(_playerSettings)
                 .Inject(_gameSettings)
+                .Inject(_weaponsAppearanceService)
                 .ConvertScene()
                 .Init();
 
@@ -117,7 +130,7 @@ namespace Assets.Game.Scripts
             #endregion
                 .Add(GetEventsDestroySystem())
                 //.DelHere<DestructionDelayed>()
-                .Inject(_bobSettings)
+                .Inject(_playerSettings)
                 .Inject(_sceneSettings)
                 .Init();
 
@@ -130,7 +143,7 @@ namespace Assets.Game.Scripts
                 .Add(new PlayerAnimatorShootParameterRequestSystem())
                 .Add(new AnimationSystem())
                 .DelHere<SetAnimatorParameterRequests>()
-                .Inject(_bobSettings)
+                .Inject(_playerSettings)
                 .Init();
         }
 
