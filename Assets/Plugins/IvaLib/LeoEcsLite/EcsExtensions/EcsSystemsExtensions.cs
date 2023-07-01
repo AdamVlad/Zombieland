@@ -1,6 +1,6 @@
 ﻿using Leopotam.EcsLite;
 
-namespace Assets.Plugins.IvaLib.LeoEcsLite.Extensions
+namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions
 {
     public static class EcsSystemsExtensions
     {

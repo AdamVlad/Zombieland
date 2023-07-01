@@ -1,4 +1,4 @@
-using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 

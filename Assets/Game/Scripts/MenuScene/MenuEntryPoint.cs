@@ -2,8 +2,7 @@ using UnityEngine;
 using System;
 
 using Assets.Game.Scripts.MenuScene.View;
-using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
-
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.ExtendedSystems;
 using Leopotam.EcsLite.Unity.Ugui;

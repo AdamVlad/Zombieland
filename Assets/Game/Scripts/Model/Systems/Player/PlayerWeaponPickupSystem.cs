@@ -1,7 +1,7 @@
 ﻿using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Events;
-using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;

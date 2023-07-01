@@ -1,6 +1,6 @@
 ﻿using Leopotam.EcsLite.Di;
 
-namespace Assets.Plugins.IvaLib.LeoEcsLite.Extensions
+namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions
 {
     public static class EcsPoolInjectExtensions
     {
@@ -17,6 +17,11 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.Extensions
         public static ref T Add<T>(this EcsPoolInject<T> pools, int entity) where T : struct
         {
             return ref pools.Value.Add(entity);
+        }
+
+        public static void Del<T>(this EcsPoolInject<T> pools, int entity) where T : struct
+        {
+            pools.Value.Del(entity);
         }
     }
 }

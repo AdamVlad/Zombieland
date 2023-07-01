@@ -1,8 +1,8 @@
 ﻿using AB_Utility.FromSceneToEntityConverter;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.ScriptableObjects;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Checkers;
-using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;

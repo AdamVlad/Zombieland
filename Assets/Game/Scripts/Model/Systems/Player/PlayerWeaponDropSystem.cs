@@ -1,10 +1,13 @@
 ﻿using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
+using Assets.Game.Scripts.Model.Components.Delayed;
 using Assets.Game.Scripts.Model.Components.Events;
-using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Systems.Player
@@ -17,9 +20,12 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
         private readonly EcsSharedInject<SharedData> _sharedData = default;
 
+        private readonly EcsWorldInject _world = default;
+
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Rigidbody>> _rigidbodyComponentPool = default;
         private readonly EcsPoolInject<ParentComponent> _parentComponentPool = default;
+        private readonly EcsPoolInject<Delayed<DestructionDelayed>> _timerPool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -43,10 +49,20 @@ namespace Assets.Game.Scripts.Model.Systems.Player
                     weaponRigidbody.isKinematic = false;
                     var forceDirection = new Vector3(playerTransform.forward.x, 1, playerTransform.forward.z);
                     weaponRigidbody.AddForce(forceDirection * 150, ForceMode.Force);
+                    SetDestructionTime(playerEntity, 1);
 
                     backpackComponent.WeaponEntity = -1;
                 }
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void SetDestructionTime(int targetEntity, float time)
+        {
+            var delayedEntity = _world.NewEntity();
+            ref var timer = ref _timerPool.Add(delayedEntity);
+            timer.TimeLeft = time;
+            timer.Target = _world.PackEntity(targetEntity);
         }
     }
 }

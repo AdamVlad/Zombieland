@@ -5,8 +5,8 @@ using Assets.Game.Scripts.Model.Components.Items;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
-using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 
 namespace Assets.Game.Scripts.Model.Systems.Player

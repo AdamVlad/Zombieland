@@ -19,10 +19,12 @@ using Assets.Game.Scripts.Model.Components.Requests;
 using Assets.Game.Scripts.View.Systems;
 using System;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Emitter;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Extensions;
-using Assets.Plugins.IvaLib.LeoEcsLite.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
+using Assets.Game.Scripts.Model.Components.Delayed;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -95,6 +97,8 @@ namespace Assets.Game.Scripts
                 .Add(new TriggerEnterDebugSystem(), _debugControls.IsTriggerEnterDebugEnable)
 #endif
                 #endregion
+                .Add(new DelayedOperationSystem<DestructionDelayed>())
+                .Add(new DestructionSystem())
                 .Add(new InputMoveSystem())
                 .Add(new InputScreenPositionSystem())
                 .Add(new InputShootSystem())
@@ -112,6 +116,7 @@ namespace Assets.Game.Scripts
 #endif
             #endregion
                 .Add(GetEventsDestroySystem())
+                //.DelHere<DestructionDelayed>()
                 .Inject(_bobSettings)
                 .Inject(_sceneSettings)
                 .Init();
