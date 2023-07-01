@@ -53,7 +53,6 @@ namespace Assets.Game.Scripts
         [SerializeField] private DebugControls _debugControls;
 
         private EcsWorld _world;
-
         private IEcsSystems _initSystems;
         private IEcsSystems _updateSystems;
         private IEcsSystems _fixedUpdateSystems;
@@ -76,6 +75,7 @@ namespace Assets.Game.Scripts
             _initSystems = new EcsSystems(_world, _sharedData);
             _initSystems
                 .Add(new PlayerInitSystem())
+                .Add(new ParentHolderInitSystem())
                 .Add(new EntityReferenceInitSystem())
                 .Add(new InputInitSystem())
                 .Add(new ScreenInitSystem())

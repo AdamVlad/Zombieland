@@ -13,12 +13,13 @@ namespace Assets.Game.Scripts.Model.Systems.Player
     {
         private readonly EcsFilterInject<
             Inc<PlayerTagComponent,
-                ShootingComponent,
                 BackpackComponent>> _filter = default;
 
         private readonly EcsSharedInject<SharedData> _sharedData = default;
 
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;
+        private readonly EcsPoolInject<MonoLink<Rigidbody>> _rigidbodyComponentPool = default;
+        private readonly EcsPoolInject<ParentComponent> _parentComponentPool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -27,14 +28,22 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 
             foreach (var playerEntity in _filter.Value)
             {
-                ref var shootingComponent = ref _filter.Get2(playerEntity);
-                ref var backpackComponent = ref _filter.Get3(playerEntity);
+                ref var backpackComponent = ref _filter.Get2(playerEntity);
 
                 if (backpackComponent.IsWeaponInHand)
                 {
-                    ref var transform = ref _transformComponentPool.Get(backpackComponent.WeaponEntity).Value;
-                    transform.gameObject.SetActive(false);
-                    //transform.position += shootingComponent.Direction * 20;
+                    ref var weaponTransform = ref _transformComponentPool.Get(backpackComponent.WeaponEntity).Value;
+                    ref var weaponRigidbody = ref _rigidbodyComponentPool.Get(backpackComponent.WeaponEntity).Value;
+                    ref var weaponParentComponent = ref _parentComponentPool.Get(backpackComponent.WeaponEntity);
+                    ref var playerTransform = ref _transformComponentPool.Get(playerEntity).Value;
+
+                    weaponTransform.parent = weaponParentComponent.InitParentTransform;
+                    weaponParentComponent.CurrentParentTransform = weaponTransform.parent;
+
+                    weaponRigidbody.isKinematic = false;
+                    var forceDirection = new Vector3(playerTransform.forward.x, 1, playerTransform.forward.z);
+                    weaponRigidbody.AddForce(forceDirection * 150, ForceMode.Force);
+
                     backpackComponent.WeaponEntity = -1;
                 }
             }
