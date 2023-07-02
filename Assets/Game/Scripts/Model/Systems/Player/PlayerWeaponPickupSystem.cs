@@ -1,6 +1,7 @@
 ﻿using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Events;
+using Assets.Game.Scripts.Model.Components.Requests;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
@@ -17,11 +18,14 @@ namespace Assets.Game.Scripts.Model.Systems.Player
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Collider>> _colliderComponentPool = default;
         private readonly EcsPoolInject<ParentComponent> _parentComponentPool = default;
+        private readonly EcsPoolInject<WeaponAnimationStopRequest> _weaponAnimationRequestPool = default;
 
         public void Run(IEcsSystems systems)
         {
             var eventsBus = _sharedData.Value.EventsBus;
             if (!eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out var eventBody)) return;
+
+            _weaponAnimationRequestPool.Add(eventBody.WeaponEntity);
 
             ref var weaponTransform = ref _transformComponentPool.Get(eventBody.WeaponEntity).Value;
             ref var weaponCollider = ref _colliderComponentPool.Get(eventBody.WeaponEntity).Value;

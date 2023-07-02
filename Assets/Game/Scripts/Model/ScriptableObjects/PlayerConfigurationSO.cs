@@ -3,7 +3,7 @@
 namespace Assets.Game.Scripts.Model.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "PlayerSettings", menuName = "Settings/PlayerSettings")]
-    internal class PlayerConfigurationSO : ScriptableObject
+    internal class PlayerConfigurationSo : ScriptableObject
     {
         [SerializeField] private GameObject _prefab;
         public GameObject Prefab => _prefab;

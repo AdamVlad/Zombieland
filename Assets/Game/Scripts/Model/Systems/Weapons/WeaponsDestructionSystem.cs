@@ -7,7 +7,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-namespace Assets.Game.Scripts.View.Systems
+namespace Assets.Game.Scripts.Model.Systems.Weapons
 {
     internal sealed class WeaponsDestructionSystem : IEcsRunSystem
     {
@@ -16,7 +16,7 @@ namespace Assets.Game.Scripts.View.Systems
         private readonly EcsPoolInject<DestructionDelayed> _destructionPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformPool = default;
 
-        private readonly EcsCustomInject<WeaponsAppearanceService> _weaponsService = default;
+        private readonly EcsCustomInject<WeaponsProviderService> _weaponsService = default;
 
         public void Run(IEcsSystems systems)
         {

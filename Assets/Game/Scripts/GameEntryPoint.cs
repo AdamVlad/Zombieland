@@ -58,7 +58,7 @@ namespace Assets.Game.Scripts
         [Header("Settings")]
         [SerializeField] private GameConfigurationSo _gameSettings; 
         [SerializeField] private SceneConfigurationSo _sceneSettings; 
-        [SerializeField] private PlayerConfigurationSO _playerSettings;
+        [SerializeField] private PlayerConfigurationSo _playerSettings;
 
         [Space, Header("Weapons")]
         [SerializeField] private GameObject[] _weapons;
@@ -67,7 +67,7 @@ namespace Assets.Game.Scripts
         [Space, Header("Debugs")]
         [SerializeField] private DebugControls _debugControls;
 
-        private WeaponsAppearanceService _weaponsAppearanceService;
+        private WeaponsProviderService _weaponsProviderService;
 
         private EcsWorld _world;
         private IEcsSystems _initSystems;
@@ -92,8 +92,8 @@ namespace Assets.Game.Scripts
             var weaponsRepository = new WeaponsRepository(_weapons);
             var weaponFactory = new WeaponFactory();
             var weaponsCreator = new WeaponsCreator(weaponsRepository, weaponFactory, _weaponsInitialParent, _world);
-            _weaponsAppearanceService = new WeaponsAppearanceService(weaponsCreator);
-            _weaponsAppearanceService.Run();
+            _weaponsProviderService = new WeaponsProviderService(weaponsCreator);
+            _weaponsProviderService.Run();
 
 
             _initSystems = new EcsSystems(_world, _sharedData);
@@ -107,7 +107,7 @@ namespace Assets.Game.Scripts
                 .Add(new VmCameraInitSystem())
                 .Inject(_playerSettings)
                 .Inject(_gameSettings)
-                .Inject(_weaponsAppearanceService)
+                .Inject(_weaponsProviderService)
                 .ConvertScene()
                 .Init();
 
@@ -135,7 +135,10 @@ namespace Assets.Game.Scripts
                 .Add(new PlayerWeaponPickupSystem())
                 .Add(new WeaponSetSpawnTimeSystem())
                 .Add(new WeaponSpawnSystem())
-                #region Debug Systems
+                .Add(new WeaponAnimationSystem())
+                .DelHere<WeaponAnimationStartRequest>()
+                .DelHere<WeaponAnimationStopRequest>()
+            #region Debug Systems
 #if UNITY_EDITOR
                 .Add(new PickUpItemDebugSystem(), _debugControls.IsPickUpItemDebugEnable)
                 .Add(new ShootStartedOrCanceledDebugSystem(), _debugControls.IsShootStartedOrCanceledDebugEnable)
@@ -147,7 +150,7 @@ namespace Assets.Game.Scripts
                 //.DelHere<DestructionDelayed>()
                 .Inject(_playerSettings)
                 .Inject(_sceneSettings)
-                .Inject(_weaponsAppearanceService)
+                .Inject(_weaponsProviderService)
                 .Init();
 
             _fixedUpdateSystems = new EcsSystems(_world, _sharedData);

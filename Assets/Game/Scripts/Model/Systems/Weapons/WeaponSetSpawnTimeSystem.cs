@@ -3,6 +3,7 @@ using Assets.Game.Scripts.Model.AppData;
 using Assets.Game.Scripts.Model.Components;
 using Assets.Game.Scripts.Model.Components.Delayed;
 using Assets.Game.Scripts.Model.Components.Events;
+using Assets.Game.Scripts.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
@@ -15,6 +16,7 @@ namespace Assets.Game.Scripts.Model.Systems.Weapons
         private readonly EcsFilterInject<Inc<WeaponSpawnerComponent>> _weaponSpawnersFilter = default;
         private readonly EcsPoolInject<Delayed<WeaponSpawnDelayed>> _timerPool = default;
 
+        private readonly EcsCustomInject<SceneConfigurationSo> _sceneConfig = default;
         private readonly EcsSharedInject<SharedData> _sharedData = default;
         private readonly EcsWorldInject _world = default;
         
@@ -30,7 +32,7 @@ namespace Assets.Game.Scripts.Model.Systems.Weapons
                 if (weaponSpawnerComponent.SpawnedWeaponEntity == eventBody.WeaponEntity)
                 {
                     weaponSpawnerComponent.SpawnedWeaponEntity = -1;
-                    SetSpawnTime(spawnEntity, 5f);
+                    SetSpawnTime(spawnEntity, _sceneConfig.Value.WeaponSpawnDelay);
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
                 BackpackComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
-        private readonly EcsCustomInject<PlayerConfigurationSO> _playerSettings = default;
+        private readonly EcsCustomInject<PlayerConfigurationSo> _playerSettings = default;
 
         public void Run(IEcsSystems systems)
         {

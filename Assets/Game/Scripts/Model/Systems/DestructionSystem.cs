@@ -5,7 +5,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-namespace Assets.Game.Scripts.View.Systems
+namespace Assets.Game.Scripts.Model.Systems
 {
     internal sealed class DestructionSystem : IEcsRunSystem
     {

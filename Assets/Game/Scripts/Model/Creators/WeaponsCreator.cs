@@ -1,5 +1,4 @@
 using Assets.Game.Scripts.Model.Repositories;
-using Assets.Game.Scripts.Model.Services;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -33,10 +32,10 @@ namespace Assets.Game.Scripts.Model.Creators
 
         public bool CanCreate() => _nextIndex < _repository.Count();
 
-        private IRepository<GameObject> _repository;
-        private IEcsFactory<GameObject, GameObject> _factory;
-        private Transform _parent;
-        private EcsWorld _world;
+        private readonly IRepository<GameObject> _repository;
+        private readonly IEcsFactory<GameObject, GameObject> _factory;
+        private readonly Transform _parent;
+        private readonly EcsWorld _world;
         private int _nextIndex;
     }
 }

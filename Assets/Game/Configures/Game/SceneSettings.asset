@@ -15,3 +15,8 @@ MonoBehaviour:
   _raycastableMask:
     serializedVersion: 2
     m_Bits: 8
+  _weaponSpawnDelay: 5
+  _weaponSpawnerRotationAngle: 360
+  _weaponSpawnerRotationDuration: 2.49
+  _weaponSpawnerClimbingPosition: 0.5
+  _weaponSpawnerClimbingDuration: 1.56

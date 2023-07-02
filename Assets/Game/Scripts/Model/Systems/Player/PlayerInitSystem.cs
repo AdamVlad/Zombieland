@@ -13,7 +13,7 @@ namespace Assets.Game.Scripts.Model.Systems.Player
 {
     internal sealed class PlayerInitSystem : IEcsInitSystem
     {
-        private readonly EcsCustomInject<PlayerConfigurationSO> _bobSettings = default;
+        private readonly EcsCustomInject<PlayerConfigurationSo> _bobSettings = default;
         private readonly EcsCustomInject<GameConfigurationSo> _gameSettings = default;
 
         private readonly EcsFilterInject<Inc<PlayerTagComponent>> _filter = default;

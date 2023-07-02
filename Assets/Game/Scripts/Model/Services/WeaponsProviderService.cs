@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Game.Scripts.Model.Creators;
 using UnityEngine;
 using Random = System.Random;
 
 namespace Assets.Game.Scripts.Model.Services
 {
-    internal class WeaponsAppearanceService
+    internal class WeaponsProviderService
     {
         private enum Priority
         {
-            None = 0,
-            Low = 2,
-            Medium = 4,
-            High = 8
+            None,
+            Low,
+            Medium,
+            High
         }
 
         private class PriorityComponent
@@ -20,7 +21,7 @@ namespace Assets.Game.Scripts.Model.Services
             public Priority Value;
         }
 
-        public WeaponsAppearanceService(ICreator<GameObject> creator)
+        public WeaponsProviderService(ICreator<GameObject> creator)
         {
             _creator = creator;
             _random = new Random();
@@ -52,6 +53,7 @@ namespace Assets.Game.Scripts.Model.Services
             }
 
             result.transform.position = spawnPoint.position;
+            result.transform.rotation = Quaternion.identity;
             result.SetActive(true);
 
             return result;
@@ -85,9 +87,14 @@ namespace Assets.Game.Scripts.Model.Services
         {
             _interations++;
             if (_pool.Count != 0 &&
-                (float)_interations / _pool.Count >= 0.2f)
+                (float)_interations / _pool.Count >= 0.3f)
             {
                 UpdatePriorities();
+            }
+
+            if (_interations >= _pool.Count)
+            {
+                _interations = 0;
             }
         }
 
