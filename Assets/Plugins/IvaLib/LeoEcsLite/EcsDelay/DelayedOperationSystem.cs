@@ -19,7 +19,6 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay
                 ref var delayed = ref _delayedFilter.Get1(entity);
 
                 delayed.TimeLeft -= Time.deltaTime;
-
                 if (delayed.TimeLeft <= 0 &&
                     delayed.Target.Unpack(systems.GetWorld(), out var targetEntity))
                 {

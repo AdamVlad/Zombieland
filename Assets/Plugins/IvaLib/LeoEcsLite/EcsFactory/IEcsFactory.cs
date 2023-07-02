@@ -1,4 +1,4 @@
-﻿using Assets.Plugins.IvaLib.UnityLib.Factories;
+﻿using Assets.Plugins.IvaLib.UnityLib.Factory;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -8,7 +8,7 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory
     {
         TResult Create(
             TParam1 prefab,
-            ref Vector3 position,
+            Vector3 position,
             Transform parent,
             EcsWorld world);
     }

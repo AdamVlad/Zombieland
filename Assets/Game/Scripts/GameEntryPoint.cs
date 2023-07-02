@@ -27,8 +27,11 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Game.Scripts.Model.Components.Delayed;
-using Assets.Game.Scripts.Model.Pools;
+using Assets.Game.Scripts.Model.Creators;
 using Assets.Game.Scripts.Model.Services;
+using Assets.Game.Scripts.Model.Systems.Weapons;
+using Assets.Game.Scripts.Model.Factories;
+using Assets.Game.Scripts.Model.Repositories;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -57,11 +60,14 @@ namespace Assets.Game.Scripts
         [SerializeField] private SceneConfigurationSo _sceneSettings; 
         [SerializeField] private PlayerConfigurationSO _playerSettings;
 
-        [Space, Header("Services")]
-        [SerializeField] private WeaponsAppearanceService _weaponsAppearanceService;
+        [Space, Header("Weapons")]
+        [SerializeField] private GameObject[] _weapons;
+        [SerializeField] private Transform _weaponsInitialParent;
 
         [Space, Header("Debugs")]
         [SerializeField] private DebugControls _debugControls;
+
+        private WeaponsAppearanceService _weaponsAppearanceService;
 
         private EcsWorld _world;
         private IEcsSystems _initSystems;
@@ -83,7 +89,12 @@ namespace Assets.Game.Scripts
                 MainCamera = Camera.main,
             };
 
-            _weaponsAppearanceService.Run(_world);
+            var weaponsRepository = new WeaponsRepository(_weapons);
+            var weaponFactory = new WeaponFactory();
+            var weaponsCreator = new WeaponsCreator(weaponsRepository, weaponFactory, _weaponsInitialParent, _world);
+            _weaponsAppearanceService = new WeaponsAppearanceService(weaponsCreator);
+            _weaponsAppearanceService.Run();
+
 
             _initSystems = new EcsSystems(_world, _sharedData);
             _initSystems
@@ -111,6 +122,8 @@ namespace Assets.Game.Scripts
 #endif
                 #endregion
                 .Add(new DelayedOperationSystem<DestructionDelayed>())
+                .Add(new DelayedOperationSystem<WeaponSpawnDelayed>())
+                .Add(new WeaponsDestructionSystem())
                 .Add(new DestructionSystem())
                 .Add(new InputMoveSystem())
                 .Add(new InputScreenPositionSystem())
@@ -120,6 +133,8 @@ namespace Assets.Game.Scripts
                 .DelHerePhysics()
                 .Add(new PlayerWeaponDropSystem())
                 .Add(new PlayerWeaponPickupSystem())
+                .Add(new WeaponSetSpawnTimeSystem())
+                .Add(new WeaponSpawnSystem())
                 #region Debug Systems
 #if UNITY_EDITOR
                 .Add(new PickUpItemDebugSystem(), _debugControls.IsPickUpItemDebugEnable)
@@ -132,6 +147,7 @@ namespace Assets.Game.Scripts
                 //.DelHere<DestructionDelayed>()
                 .Inject(_playerSettings)
                 .Inject(_sceneSettings)
+                .Inject(_weaponsAppearanceService)
                 .Init();
 
             _fixedUpdateSystems = new EcsSystems(_world, _sharedData);

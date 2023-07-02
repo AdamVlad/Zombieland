@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace Assets.Game.Scripts.Model.Factories
 {
-    internal class WeaponFactory : IEcsFactory<GameObject, PoolingObject>
+    internal class WeaponFactory : IEcsFactory<GameObject, GameObject>
     {
-        public PoolingObject Create(
+        public GameObject Create(
             GameObject prefab,
-            ref Vector3 position,
+            Vector3 position,
             Transform parent,
             EcsWorld world)
         {
@@ -23,7 +23,6 @@ namespace Assets.Game.Scripts.Model.Factories
                 parent);
 
             var entityReference = weaponGO.AddComponent<EntityReference>();
-            var poolingObject = weaponGO.AddComponent<PoolingObject>();
 
             var weaponEntity = world.NewEntity();
 
@@ -31,10 +30,8 @@ namespace Assets.Game.Scripts.Model.Factories
             var colliderPool = world.GetPool<MonoLink<Collider>>();
             var rigidbodyPool = world.GetPool<MonoLink<Rigidbody>>();
             var entityReferencePool = world.GetPool<MonoLink<EntityReference>>();
-            var poolingObjectPool = world.GetPool<MonoLink<PoolingObject>>();
             var weaponComponentPool = world.GetPool<WeaponComponent>();
             var parentComponentPool = world.GetPool<ParentComponent>();
-
 
             ref var transform = ref transformPool.Add(weaponEntity);
             transform.Value = weaponGO.transform;
@@ -49,16 +46,13 @@ namespace Assets.Game.Scripts.Model.Factories
             entityReference.Pack(weaponEntity);
             entityReferenceComponent.Value = entityReference;
 
-            ref var poolingObjectComponent = ref poolingObjectPool.Add(weaponEntity);
-            poolingObjectComponent.Value = poolingObject;
-
             ref var parentComponent = ref parentComponentPool.Add(weaponEntity);
             parentComponent.InitParentTransform = parent;
             parentComponent.CurrentParentTransform = parent;
 
             weaponComponentPool.Add(weaponEntity);
 
-            return weaponGO.GetComponent<PoolingObject>();
+            return weaponGO;
         }
     }
 }

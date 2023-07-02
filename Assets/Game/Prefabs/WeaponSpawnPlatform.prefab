@@ -42,6 +42,8 @@ GameObject:
   - component: {fileID: 4624884186135094820}
   - component: {fileID: 7157661730377247544}
   - component: {fileID: 6793992822324258812}
+  - component: {fileID: 8337019730251881225}
+  - component: {fileID: 7606323912623722954}
   m_Layer: 0
   m_Name: WeaponSpawnPlatform
   m_TagString: Untagged
@@ -116,3 +118,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8337019730251881225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019324531454778844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d40b90da6b42589971320ba7a7bc95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _converters:
+  - {fileID: 7606323912623722954}
+  _destroyAfterConversion: 1
+--- !u!114 &7606323912623722954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019324531454778844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102a9709fa0ac16498f33582b10091fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component:
+    SpawnPoint: {fileID: 3789234141680003035}
