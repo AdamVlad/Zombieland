@@ -20,3 +20,4 @@ MonoBehaviour:
   _weaponSpawnerRotationDuration: 2.49
   _weaponSpawnerClimbingPosition: 0.5
   _weaponSpawnerClimbingDuration: 1.56
+  _weaponDestructionTime: 2.48
