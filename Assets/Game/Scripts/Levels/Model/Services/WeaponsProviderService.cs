@@ -6,7 +6,7 @@ using Random = System.Random;
 
 namespace Assets.Game.Scripts.Levels.Model.Services
 {
-    internal class WeaponsProviderService
+    internal sealed class WeaponsProviderService
     {
         public WeaponsProviderService(ICreator<GameObject> creator)
         {
@@ -72,13 +72,13 @@ namespace Assets.Game.Scripts.Levels.Model.Services
 
         private void UpdatePrioritiesIfNeedIt()
         {
-            if (++_interations >= _pool.Count)
+            if (++_interactions >= _pool.Count)
             {
-                _interations = 0;
+                _interactions = 0;
             }
 
             if (_pool.Count != 0 &&
-                (float)_interations / _pool.Count >= 0.3f)
+                (float)_interactions / _pool.Count >= 0.3f)
             {
                 UpdatePriorities();
             }
@@ -113,6 +113,6 @@ namespace Assets.Game.Scripts.Levels.Model.Services
         private readonly Dictionary<GameObject, PriorityComponent> _pool = new();
         private readonly ICreator<GameObject> _creator;
         private readonly Random _random;
-        private int _interations;
+        private int _interactions;
     }
 }

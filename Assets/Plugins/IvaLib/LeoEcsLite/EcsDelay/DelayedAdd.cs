@@ -2,7 +2,7 @@
 
 namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay
 {
-    public struct Delayed<T> where T : struct
+    public struct DelayedAdd<T> where T : struct
     {
         public EcsPackedEntity Target;
         public float TimeLeft;

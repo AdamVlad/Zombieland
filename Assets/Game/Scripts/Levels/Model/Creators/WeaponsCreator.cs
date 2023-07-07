@@ -8,32 +8,32 @@ namespace Assets.Game.Scripts.Levels.Model.Creators
     internal class WeaponsCreator : ICreator<GameObject>
     {
         public WeaponsCreator(
-            IRepository<GameObject> repository,
-            IEcsFactory<GameObject, GameObject> factory,
+            IRepository<GameObject> weaponsRepository,
+            IEcsFactory<GameObject, GameObject> weaponFactory,
             Transform parent,
             EcsWorld world)
         {
-            _repository = repository;
-            _factory = factory;
+            _weaponsRepository = weaponsRepository;
+            _weaponFactory = weaponFactory;
             _parent = parent;
             _world = world;
         }
 
         public GameObject CreateNext()
         {
-            if (_nextIndex >= _repository.Count()) return null;
+            if (_nextIndex >= _weaponsRepository.Count()) return null;
 
-            return _factory.Create(
-                _repository.Get(_nextIndex++),
+            return _weaponFactory.Create(
+                _weaponsRepository.Get(_nextIndex++),
                 Vector3.zero,
                 _parent,
                 _world);
         }
 
-        public bool CanCreate() => _nextIndex < _repository.Count();
+        public bool CanCreate() => _nextIndex < _weaponsRepository.Count();
 
-        private readonly IRepository<GameObject> _repository;
-        private readonly IEcsFactory<GameObject, GameObject> _factory;
+        private readonly IRepository<GameObject> _weaponsRepository;
+        private readonly IEcsFactory<GameObject, GameObject> _weaponFactory;
         private readonly Transform _parent;
         private readonly EcsWorld _world;
         private int _nextIndex;

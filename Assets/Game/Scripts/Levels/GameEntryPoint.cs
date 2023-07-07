@@ -9,8 +9,11 @@ using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
 using Assets.Game.Scripts.Levels.Model.Components.Requests;
+using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
 using Assets.Game.Scripts.Levels.Model.Creators;
 using Assets.Game.Scripts.Levels.Model.Factories;
+using Assets.Game.Scripts.Levels.Model.Pools;
 using Assets.Game.Scripts.Levels.Model.Repositories;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Game.Scripts.Levels.Model.Services;
@@ -59,6 +62,10 @@ namespace Assets.Game.Scripts.Levels
         [SerializeField] private GameObject[] _weapons;
         [SerializeField] private Transform _weaponsInitialParent;
 
+        [Space, Header("Bullets")]
+        [SerializeField] private Bullet[] _bullets;
+        [SerializeField] private Transform _bulletsInitialParent;
+
         [Space, Header("Debugs")]
         [SerializeField] private DebugControls _debugControls;
 
@@ -86,10 +93,14 @@ namespace Assets.Game.Scripts.Levels
 
             var weaponsRepository = new WeaponsRepository(_weapons);
             var weaponFactory = new WeaponFactory();
-            var weaponsCreator = new WeaponsCreator(weaponsRepository, weaponFactory, _weaponsInitialParent, _world);
+            var weaponsCreator = new WeaponsCreator(
+                weaponsRepository,
+                weaponFactory,
+                _weaponsInitialParent,
+                _world);
+
             _weaponsProviderService = new WeaponsProviderService(weaponsCreator);
             _weaponsProviderService.Run();
-
 
             _initSystems = new EcsSystems(_world, _sharedData);
             _initSystems
@@ -116,8 +127,10 @@ namespace Assets.Game.Scripts.Levels
                 .Add(new TriggerEnterDebugSystem(), _debugControls.IsTriggerEnterDebugEnable)
 #endif
                 #endregion
-                .Add(new DelayedOperationSystem<DestructionDelayed>())
-                .Add(new DelayedOperationSystem<WeaponSpawnDelayed>())
+                .Add(new DelayedAddOperationSystem<DestructionDelayed>())
+                .Add(new DelayedAddOperationSystem<WeaponSpawnDelayed>())
+                .Add(new DelayedRemoveOperationSystem<ShootingDelayed>())
+                .Add(new DelayedRemoveOperationSystem<ReloadingDelayed>())
                 .Add(new WeaponsDestructionSystem())
                 .Add(new DestructionSystem())
                 .Add(new InputMoveSystem())

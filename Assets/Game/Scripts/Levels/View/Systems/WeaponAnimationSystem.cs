@@ -13,12 +13,12 @@ namespace Assets.Game.Scripts.Levels.View.Systems
     internal sealed class WeaponAnimationSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<
-            Inc<WeaponComponent,
+            Inc<MonoLink<Weapon>,
                 MonoLink<Transform>,
                 WeaponAnimationStartRequest>> _startRequestFilter = default;
 
         private readonly EcsFilterInject<
-            Inc<WeaponComponent,
+            Inc<MonoLink<Weapon>,
                 MonoLink<Transform>,
                 WeaponAnimationStopRequest>> _stopRequestFilter = default;
 

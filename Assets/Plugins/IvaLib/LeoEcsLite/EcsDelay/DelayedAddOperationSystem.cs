@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay
 {
-    public sealed class DelayedOperationSystem<T> : IEcsRunSystem where T : struct
+    public sealed class DelayedAddOperationSystem<T> : IEcsRunSystem where T : struct
     {
-        private readonly EcsFilterInject<Inc<Delayed<T>>> _delayedFilter = default;
+        private readonly EcsFilterInject<Inc<DelayedAdd<T>>> _delayedFilter = default;
         private readonly EcsPoolInject<T> _delayedComponentPool = default;
 
         private readonly EcsWorldInject _world = default;

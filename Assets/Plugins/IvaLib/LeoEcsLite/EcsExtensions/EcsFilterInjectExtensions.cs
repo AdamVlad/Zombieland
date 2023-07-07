@@ -297,5 +297,458 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions
             entity = -1;
             return false;
         }
+
+        public static ref T1 Get1<T1, Texc1>(this EcsFilterInject<Inc<T1>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, Texc1>(this EcsFilterInject<Inc<T1, T2>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, Texc1>(this EcsFilterInject<Inc<T1, T2>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, T3, Texc1>(this EcsFilterInject<Inc<T1, T2, T3>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, T3, Texc1>(this EcsFilterInject<Inc<T1, T2, T3>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T3 Get3<T1, T2, T3, Texc1>(this EcsFilterInject<Inc<T1, T2, T3>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc3.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, T3, T4, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, T3, T4, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T3 Get3<T1, T2, T3, T4, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc3.Get(entity);
+        }
+
+        public static ref T4 Get4<T1, T2, T3, T4, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc4.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, T3, T4, T5, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, T3, T4, T5, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T3 Get3<T1, T2, T3, T4, T5, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc3.Get(entity);
+        }
+
+        public static ref T4 Get4<T1, T2, T3, T4, T5, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc4.Get(entity);
+        }
+        public static ref T5 Get5<T1, T2, T3, T4, T5, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc5.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, T3, T4, T5, T6, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, T3, T4, T5, T6, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T3 Get3<T1, T2, T3, T4, T5, T6, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc3.Get(entity);
+        }
+
+        public static ref T4 Get4<T1, T2, T3, T4, T5, T6, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc4.Get(entity);
+        }
+
+        public static ref T5 Get5<T1, T2, T3, T4, T5, T6, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc5.Get(entity);
+        }
+
+        public static ref T6 Get6<T1, T2, T3, T4, T5, T6, Texc1>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+        {
+            return ref filter.Pools.Inc6.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, Texc1, Texc2>(this EcsFilterInject<Inc<T1>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, T3, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, T3, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T3 Get3<T1, T2, T3, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc3.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, T3, T4, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, T3, T4, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T3 Get3<T1, T2, T3, T4, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc3.Get(entity);
+        }
+
+        public static ref T4 Get4<T1, T2, T3, T4, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc4.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, T3, T4, T5, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, T3, T4, T5, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T3 Get3<T1, T2, T3, T4, T5, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc3.Get(entity);
+        }
+
+        public static ref T4 Get4<T1, T2, T3, T4, T5, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc4.Get(entity);
+        }
+        public static ref T5 Get5<T1, T2, T3, T4, T5, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc5.Get(entity);
+        }
+
+        public static ref T1 Get1<T1, T2, T3, T4, T5, T6, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc1.Get(entity);
+        }
+
+        public static ref T2 Get2<T1, T2, T3, T4, T5, T6, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc2.Get(entity);
+        }
+
+        public static ref T3 Get3<T1, T2, T3, T4, T5, T6, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc3.Get(entity);
+        }
+
+        public static ref T4 Get4<T1, T2, T3, T4, T5, T6, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc4.Get(entity);
+        }
+
+        public static ref T5 Get5<T1, T2, T3, T4, T5, T6, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc5.Get(entity);
+        }
+
+        public static ref T6 Get6<T1, T2, T3, T4, T5, T6, Texc1, Texc2>(this EcsFilterInject<Inc<T1, T2, T3, T4, T5, T6>, Exc<Texc1, Texc2>> filter, int entity)
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+            where T5 : struct
+            where T6 : struct
+            where Texc1 : struct
+            where Texc2 : struct
+        {
+            return ref filter.Pools.Inc6.Get(entity);
+        }
     }
 }

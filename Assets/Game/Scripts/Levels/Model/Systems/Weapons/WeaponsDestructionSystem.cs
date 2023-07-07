@@ -11,7 +11,9 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
 {
     internal sealed class WeaponsDestructionSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<DestructionDelayed, WeaponComponent>> _filter = default;
+        private readonly EcsFilterInject<
+            Inc<DestructionDelayed,
+                MonoLink<Weapon>>> _filter = default;
 
         private readonly EcsPoolInject<DestructionDelayed> _destructionPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformPool = default;

@@ -631,6 +631,9 @@ MonoBehaviour:
   - {fileID: 6727417795630783889, guid: c7face6ac04820a4c912a41532e6f4c8, type: 3}
   - {fileID: 6727417795630783889, guid: c7face6ac04820a4c912a41532e6f4c8, type: 3}
   _weaponsInitialParent: {fileID: 518363690}
+  _bullets:
+  - {fileID: 3666009181065775655, guid: 0d4c6b5e79b95e44f8144eabc27e553d, type: 3}
+  _bulletsInitialParent: {fileID: 1196226643}
   _debugControls:
     IsEcsWorldDebugEnable: 1
     IsCollisionEnterDebugEnable: 0
@@ -639,6 +642,37 @@ MonoBehaviour:
     IsShootStartedOrCanceledDebugEnable: 1
     IsPlayerRotationRaycastEnable: 0
     IsShootingDirectionRaycastEnable: 0
+--- !u!1 &1196226642
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1196226643}
+  m_Layer: 0
+  m_Name: '[ Temp ]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1196226643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196226642}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.29871476, y: 0.17351389, z: -0.3364153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1562852450
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,7 +950,7 @@ GameObject:
   - component: {fileID: 2023895379}
   - component: {fileID: 2023895378}
   - component: {fileID: 2023895377}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

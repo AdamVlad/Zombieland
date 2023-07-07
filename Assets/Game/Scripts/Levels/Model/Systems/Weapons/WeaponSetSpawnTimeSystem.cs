@@ -14,7 +14,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
     internal sealed class WeaponSetSpawnTimeSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<WeaponSpawnerComponent>> _weaponSpawnersFilter = default;
-        private readonly EcsPoolInject<Delayed<WeaponSpawnDelayed>> _timerPool = default;
+        private readonly EcsPoolInject<DelayedAdd<WeaponSpawnDelayed>> _timerPool = default;
 
         private readonly EcsCustomInject<SceneConfigurationSo> _sceneConfig = default;
         private readonly EcsSharedInject<SharedData> _sharedData = default;

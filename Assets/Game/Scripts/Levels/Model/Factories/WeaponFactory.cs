@@ -16,43 +16,80 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             Transform parent,
             EcsWorld world)
         {
-            var weaponGO = Object.Instantiate(
+            var weaponGo = Object.Instantiate(
                 prefab,
                 position,
                 Quaternion.identity,
                 parent);
 
-            var entityReference = weaponGO.AddComponent<EntityReference>();
-
             var weaponEntity = world.NewEntity();
 
+            // Settings
+            var weaponSettings = weaponGo.GetComponent<Weapon>().Settings;
+
+            // Weapon
+            var weaponPool = world.GetPool<MonoLink<Weapon>>();
+            weaponPool.Add(weaponEntity);
+
+            // Transform
             var transformPool = world.GetPool<MonoLink<Transform>>();
-            var colliderPool = world.GetPool<MonoLink<Collider>>();
-            var rigidbodyPool = world.GetPool<MonoLink<Rigidbody>>();
-            var entityReferencePool = world.GetPool<MonoLink<EntityReference>>();
-            var weaponComponentPool = world.GetPool<WeaponComponent>();
-            var parentComponentPool = world.GetPool<ParentComponent>();
-
             ref var transform = ref transformPool.Add(weaponEntity);
-            transform.Value = weaponGO.transform;
+            transform.Value = weaponGo.transform;
 
+            // Collider
+            var colliderPool = world.GetPool<MonoLink<Collider>>();
             ref var collider = ref colliderPool.Add(weaponEntity);
-            collider.Value = weaponGO.GetComponent<Collider>();
+            collider.Value = weaponGo.GetComponent<Collider>();
 
+            // Rigidbody
+            var rigidbodyPool = world.GetPool<MonoLink<Rigidbody>>();
             ref var rigidbody = ref rigidbodyPool.Add(weaponEntity);
-            rigidbody.Value = weaponGO.GetComponent<Rigidbody>();
+            rigidbody.Value = weaponGo.GetComponent<Rigidbody>();
 
+            // Entity reference
+            var entityReference = weaponGo.AddComponent<EntityReference>();
+            var entityReferencePool = world.GetPool<MonoLink<EntityReference>>();
             ref var entityReferenceComponent = ref entityReferencePool.Add(weaponEntity);
             entityReference.Pack(weaponEntity);
             entityReferenceComponent.Value = entityReference;
 
+            // Parent transform
+            var parentComponentPool = world.GetPool<ParentComponent>();
             ref var parentComponent = ref parentComponentPool.Add(weaponEntity);
             parentComponent.InitParentTransform = parent;
             parentComponent.CurrentParentTransform = parent;
 
-            weaponComponentPool.Add(weaponEntity);
+            // Settings
 
-            return weaponGO;
+            // Weapon clip component
+            var weaponClipPool = world.GetPool<WeaponClipComponent>();
+            weaponClipPool.Add(weaponEntity) = new WeaponClipComponent(
+                weaponSettings.ChargeType,
+                weaponSettings.TotalCharge,
+                weaponSettings.CapacityCharge);
+
+            // Damage component
+            var damagePool = world.GetPool<DamageComponent>();
+            damagePool.Add(weaponEntity) = new DamageComponent
+            {
+                Damage = weaponSettings.Damage
+            };
+
+            // Attack delay component
+            var attackDelayPool = world.GetPool<AttackDelayComponent>();
+            attackDelayPool.Add(weaponEntity) = new AttackDelayComponent
+            {
+                Delay = weaponSettings.ShootingDelay
+            };
+
+            // Reloading delay component
+            var reloadingDelayPool = world.GetPool<ReloadingDelayComponent>();
+            reloadingDelayPool.Add(weaponEntity) = new ReloadingDelayComponent
+            {
+                Delay = weaponSettings.ReloadingTime
+            };
+
+            return weaponGo;
         }
     }
 }

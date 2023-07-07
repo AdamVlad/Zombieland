@@ -5,6 +5,7 @@ using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -19,7 +20,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
         private readonly EcsSharedInject<SharedData> _sharedData = default;
 
-        private readonly EcsPoolInject<WeaponComponent> _weaponComponentPool = default;
+        private readonly EcsPoolInject<MonoLink<Weapon>> _weaponComponentPool = default;
 
         public void Run(IEcsSystems systems)
         {

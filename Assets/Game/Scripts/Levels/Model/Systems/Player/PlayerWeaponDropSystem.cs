@@ -28,7 +28,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsPoolInject<MonoLink<Rigidbody>> _rigidbodyComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Collider>> _colliderComponentPool = default;
         private readonly EcsPoolInject<ParentComponent> _parentComponentPool = default;
-        private readonly EcsPoolInject<Delayed<DestructionDelayed>> _timerPool = default;
+        private readonly EcsPoolInject<DelayedAdd<DestructionDelayed>> _timerPool = default;
 
         public void Run(IEcsSystems systems)
         {
