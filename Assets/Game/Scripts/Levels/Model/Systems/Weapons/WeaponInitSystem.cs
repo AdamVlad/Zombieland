@@ -1,8 +1,8 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Requests;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
-using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -10,24 +10,24 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
 {
     internal sealed class WeaponInitSystem : IEcsInitSystem
     {
-        private readonly EcsFilterInject<Inc<WeaponSpawnerComponent>> _weaponSpawnersFilter = default;
-        private readonly EcsCustomInject<WeaponsProviderService> _weaponsService = default;
+        private readonly EcsFilterInject<Inc<MonoLink<Weapon>>> _weaponsFilter = default;
+        private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
+        private readonly EcsPoolInject<WeaponShootingComponent> _weaponShootingPool = default;
 
-        private readonly EcsPoolInject<WeaponAnimationStartRequest> _weaponAnimationRequestPool = default;
+        private readonly EcsCustomInject<BulletsProviderService> _bulletsService = default;
+        private readonly EcsCustomInject<GameConfigurationSo> _gameSettings = default;
 
         public void Init(IEcsSystems systems)
         {
-            foreach (var spawnEntity in _weaponSpawnersFilter.Value)
+            foreach (var spawnEntity in _weaponsFilter.Value)
             {
-                ref var weaponSpawnerComponent = ref _weaponSpawnersFilter.Get1(spawnEntity);
-                var weaponGO = _weaponsService.Value.Get(weaponSpawnerComponent.SpawnPoint);
-                var weaponEntityReference = weaponGO.GetComponent<EntityReference>();
+                ref var weaponClipComponent = ref _weaponClipPool.Get(spawnEntity);
+                weaponClipComponent.BulletsPool = 
+                    _bulletsService.Value.GetPool(weaponClipComponent.ChargeType);
 
-                if (weaponEntityReference.Unpack(out var weaponEntity))
-                {
-                    weaponSpawnerComponent.SpawnedWeaponEntity = weaponEntity;
-                    _weaponAnimationRequestPool.Add(weaponEntity);
-                }
+                ref var weaponShootingComponent = ref _weaponShootingPool.Get(spawnEntity);
+                weaponShootingComponent.ShootingPower =
+                    _gameSettings.Value.ShootingPowerDivider - weaponShootingComponent.ShootingPower;
             }
         }
     }

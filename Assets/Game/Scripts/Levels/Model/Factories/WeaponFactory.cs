@@ -10,22 +10,26 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
 {
     internal class WeaponFactory : IEcsFactory<GameObject, GameObject>
     {
+        public WeaponFactory(Transform parent)
+        {
+            _parent = parent;
+        }
+
         public GameObject Create(
             GameObject prefab,
             Vector3 position,
-            Transform parent,
             EcsWorld world)
         {
             var weaponGo = Object.Instantiate(
                 prefab,
                 position,
                 Quaternion.identity,
-                parent);
+                _parent);
 
             var weaponEntity = world.NewEntity();
 
             // Settings
-            var weaponSettings = weaponGo.GetComponent<Weapon>().Settings;
+            var weapon = weaponGo.GetComponent<Weapon>();
 
             // Weapon
             var weaponPool = world.GetPool<MonoLink<Weapon>>();
@@ -56,40 +60,53 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             // Parent transform
             var parentComponentPool = world.GetPool<ParentComponent>();
             ref var parentComponent = ref parentComponentPool.Add(weaponEntity);
-            parentComponent.InitParentTransform = parent;
-            parentComponent.CurrentParentTransform = parent;
+            parentComponent.InitParentTransform = _parent;
+            parentComponent.CurrentParentTransform = _parent;
 
             // Settings
 
             // Weapon clip component
             var weaponClipPool = world.GetPool<WeaponClipComponent>();
             weaponClipPool.Add(weaponEntity) = new WeaponClipComponent(
-                weaponSettings.ChargeType,
-                weaponSettings.TotalCharge,
-                weaponSettings.CapacityCharge);
+                weapon.Settings.ChargeType,
+                weapon.Settings.TotalCharge,
+                weapon.Settings.CapacityCharge);
 
             // Damage component
             var damagePool = world.GetPool<DamageComponent>();
             damagePool.Add(weaponEntity) = new DamageComponent
             {
-                Damage = weaponSettings.Damage
+                Damage = weapon.Settings.Damage
             };
 
             // Attack delay component
             var attackDelayPool = world.GetPool<AttackDelayComponent>();
             attackDelayPool.Add(weaponEntity) = new AttackDelayComponent
             {
-                Delay = weaponSettings.ShootingDelay
+                Delay = weapon.Settings.ShootingDelay
             };
 
             // Reloading delay component
-            var reloadingDelayPool = world.GetPool<ReloadingDelayComponent>();
-            reloadingDelayPool.Add(weaponEntity) = new ReloadingDelayComponent
+            var reloadingPool = world.GetPool<ReloadingComponent>();
+            reloadingPool.Add(weaponEntity) = new ReloadingComponent
             {
-                Delay = weaponSettings.ReloadingTime
+                Delay = weapon.Settings.ReloadingTime
             };
+
+            // Shooting component
+            var shootPointPool = world.GetPool<WeaponShootingComponent>();
+            shootPointPool.Add(weaponEntity) = new WeaponShootingComponent
+            {
+                StartShootingPoint = weapon.ShootPoint,
+                ShootingDistance = weapon.Settings.ShootingDistance,
+                ShootingPower = weapon.Settings.ShootingPower
+            };
+
+            weapon.enabled = false;
 
             return weaponGo;
         }
+
+        private readonly Transform _parent;
     }
 }

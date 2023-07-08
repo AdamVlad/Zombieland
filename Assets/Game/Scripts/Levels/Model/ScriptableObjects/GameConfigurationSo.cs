@@ -10,5 +10,8 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 
         [SerializeField] private int _rotationSpeedDivider;
         public int RotationSpeedDivider => _rotationSpeedDivider;
+
+        [SerializeField, Range(1, 10)] private float _shootingPowerDivider;
+        public float ShootingPowerDivider => _shootingPowerDivider;
     }
 }

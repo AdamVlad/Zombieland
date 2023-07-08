@@ -1,18 +1,17 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Weapons;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
-using Assets.Game.Scripts.Levels.Model.Factories;
-using Assets.Plugins.IvaLib.UnityLib.Pools;
-using UnityEngine;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory;
+using Assets.Plugins.IvaLib.LeoEcsLite.Pools;
+using Leopotam.EcsLite;
 
 namespace Assets.Game.Scripts.Levels.Model.Pools
 {
-    internal class BulletsPool : PoolBase<Bullet, BulletFactory>
+    internal class BulletsPool : EcsPoolBase<Bullet, IEcsFactory<Bullet, Bullet>>
     {
         public BulletsPool(
             Bullet prefab, 
             int poolSize,
-            BulletFactory factory,
-            Transform parent) : base(prefab, poolSize, factory, parent)
+            IEcsFactory<Bullet, Bullet> factory,
+            EcsWorld world) : base(prefab, poolSize, factory, world)
         {
         }
     }

@@ -9,11 +9,9 @@ using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
 using Assets.Game.Scripts.Levels.Model.Components.Requests;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
 using Assets.Game.Scripts.Levels.Model.Creators;
 using Assets.Game.Scripts.Levels.Model.Factories;
-using Assets.Game.Scripts.Levels.Model.Pools;
 using Assets.Game.Scripts.Levels.Model.Repositories;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Game.Scripts.Levels.Model.Services;
@@ -51,6 +49,10 @@ namespace Assets.Game.Scripts.Levels
         public bool IsShootingDirectionRaycastEnable;
     }
 
+    // TODO:
+    // Убрать MonoLink<Weapon> и сделать отдельный компонент для Weapon - WeaponComponent
+    // Разбить код на методы во входной точке
+
     internal sealed class GameEntryPoint : MonoBehaviour
     {
         [Header("Settings")]
@@ -70,6 +72,7 @@ namespace Assets.Game.Scripts.Levels
         [SerializeField] private DebugControls _debugControls;
 
         private WeaponsProviderService _weaponsProviderService;
+        private BulletsProviderService _bulletsProviderService;
 
         private EcsWorld _world;
         private IEcsSystems _initSystems;
@@ -92,19 +95,28 @@ namespace Assets.Game.Scripts.Levels
             };
 
             var weaponsRepository = new WeaponsRepository(_weapons);
-            var weaponFactory = new WeaponFactory();
+            var weaponFactory = new WeaponFactory(_weaponsInitialParent);
             var weaponsCreator = new WeaponsCreator(
                 weaponsRepository,
                 weaponFactory,
-                _weaponsInitialParent,
                 _world);
 
             _weaponsProviderService = new WeaponsProviderService(weaponsCreator);
             _weaponsProviderService.Run();
 
+            var bulletsRepository = new BulletsRepository(_bullets);
+            var bulletsFactory = new BulletFactory(_bulletsInitialParent);
+
+            _bulletsProviderService = new BulletsProviderService(
+                bulletsRepository,
+                bulletsFactory,
+                _world);
+            _bulletsProviderService.Run();
+
             _initSystems = new EcsSystems(_world, _sharedData);
             _initSystems
                 .Add(new WeaponInitSystem())
+                .Add(new WeaponSpawnerInitSystem())
                 .Add(new PlayerInitSystem())
                 .Add(new EntityReferenceInitSystem())
                 .Add(new ParentHolderInitSystem())
@@ -114,6 +126,7 @@ namespace Assets.Game.Scripts.Levels
                 .Inject(_playerSettings)
                 .Inject(_gameSettings)
                 .Inject(_weaponsProviderService)
+                .Inject(_bulletsProviderService)
                 .ConvertScene()
                 .Init();
 
@@ -139,6 +152,7 @@ namespace Assets.Game.Scripts.Levels
                 .Add(new InputShootDirectionChangingSystem())
                 .Add(new PlayerItemPickupSystem())
                 .Add(new PlayerAttackSystem())
+                .Add(new PlayerReloadingSystem())
                 .DelHerePhysics()
                 .Add(new PlayerWeaponDropSystem())
                 .Add(new PlayerWeaponPickupSystem())
@@ -194,7 +208,8 @@ namespace Assets.Game.Scripts.Levels
                 .IncSingleton<InputOnScreenPositionChangedEvent>()
                 .IncSingleton<ShootStartedEvent>()
                 .IncSingleton<ShootEndedEvent>()
-                .IncSingleton<PlayerPickUpWeaponEvent>();
+                .IncSingleton<PlayerPickUpWeaponEvent>()
+                .IncSingleton<PlayerReloadingEvent>();
         }
 
         private void OnDestroy()

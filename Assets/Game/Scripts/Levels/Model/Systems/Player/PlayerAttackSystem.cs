@@ -1,12 +1,16 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
+﻿using UnityEngine;
+using System.Runtime.CompilerServices;
+using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
+using Assets.Game.Scripts.Levels.Model.AppData;
+using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using System.Runtime.CompilerServices;
-using UnityEngine;
+using DG.Tweening;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
@@ -14,60 +18,72 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
     {
         private readonly EcsFilterInject<
             Inc<PlayerTagComponent,
+                MonoLink<Transform>,
                 BackpackComponent,
                 ShootingComponent>,
             Exc<ShootingDelayed,
                 ReloadingDelayed>> _playerFilter = default;
 
+        private readonly EcsSharedInject<SharedData> _sharedData = default;
+
         private readonly EcsWorldInject _world = default;
 
         private readonly EcsPoolInject<DelayedRemove<ShootingDelayed>> _shootingDelayedTimerPool = default;
         private readonly EcsPoolInject<ShootingDelayed> _shootingDelayedPool = default;
-        private readonly EcsPoolInject<DelayedRemove<ReloadingDelayed>> _reloadingDelayedTimerPool = default;
-        private readonly EcsPoolInject<ReloadingDelayed> _reloadingDelayedPool = default;
-
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
-        private readonly EcsPoolInject<DamageComponent> _damagePool = default;
+        private readonly EcsPoolInject<WeaponShootingComponent> _weaponShootingPool = default;
         private readonly EcsPoolInject<AttackDelayComponent> _attackDelayPool = default;
-        private readonly EcsPoolInject<ReloadingDelayComponent> _reloadingDelayPool = default;
 
         public void Run(IEcsSystems systems)
         {
             foreach (var playerEntity in _playerFilter.Value)
             {
-                ref var backpackComponent = ref _playerFilter.Get2(playerEntity);
-                ref var shootingComponent = ref _playerFilter.Get3(playerEntity);
+                ref var transformComponent = ref _playerFilter.Get2(playerEntity);
+                ref var backpackComponent = ref _playerFilter.Get3(playerEntity);
+                ref var shootingComponent = ref _playerFilter.Get4(playerEntity);
 
                 if (!shootingComponent.IsShooting) continue;
                 if (!backpackComponent.IsWeaponInHand) continue;
 
-                ref var weaponClipComponent = ref _weaponClipPool.Get(backpackComponent.WeaponEntity);
-                ref var damageComponent = ref _damagePool.Get(backpackComponent.WeaponEntity);
-                ref var attackDelayComponent = ref _attackDelayPool.Get(backpackComponent.WeaponEntity);
-                ref var reloadingDelayComponent = ref _reloadingDelayPool.Get(backpackComponent.WeaponEntity);
+                ref var weaponEntity = ref backpackComponent.WeaponEntity;
 
-                if (weaponClipComponent.RestCharge <= 0 && weaponClipComponent.CurrentCharge <= 0) return;
+                ref var weaponClipComponent = ref _weaponClipPool.Get(weaponEntity);
+                ref var attackDelayComponent = ref _attackDelayPool.Get(weaponEntity);
+                ref var weaponShootingComponent = ref _weaponShootingPool.Get(weaponEntity);
 
-                // Shooting
-                Debug.Log($"Shoot with damage {damageComponent.Damage} and current charge = {weaponClipComponent.CurrentCharge} and rest charge = {weaponClipComponent.RestCharge}");
-                weaponClipComponent.CurrentCharge--;
+                if (weaponClipComponent.RestChargeCount <= 0 &&
+                    weaponClipComponent.CurrentChargeInClipCount <= 0) return;
+
+                var bullet = weaponClipComponent.BulletsPool.Get();
+
+                bullet.transform.position = weaponShootingComponent.StartShootingPoint.position;
+                bullet.transform.DOMove(
+                    bullet.transform.position +
+                    transformComponent.Value.forward * weaponShootingComponent.ShootingDistance,
+                    weaponShootingComponent.ShootingPower);
+
+                weaponClipComponent.CurrentChargeInClipCount--;
                 
-                // Reloading
-                if (weaponClipComponent.CurrentCharge <= 0)
+                if (weaponClipComponent.CurrentChargeInClipCount <= 0)
                 {
-                    var difference = weaponClipComponent.RestCharge - weaponClipComponent.ClipCapacity;
-                    weaponClipComponent.CurrentCharge = difference > 0
-                        ? weaponClipComponent.ClipCapacity
-                        : weaponClipComponent.RestCharge;
-                    weaponClipComponent.RestCharge = difference;
-                    SetReloadingDelayTime(playerEntity, reloadingDelayComponent.Delay);
+                    ThrowReloadingEvent(playerEntity, weaponEntity);
                 }
-                // Shooting delay
                 else
                 {
                     SetShootingDelayTime(playerEntity, attackDelayComponent.Delay);
                 }
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ThrowReloadingEvent(int playerEntity, int weaponEntity)
+        {
+            _sharedData.Value.EventsBus.NewEventSingleton<PlayerReloadingEvent>()
+                = new PlayerReloadingEvent
+                {
+                    PlayerEntity = playerEntity,
+                    WeaponEntity = weaponEntity
+                };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -79,19 +95,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
             var delayedEntity = _world.NewEntity();
             ref var timer = ref _shootingDelayedTimerPool.Add(delayedEntity);
-            timer.TimeLeft = time;
-            timer.Target = _world.PackEntity(targetEntity);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SetReloadingDelayTime(int targetEntity, float time)
-        {
-            if (_reloadingDelayedPool.Has(targetEntity)) return;
-
-            _reloadingDelayedPool.Add(targetEntity);
-
-            var delayedEntity = _world.NewEntity();
-            ref var timer = ref _reloadingDelayedTimerPool.Add(delayedEntity);
             timer.TimeLeft = time;
             timer.Target = _world.PackEntity(targetEntity);
         }

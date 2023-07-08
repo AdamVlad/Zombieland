@@ -1,26 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
+using Leopotam.EcsLite;
 
-using Assets.Plugins.IvaLib.UnityLib.Factory;
+using System.Runtime.CompilerServices;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory;
 
-namespace Assets.Plugins.IvaLib.UnityLib.Pools
+
+namespace Assets.Plugins.IvaLib.LeoEcsLite.Pools
 {
-    public abstract class PoolBase<TGameObject, TFactory>
+    public abstract class EcsPoolBase<TGameObject, TFactory>
         where TGameObject : MonoBehaviour
-        where TFactory : IObjectFactory<TGameObject, TGameObject>
+        where TFactory : IEcsFactory<TGameObject, TGameObject>
     {
-        protected PoolBase(
+        protected EcsPoolBase(
             TGameObject prefab,
             int poolSize,
             TFactory factory,
-            Transform parent)
+            EcsWorld world)
         {
             _prefab = prefab;
             _poolSize = poolSize;
             _factory = factory;
-            _parent = parent;
+            _world = world;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ProvideSpawnPosition(Vector3 position)
         {
             _position = position;
@@ -31,7 +35,7 @@ namespace Assets.Plugins.IvaLib.UnityLib.Pools
         private TGameObject _prefab;
         private Vector3 _position;
         private int _poolSize;
-        private Transform _parent;
+        private EcsWorld _world;
 
         public IObjectPool<TGameObject> Pool =>
             _pool ??= new ObjectPool<TGameObject>(
@@ -43,21 +47,25 @@ namespace Assets.Plugins.IvaLib.UnityLib.Pools
                 _poolSize,
                 _poolSize);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private TGameObject CreatedPooledItem()
         {
-            return _factory.Create(_prefab, _parent, _position);
+            return _factory.Create(_prefab, _position, _world);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnTakeFromPool(TGameObject createdObject)
         {
             createdObject.gameObject.SetActive(true);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnReturnedToPool(TGameObject createdObject)
         {
             createdObject.gameObject.SetActive(false);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnDestroyPoolObject(TGameObject createdObject)
         {
             Object.Destroy(createdObject);

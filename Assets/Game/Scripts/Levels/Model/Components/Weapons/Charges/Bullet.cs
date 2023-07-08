@@ -4,12 +4,12 @@ using UnityEngine.Pool;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges
 {
-    internal interface IBullet
+    [RequireComponent(
+        typeof(Rigidbody))]
+    internal class Bullet : MonoBehaviour
     {
-    }
+        public ChargeType Type;
 
-    internal class Bullet : MonoBehaviour, IBullet
-    {
         public void Construct(IObjectPool<Bullet> pool)
         {
             _pool = pool ?? throw new ArgumentNullException();

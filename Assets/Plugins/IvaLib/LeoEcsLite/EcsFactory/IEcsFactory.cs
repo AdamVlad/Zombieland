@@ -9,7 +9,6 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory
         TResult Create(
             TParam1 prefab,
             Vector3 position,
-            Transform parent,
             EcsWorld world);
     }
 }

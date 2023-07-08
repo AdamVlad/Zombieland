@@ -10,12 +10,10 @@ namespace Assets.Game.Scripts.Levels.Model.Creators
         public WeaponsCreator(
             IRepository<GameObject> weaponsRepository,
             IEcsFactory<GameObject, GameObject> weaponFactory,
-            Transform parent,
             EcsWorld world)
         {
             _weaponsRepository = weaponsRepository;
             _weaponFactory = weaponFactory;
-            _parent = parent;
             _world = world;
         }
 
@@ -26,7 +24,6 @@ namespace Assets.Game.Scripts.Levels.Model.Creators
             return _weaponFactory.Create(
                 _weaponsRepository.Get(_nextIndex++),
                 Vector3.zero,
-                _parent,
                 _world);
         }
 
@@ -34,7 +31,6 @@ namespace Assets.Game.Scripts.Levels.Model.Creators
 
         private readonly IRepository<GameObject> _weaponsRepository;
         private readonly IEcsFactory<GameObject, GameObject> _weaponFactory;
-        private readonly Transform _parent;
         private readonly EcsWorld _world;
         private int _nextIndex;
     }

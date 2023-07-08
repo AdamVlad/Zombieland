@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
+using UnityEngine.Pool;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Weapons
 {
@@ -13,19 +14,23 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Weapons
         private int _clipCapacity;
         public int ClipCapacity => _clipCapacity;
 
-        public int CurrentCharge;
-        public int RestCharge;
+        public int CurrentChargeInClipCount;
+        public int RestChargeCount;
+
+        public IObjectPool<Bullet> BulletsPool;
 
         public WeaponClipComponent(
             ChargeType chargeType,
             int totalCharge,
-            int clipCapacity)
+            int clipCapacity,
+            IObjectPool<Bullet> bulletsPool = null)
         {
             _chargeType = chargeType;
             _totalCharge = totalCharge;
             _clipCapacity = clipCapacity;
-            CurrentCharge = _clipCapacity;
-            RestCharge = _totalCharge - _clipCapacity;
+            CurrentChargeInClipCount = _clipCapacity;
+            RestChargeCount = _totalCharge - _clipCapacity;
+            BulletsPool = bulletsPool;
         }
     }
 }

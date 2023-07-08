@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
 
 namespace Assets.Game.Scripts.Levels.Model.Repositories
 {
+    // Сделать абстрактный класс
     internal class BulletsRepository : IRepository<Bullet>
     {
         public BulletsRepository(IEnumerable<Bullet> objects)

@@ -11,6 +11,9 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 
         [Space, Header("Charge")]
 
+        [SerializeField] private GameObject _chargePrefab;
+        public GameObject ChargePrefab => _chargePrefab;
+
         [SerializeField] private ChargeType _chargeType;
         public ChargeType ChargeType => _chargeType;
 
@@ -22,11 +25,14 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 
         [Space, Header("Shooting")]
 
+        [SerializeField, Range(0, 100)] private float _shootingDistance;
+        public float ShootingDistance => _shootingDistance;
+
+        [SerializeField, Range(1, 9)] private float _shootingPower;
+        public float ShootingPower => _shootingPower;
+
         [SerializeField, Range(0, 5)] private float _shootingDelay;
         public float ShootingDelay => _shootingDelay;
-
-        [SerializeField, Range(0, 50)] private float _shootingSpeed;
-        public float ShootingSpeed => _shootingSpeed;
 
         [SerializeField, Range(0,5)] private float _reloadingTime;
         public float ReloadingTime => _reloadingTime;

@@ -6,7 +6,6 @@ namespace Assets.Plugins.IvaLib.UnityLib.Factory
     {
         TResult Create(
             TParam1 prefab,
-            Transform parent,
             Vector3 position = default);
     }
 }

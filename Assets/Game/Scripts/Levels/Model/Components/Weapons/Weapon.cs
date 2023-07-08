@@ -10,5 +10,8 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Weapons
     {
         [SerializeField] private WeaponConfigurationSo _settings;
         public WeaponConfigurationSo Settings => _settings;
+
+        [SerializeField] private Transform _shootPoint;
+        public Transform ShootPoint => _shootPoint;
     }
 }
