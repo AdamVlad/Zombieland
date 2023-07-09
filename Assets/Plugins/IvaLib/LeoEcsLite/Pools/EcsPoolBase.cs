@@ -5,7 +5,6 @@ using Leopotam.EcsLite;
 using System.Runtime.CompilerServices;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory;
 
-
 namespace Assets.Plugins.IvaLib.LeoEcsLite.Pools
 {
     public abstract class EcsPoolBase<TGameObject, TFactory>

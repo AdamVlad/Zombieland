@@ -8,6 +8,7 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
+using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using DG.Tweening;
@@ -25,11 +26,11 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 ReloadingDelayed>> _playerFilter = default;
 
         private readonly EcsSharedInject<SharedData> _sharedData = default;
-
         private readonly EcsWorldInject _world = default;
 
         private readonly EcsPoolInject<DelayedRemove<ShootingDelayed>> _shootingDelayedTimerPool = default;
         private readonly EcsPoolInject<ShootingDelayed> _shootingDelayedPool = default;
+
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<WeaponShootingComponent> _weaponShootingPool = default;
         private readonly EcsPoolInject<AttackDelayComponent> _attackDelayPool = default;
@@ -43,7 +44,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 ref var shootingComponent = ref _playerFilter.Get4(playerEntity);
 
                 if (!shootingComponent.IsShooting) continue;
-                if (!backpackComponent.IsWeaponInHand) continue;
 
                 ref var weaponEntity = ref backpackComponent.WeaponEntity;
 
@@ -54,11 +54,15 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 if (weaponClipComponent.RestChargeCount <= 0 &&
                     weaponClipComponent.CurrentChargeInClipCount <= 0) return;
 
-                var bullet = weaponClipComponent.BulletsPool.Get();
+                var chargeGo = weaponClipComponent.ChargePool.Get();
+                _sharedData.Value.EventsBus.NewEvent<ChargeCreatedEvent>() = new ChargeCreatedEvent
+                {
+                    Entity = chargeGo.Entity
+                };
 
-                bullet.transform.position = weaponShootingComponent.StartShootingPoint.position;
-                bullet.transform.DOMove(
-                    bullet.transform.position +
+                chargeGo.transform.position = weaponShootingComponent.StartShootingPoint.position;
+                chargeGo.transform.DOMove(
+                    chargeGo.transform.position +
                     transformComponent.Value.forward * weaponShootingComponent.ShootingDistance,
                     weaponShootingComponent.ShootingPower);
 

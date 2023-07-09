@@ -14,7 +14,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<WeaponShootingComponent> _weaponShootingPool = default;
 
-        private readonly EcsCustomInject<BulletsProviderService> _bulletsService = default;
+        private readonly EcsCustomInject<ChargesProviderService> _chargesService = default;
         private readonly EcsCustomInject<GameConfigurationSo> _gameSettings = default;
 
         public void Init(IEcsSystems systems)
@@ -22,8 +22,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
             foreach (var spawnEntity in _weaponsFilter.Value)
             {
                 ref var weaponClipComponent = ref _weaponClipPool.Get(spawnEntity);
-                weaponClipComponent.BulletsPool = 
-                    _bulletsService.Value.GetPool(weaponClipComponent.ChargeType);
+                weaponClipComponent.ChargePool = 
+                    _chargesService.Value.GetPool(weaponClipComponent.ChargeType);
 
                 ref var weaponShootingComponent = ref _weaponShootingPool.Get(spawnEntity);
                 weaponShootingComponent.ShootingPower =

@@ -17,20 +17,20 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Weapons
         public int CurrentChargeInClipCount;
         public int RestChargeCount;
 
-        public IObjectPool<Bullet> BulletsPool;
+        public IObjectPool<Charge> ChargePool;
 
         public WeaponClipComponent(
             ChargeType chargeType,
             int totalCharge,
             int clipCapacity,
-            IObjectPool<Bullet> bulletsPool = null)
+            IObjectPool<Charge> chargePool = null)
         {
             _chargeType = chargeType;
             _totalCharge = totalCharge;
             _clipCapacity = clipCapacity;
             CurrentChargeInClipCount = _clipCapacity;
             RestChargeCount = _totalCharge - _clipCapacity;
-            BulletsPool = bulletsPool;
+            ChargePool = chargePool;
         }
     }
 }

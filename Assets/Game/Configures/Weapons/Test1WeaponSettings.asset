@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Test1WeaponSettings
   m_EditorClassIdentifier: 
   _damage: 16
-  _chargePrefab: {fileID: 775324830882728916, guid: 0d4c6b5e79b95e44f8144eabc27e553d, type: 3}
   _chargeType: 1
-  _totalCharge: 49
-  _capacityCharge: 34
-  _shootingDistance: 10.3
-  _shootingPower: 9
+  _totalCharge: 749
+  _capacityCharge: 663
+  _shootingDistance: 17.7
+  _shootingPower: 7.85
   _shootingDelay: 0.15
-  _reloadingTime: 3.02
+  _reloadingTime: 1.02

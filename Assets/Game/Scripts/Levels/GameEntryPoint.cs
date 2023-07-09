@@ -16,6 +16,7 @@ using Assets.Game.Scripts.Levels.Model.Repositories;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Game.Scripts.Levels.Model.Systems;
+using Assets.Game.Scripts.Levels.Model.Systems.Charges;
 using Assets.Game.Scripts.Levels.Model.Systems.Debugs;
 using Assets.Game.Scripts.Levels.Model.Systems.Input;
 using Assets.Game.Scripts.Levels.Model.Systems.Player;
@@ -30,8 +31,12 @@ using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
-using Leopotam.EcsLite.UnityEditor;
 using UnityEngine;
+using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
+
+#if UNITY_EDITOR
+using Leopotam.EcsLite.UnityEditor;
+#endif
 
 #endregion
 
@@ -65,14 +70,14 @@ namespace Assets.Game.Scripts.Levels
         [SerializeField] private Transform _weaponsInitialParent;
 
         [Space, Header("Bullets")]
-        [SerializeField] private Bullet[] _bullets;
-        [SerializeField] private Transform _bulletsInitialParent;
+        [SerializeField] private Charge[] _charges;
+        [SerializeField] private Transform _chargesInitialParent;
 
         [Space, Header("Debugs")]
         [SerializeField] private DebugControls _debugControls;
 
         private WeaponsProviderService _weaponsProviderService;
-        private BulletsProviderService _bulletsProviderService;
+        private ChargesProviderService _chargesProviderService;
 
         private EcsWorld _world;
         private IEcsSystems _initSystems;
@@ -104,14 +109,14 @@ namespace Assets.Game.Scripts.Levels
             _weaponsProviderService = new WeaponsProviderService(weaponsCreator);
             _weaponsProviderService.Run();
 
-            var bulletsRepository = new BulletsRepository(_bullets);
-            var bulletsFactory = new BulletFactory(_bulletsInitialParent);
+            var chargesRepository = new ChargesRepository(_charges);
+            var chargesFactory = new ChargesFactory(_chargesInitialParent);
 
-            _bulletsProviderService = new BulletsProviderService(
-                bulletsRepository,
-                bulletsFactory,
+            _chargesProviderService = new ChargesProviderService(
+                chargesRepository,
+                chargesFactory,
                 _world);
-            _bulletsProviderService.Run();
+            _chargesProviderService.Run();
 
             _initSystems = new EcsSystems(_world, _sharedData);
             _initSystems
@@ -126,7 +131,7 @@ namespace Assets.Game.Scripts.Levels
                 .Inject(_playerSettings)
                 .Inject(_gameSettings)
                 .Inject(_weaponsProviderService)
-                .Inject(_bulletsProviderService)
+                .Inject(_chargesProviderService)
                 .ConvertScene()
                 .Init();
 
@@ -153,6 +158,10 @@ namespace Assets.Game.Scripts.Levels
                 .Add(new PlayerItemPickupSystem())
                 .Add(new PlayerAttackSystem())
                 .Add(new PlayerReloadingSystem())
+                .Add(new ChargesCreateSystem())
+                .Add(new ChargesLifetimeSystem())
+                .Add(new ChargesCollisionsSystem())
+                .Add(new ChargesReturnToPoolSystem())
                 .DelHerePhysics()
                 .Add(new PlayerWeaponDropSystem())
                 .Add(new PlayerWeaponPickupSystem())
@@ -174,6 +183,7 @@ namespace Assets.Game.Scripts.Levels
                 .Inject(_playerSettings)
                 .Inject(_sceneSettings)
                 .Inject(_weaponsProviderService)
+                .Inject(_chargesProviderService)
                 .Init();
 
             _fixedUpdateSystems = new EcsSystems(_world, _sharedData);
@@ -209,7 +219,9 @@ namespace Assets.Game.Scripts.Levels
                 .IncSingleton<ShootStartedEvent>()
                 .IncSingleton<ShootEndedEvent>()
                 .IncSingleton<PlayerPickUpWeaponEvent>()
-                .IncSingleton<PlayerReloadingEvent>();
+                .IncSingleton<PlayerReloadingEvent>()
+                .IncReplicant<ChargeCreatedEvent>()
+                .IncReplicant<ChargeReturnToPoolEvent>();
         }
 
         private void OnDestroy()

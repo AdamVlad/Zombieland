@@ -5,12 +5,12 @@ using Leopotam.EcsLite;
 
 namespace Assets.Game.Scripts.Levels.Model.Pools
 {
-    internal class BulletsPool : EcsPoolBase<Bullet, IEcsFactory<Bullet, Bullet>>
+    internal class ChargesPool : EcsPoolBase<Charge, IEcsFactory<Charge, Charge>>
     {
-        public BulletsPool(
-            Bullet prefab, 
+        public ChargesPool(
+            Charge prefab, 
             int poolSize,
-            IEcsFactory<Bullet, Bullet> factory,
+            IEcsFactory<Charge, Charge> factory,
             EcsWorld world) : base(prefab, poolSize, factory, world)
         {
         }

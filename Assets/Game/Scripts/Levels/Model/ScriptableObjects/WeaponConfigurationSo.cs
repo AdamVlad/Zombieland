@@ -11,9 +11,6 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 
         [Space, Header("Charge")]
 
-        [SerializeField] private GameObject _chargePrefab;
-        public GameObject ChargePrefab => _chargePrefab;
-
         [SerializeField] private ChargeType _chargeType;
         public ChargeType ChargeType => _chargeType;
 

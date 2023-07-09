@@ -38,10 +38,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
                     weaponSpawnerComponent.SpawnedWeaponEntity = weaponEntity;
                     _weaponAnimationRequestPool.Add(weaponEntity);
 
-                    ref var weaponCollider =
-                        ref _colliderPool.Get(weaponEntity).Value;
-                    ref var weaponRigidbody =
-                        ref _rigidbodyPool.Get(weaponEntity).Value;
+                    ref var weaponCollider = ref _colliderPool.Get(weaponEntity).Value;
+                    ref var weaponRigidbody = ref _rigidbodyPool.Get(weaponEntity).Value;
 
                     weaponCollider.excludeLayers = LayerMask.GetMask("");
                     weaponCollider.isTrigger = true;
