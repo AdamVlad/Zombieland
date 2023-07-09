@@ -1,17 +1,14 @@
-﻿using UnityEngine;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
-using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using DG.Tweening;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
@@ -19,7 +16,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
     {
         private readonly EcsFilterInject<
             Inc<PlayerTagComponent,
-                MonoLink<Transform>,
                 BackpackComponent,
                 ShootingComponent>,
             Exc<ShootingDelayed,
@@ -32,39 +28,26 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsPoolInject<ShootingDelayed> _shootingDelayedPool = default;
 
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
-        private readonly EcsPoolInject<WeaponShootingComponent> _weaponShootingPool = default;
         private readonly EcsPoolInject<AttackDelayComponent> _attackDelayPool = default;
 
         public void Run(IEcsSystems systems)
         {
             foreach (var playerEntity in _playerFilter.Value)
             {
-                ref var transformComponent = ref _playerFilter.Get2(playerEntity);
-                ref var backpackComponent = ref _playerFilter.Get3(playerEntity);
-                ref var shootingComponent = ref _playerFilter.Get4(playerEntity);
-
+                ref var shootingComponent = ref _playerFilter.Get3(playerEntity);
                 if (!shootingComponent.IsShooting) continue;
 
-                ref var weaponEntity = ref backpackComponent.WeaponEntity;
+                ref var weaponEntity = ref _playerFilter.Get2(playerEntity).WeaponEntity;
 
                 ref var weaponClipComponent = ref _weaponClipPool.Get(weaponEntity);
-                ref var attackDelayComponent = ref _attackDelayPool.Get(weaponEntity);
-                ref var weaponShootingComponent = ref _weaponShootingPool.Get(weaponEntity);
 
                 if (weaponClipComponent.RestChargeCount <= 0 &&
                     weaponClipComponent.CurrentChargeInClipCount <= 0) return;
 
-                var chargeGo = weaponClipComponent.ChargePool.Get();
                 _sharedData.Value.EventsBus.NewEvent<ChargeCreatedEvent>() = new ChargeCreatedEvent
                 {
-                    Entity = chargeGo.Entity
+                    Entity = weaponClipComponent.ChargePool.Get().Entity
                 };
-
-                chargeGo.transform.position = weaponShootingComponent.StartShootingPoint.position;
-                chargeGo.transform.DOMove(
-                    chargeGo.transform.position +
-                    transformComponent.Value.forward * weaponShootingComponent.ShootingDistance,
-                    weaponShootingComponent.ShootingPower);
 
                 weaponClipComponent.CurrentChargeInClipCount--;
                 
@@ -74,7 +57,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 }
                 else
                 {
-                    SetShootingDelayTime(playerEntity, attackDelayComponent.Delay);
+                    SetShootingDelayTime(playerEntity, _attackDelayPool.Get(weaponEntity).Delay);
                 }
             }
         }

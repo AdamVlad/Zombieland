@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 16
   _chargeType: 1
-  _totalCharge: 749
-  _capacityCharge: 663
+  _totalCharge: 34
+  _capacityCharge: 21
   _shootingDistance: 17.7
   _shootingPower: 7.85
   _shootingDelay: 0.15
-  _reloadingTime: 1.02
+  _reloadingTime: 5

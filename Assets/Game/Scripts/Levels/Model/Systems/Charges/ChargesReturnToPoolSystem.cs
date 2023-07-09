@@ -33,12 +33,14 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
                 _returnToPoolDelayedPool.Del(chargeEntity);
 
                 ref var stateComponent = ref _statePool.Get(chargeEntity);
+                if (!stateComponent.IsActive) continue;
+
                 ref var charge = ref _chargePool.Get(chargeEntity).Value;
 
                 DOTween.Kill(charge.transform);
 
-                stateComponent.IsActive = false;
                 _chargesService.Value.GetPool(charge.Type).Release(charge);
+                stateComponent.IsActive = false;
             }
         }
     }
