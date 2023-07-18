@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Charges;
 
 namespace Assets.Game.Scripts.Levels.Model.Repositories
 {

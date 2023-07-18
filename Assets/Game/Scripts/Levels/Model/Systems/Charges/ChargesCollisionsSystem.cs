@@ -1,7 +1,7 @@
 ﻿using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
+using Assets.Game.Scripts.Levels.Model.Components.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
 using Leopotam.EcsLite;

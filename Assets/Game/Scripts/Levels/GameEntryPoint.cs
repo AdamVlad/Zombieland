@@ -4,12 +4,13 @@ using System;
 using AB_Utility.FromSceneToEntityConverter;
 using Assets.Game.Scripts.Levels.Controllers;
 using Assets.Game.Scripts.Levels.Model.AppData;
+using Assets.Game.Scripts.Levels.Model.Components.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
+using Assets.Game.Scripts.Levels.Model.Components.Enemies;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
 using Assets.Game.Scripts.Levels.Model.Components.Requests;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
 using Assets.Game.Scripts.Levels.Model.Creators;
 using Assets.Game.Scripts.Levels.Model.Factories;
 using Assets.Game.Scripts.Levels.Model.Repositories;
@@ -73,6 +74,10 @@ namespace Assets.Game.Scripts.Levels
         [SerializeField] private Charge[] _charges;
         [SerializeField] private Transform _chargesInitialParent;
 
+        [Space, Header("Enemies")]
+        [SerializeField] private Enemy _enemy;
+        [SerializeField] private Transform _enemyInitialPosition;
+
         [Space, Header("Debugs")]
         [SerializeField] private DebugControls _debugControls;
 
@@ -100,23 +105,24 @@ namespace Assets.Game.Scripts.Levels
             };
 
             var weaponsRepository = new WeaponsRepository(_weapons);
-            var weaponFactory = new WeaponFactory(_weaponsInitialParent);
+            var weaponFactory = new WeaponFactory(_world, _weaponsInitialParent);
             var weaponsCreator = new WeaponsCreator(
                 weaponsRepository,
-                weaponFactory,
-                _world);
+                weaponFactory);
 
             _weaponsProviderService = new WeaponsProviderService(weaponsCreator);
             _weaponsProviderService.Run();
 
             var chargesRepository = new ChargesRepository(_charges);
-            var chargesFactory = new ChargesFactory(_chargesInitialParent);
+            var chargesFactory = new ChargesFactory(_world, _chargesInitialParent);
 
             _chargesProviderService = new ChargesProviderService(
                 chargesRepository,
-                chargesFactory,
-                _world);
+                chargesFactory);
             _chargesProviderService.Run();
+
+            var enemyFactory = new EnemyFactory(_world);
+            enemyFactory.Create(_enemy, _enemyInitialPosition.position);
 
             _initSystems = new EcsSystems(_world, _sharedData);
             _initSystems

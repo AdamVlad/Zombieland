@@ -1,6 +1,5 @@
 using Assets.Game.Scripts.Levels.Model.Repositories;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory;
-using Leopotam.EcsLite;
+using Assets.Plugins.IvaLib.UnityLib.Factory;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.Creators
@@ -9,12 +8,10 @@ namespace Assets.Game.Scripts.Levels.Model.Creators
     {
         public WeaponsCreator(
             IRepository<GameObject> weaponsRepository,
-            IEcsFactory<GameObject, GameObject> weaponFactory,
-            EcsWorld world)
+            IFactory<GameObject, GameObject> weaponFactory)
         {
             _weaponsRepository = weaponsRepository;
             _weaponFactory = weaponFactory;
-            _world = world;
         }
 
         public GameObject CreateNext()
@@ -23,15 +20,13 @@ namespace Assets.Game.Scripts.Levels.Model.Creators
 
             return _weaponFactory.Create(
                 _weaponsRepository.Get(_nextIndex++),
-                Vector3.zero,
-                _world);
+                Vector3.zero);
         }
 
         public bool CanCreate() => _nextIndex < _weaponsRepository.Count();
 
         private readonly IRepository<GameObject> _weaponsRepository;
-        private readonly IEcsFactory<GameObject, GameObject> _weaponFactory;
-        private readonly EcsWorld _world;
+        private readonly IFactory<GameObject, GameObject> _weaponFactory;
         private int _nextIndex;
     }
 }

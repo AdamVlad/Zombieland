@@ -3,6 +3,7 @@ using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
+using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;

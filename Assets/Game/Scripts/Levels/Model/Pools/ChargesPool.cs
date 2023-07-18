@@ -1,17 +1,15 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory;
-using Assets.Plugins.IvaLib.LeoEcsLite.Pools;
-using Leopotam.EcsLite;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Charges;
+using Assets.Plugins.IvaLib.UnityLib.Factory;
+using Assets.Plugins.IvaLib.UnityLib.Pools;
 
 namespace Assets.Game.Scripts.Levels.Model.Pools
 {
-    internal class ChargesPool : EcsPoolBase<Charge, IEcsFactory<Charge, Charge>>
+    internal class ChargesPool : PoolBase<Charge, IFactory<Charge, Charge>>
     {
         public ChargesPool(
             Charge prefab, 
             int poolSize,
-            IEcsFactory<Charge, Charge> factory,
-            EcsWorld world) : base(prefab, poolSize, factory, world)
+            IFactory<Charge, Charge> factory) : base(prefab, poolSize, factory)
         {
         }
     }

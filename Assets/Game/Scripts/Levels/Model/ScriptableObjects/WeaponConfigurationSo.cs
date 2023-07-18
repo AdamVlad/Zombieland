@@ -1,4 +1,4 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Weapons.Charges;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Charges;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects

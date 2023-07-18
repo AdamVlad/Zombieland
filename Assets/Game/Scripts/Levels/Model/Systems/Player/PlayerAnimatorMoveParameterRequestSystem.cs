@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Assets.Game.Scripts.Levels.Model.Components;
+using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Assets.Game.Scripts.Levels.Model.Components.Requests;
 using Assets.Game.Scripts.Levels.Model.Extensions;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;

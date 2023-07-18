@@ -1,5 +1,6 @@
 ﻿using AB_Utility.FromSceneToEntityConverter;
 using Assets.Game.Scripts.Levels.Model.Components;
+using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Checkers;

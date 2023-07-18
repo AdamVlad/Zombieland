@@ -3,6 +3,7 @@ using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
+using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;

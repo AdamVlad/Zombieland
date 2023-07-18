@@ -1,26 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
-using Leopotam.EcsLite;
 
 using System.Runtime.CompilerServices;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsFactory;
+using Assets.Plugins.IvaLib.UnityLib.Factory;
 
 namespace Assets.Plugins.IvaLib.LeoEcsLite.Pools
 {
     public abstract class EcsPoolBase<TGameObject, TFactory>
         where TGameObject : MonoBehaviour
-        where TFactory : IEcsFactory<TGameObject, TGameObject>
+        where TFactory : IFactory<TGameObject, TGameObject>
     {
         protected EcsPoolBase(
             TGameObject prefab,
             int poolSize,
-            TFactory factory,
-            EcsWorld world)
+            TFactory factory)
         {
             _prefab = prefab;
             _poolSize = poolSize;
             _factory = factory;
-            _world = world;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -34,7 +31,6 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.Pools
         private TGameObject _prefab;
         private Vector3 _position;
         private int _poolSize;
-        private EcsWorld _world;
 
         public IObjectPool<TGameObject> Pool =>
             _pool ??= new ObjectPool<TGameObject>(
@@ -49,7 +45,7 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.Pools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private TGameObject CreatedPooledItem()
         {
-            return _factory.Create(_prefab, _position, _world);
+            return _factory.Create(_prefab, _position);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

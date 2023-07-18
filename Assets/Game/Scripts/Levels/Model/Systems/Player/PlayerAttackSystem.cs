@@ -7,6 +7,7 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
