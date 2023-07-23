@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Enemies

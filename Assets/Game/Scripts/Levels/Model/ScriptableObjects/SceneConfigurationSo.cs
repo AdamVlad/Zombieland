@@ -2,7 +2,7 @@
 
 namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "SceneSettings", menuName = "EnemySettings/SceneSettings")]
+    [CreateAssetMenu(fileName = "SceneSettings", menuName = "Settings/SceneSettings")]
     internal class SceneConfigurationSo : ScriptableObject
     {
         [Header("Shooting raycastable")]

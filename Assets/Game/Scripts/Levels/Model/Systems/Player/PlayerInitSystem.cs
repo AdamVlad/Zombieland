@@ -23,7 +23,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsPoolInject<MonoLink<EntityReference>> _entityReferenceComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Rigidbody>> _rigidbodyComponentPool = default;
-        private readonly EcsPoolInject<MoveComponent> _moveComponentPool = default;
+        private readonly EcsPoolInject<PlayerMoveComponent> _moveComponentPool = default;
         private readonly EcsPoolInject<RotationComponent> _rotationComponentPool = default;
         private readonly EcsPoolInject<InputComponent> _inputComponentPool = default;
         private readonly EcsPoolInject<ShootingComponent> _shootingComponentPool = default;

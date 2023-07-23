@@ -1,6 +1,6 @@
 ﻿namespace Assets.Game.Scripts.Levels.Model.Components.Delayed
 {
-    internal struct ShootingDelayed
+    internal struct AttackDelayed
     {
     }
 }

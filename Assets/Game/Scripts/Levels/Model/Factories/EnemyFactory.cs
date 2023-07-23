@@ -26,6 +26,14 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
 
             var enemyEntity = _world.NewEntity();
 
+            // Enemy
+            var enemy = enemyGo.GetComponent<Enemy>();
+            enemy.Pack(_world, enemyEntity);
+
+            // EnemyTag
+            var enemyTagPool = _world.GetPool<EnemyTagComponent>();
+            enemyTagPool.Add(enemyEntity);
+
             // Transform
             var transformPool = _world.GetPool<MonoLink<Transform>>();
             ref var transform = ref transformPool.Add(enemyEntity);
@@ -43,7 +51,7 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             ref var behaviours = ref behavioursScopePool.Add(enemyEntity);
             behaviours.Value = enemyGo.GetComponent<BehavioursScope>();
 
-            return enemyGo.GetComponent<Enemy>();
+            return enemy;
         }
 
         private readonly Transform _parent;

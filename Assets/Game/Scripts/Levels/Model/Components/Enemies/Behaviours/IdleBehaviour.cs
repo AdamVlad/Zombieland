@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Game.Scripts.Levels.Model.Components.Enemies
+namespace Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours
 {
     internal sealed class IdleBehaviour : MonoBehaviour, IBehaviour
     {

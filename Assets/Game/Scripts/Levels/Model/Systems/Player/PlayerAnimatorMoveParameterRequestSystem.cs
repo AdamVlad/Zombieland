@@ -17,7 +17,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
     {
         private readonly EcsFilterInject
             <Inc<PlayerTagComponent,
-                MoveComponent,
+                PlayerMoveComponent,
                 ShootingComponent,
                 BackpackComponent>> _filter = default;
 

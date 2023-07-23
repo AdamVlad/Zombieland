@@ -2,7 +2,7 @@
 
 namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "PlayerSettings", menuName = "EnemySettings/PlayerSettings")]
+    [CreateAssetMenu(fileName = "PlayerSettings", menuName = "Settings/PlayerSettings")]
     internal class PlayerConfigurationSo : ScriptableObject
     {
         [SerializeField] private GameObject _prefab;

@@ -14,7 +14,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsFilterInject
             <Inc<PlayerTagComponent,
                 MonoLink<Transform>,
-                MoveComponent,
+                PlayerMoveComponent,
                 ShootingComponent,
                 BackpackComponent>> _filter = default;
 
@@ -41,17 +41,17 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void MoveInAllDirections(ref Transform transform, ref MoveComponent moveComponent)
+        private void MoveInAllDirections(ref Transform transform, ref PlayerMoveComponent playerMoveComponent)
         {
             transform.position += new Vector3(
-                moveComponent.MoveInputAxis.x * moveComponent.Speed,
-                0, moveComponent.MoveInputAxis.y * moveComponent.Speed);
+                playerMoveComponent.MoveInputAxis.x * playerMoveComponent.Speed,
+                0, playerMoveComponent.MoveInputAxis.y * playerMoveComponent.Speed);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void MoveOnlyForward(ref Transform transform, ref MoveComponent moveComponent)
+        private void MoveOnlyForward(ref Transform transform, ref PlayerMoveComponent playerMoveComponent)
         {
-            transform.position += transform.forward * moveComponent.Speed;
+            transform.position += transform.forward * playerMoveComponent.Speed;
         }
     }
 }

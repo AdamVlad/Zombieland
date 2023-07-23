@@ -2,7 +2,7 @@
 
 namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "GameSettings", menuName = "EnemySettings/GameSettings")]
+    [CreateAssetMenu(fileName = "GameSettings", menuName = "Settings/GameSettings")]
     internal class GameConfigurationSo : ScriptableObject
     {
         [SerializeField] private int _moveSpeedDivider;

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fce575077b7e649a30a823ad1e7817, type: 3}
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
-  _detectionRadius: 10.8
+  _detectionRadius: 11
   _detectionMask:
     serializedVersion: 2
     m_Bits: 64
-  _moveSpeed: 21
+  _moveSpeed: 47
+  _attackRadius: 0.7
+  _attackDelay: 3.04

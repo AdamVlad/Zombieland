@@ -14,20 +14,21 @@ using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
+    // Тут вынести в отдельную систему SetAttackDelayTime
     internal sealed class PlayerAttackSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject
             <Inc<PlayerTagComponent,
                 BackpackComponent,
                 ShootingComponent>, 
-            Exc<ShootingDelayed, 
+            Exc<AttackDelayed, 
                 ReloadingDelayed>> _playerFilter = default;
 
         [Inject] private EventsBus _eventsBus;
         [Inject] private EcsWorld _world;
 
-        private readonly EcsPoolInject<DelayedRemove<ShootingDelayed>> _shootingDelayedTimerPool = default;
-        private readonly EcsPoolInject<ShootingDelayed> _shootingDelayedPool = default;
+        private readonly EcsPoolInject<DelayedRemove<AttackDelayed>> _attackDelayedTimerPool = default;
+        private readonly EcsPoolInject<AttackDelayed> _attackDelayedPool = default;
 
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<AttackDelayComponent> _attackDelayPool = default;
@@ -59,7 +60,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 }
                 else
                 {
-                    SetShootingDelayTime(playerEntity, _attackDelayPool.Get(weaponEntity).Delay);
+                    SetAttackDelayTime(playerEntity, _attackDelayPool.Get(weaponEntity).Delay);
                 }
             }
         }
@@ -76,14 +77,14 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SetShootingDelayTime(int targetEntity, float time)
+        private void SetAttackDelayTime(int targetEntity, float time)
         {
-            if (_shootingDelayedPool.Has(targetEntity)) return;
+            if (_attackDelayedPool.Has(targetEntity)) return;
 
-            _shootingDelayedPool.Add(targetEntity);
+            _attackDelayedPool.Add(targetEntity);
 
             var delayedEntity = _world.NewEntity();
-            ref var timer = ref _shootingDelayedTimerPool.Add(delayedEntity);
+            ref var timer = ref _attackDelayedTimerPool.Add(delayedEntity);
             timer.TimeLeft = time;
             timer.Target = _world.PackEntity(targetEntity);
         }

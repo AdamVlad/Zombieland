@@ -16,7 +16,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
             <Inc<PlayerTagComponent,
                 MonoLink<Transform>,
                 RotationComponent,
-                MoveComponent,
+                PlayerMoveComponent,
                 ShootingComponent,
                 BackpackComponent>> _filter = default;
 
@@ -46,12 +46,12 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RotateInMoveDirection(
-            ref MoveComponent moveComponent,
+            ref PlayerMoveComponent playerMoveComponent,
             ref Transform transform,
             ref RotationComponent rotationComponent)
         {
             var direction = 
-                (Vector3.forward * moveComponent.MoveInputAxis.y + Vector3.right * moveComponent.MoveInputAxis.x).normalized;
+                (Vector3.forward * playerMoveComponent.MoveInputAxis.y + Vector3.right * playerMoveComponent.MoveInputAxis.x).normalized;
             RotateByDirection(ref direction, ref transform, ref rotationComponent, false);
         }
 
