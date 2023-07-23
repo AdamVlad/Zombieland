@@ -28,7 +28,7 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
 
             var weaponEntity = _world.NewEntity();
 
-            // Settings
+            // EnemySettings
             var weapon = weaponGo.GetComponent<Weapon>();
 
             // Weapon
@@ -63,7 +63,7 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             parentComponent.InitParentTransform = _parent;
             parentComponent.CurrentParentTransform = _parent;
 
-            // Settings
+            // EnemySettings
 
             // Weapon clip component
             var weaponClipPool = _world.GetPool<WeaponClipComponent>();

@@ -1,5 +1,4 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Player;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
@@ -10,8 +9,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Debugs
 {
     internal sealed class PlayerRotationRaycastSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 MonoLink<Transform>>> _filter = default;
 
         public void Run(IEcsSystems systems)

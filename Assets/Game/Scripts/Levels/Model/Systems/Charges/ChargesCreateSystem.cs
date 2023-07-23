@@ -1,16 +1,17 @@
-﻿using Assets.Game.Scripts.Levels.Model.AppData;
-using Assets.Game.Scripts.Levels.Model.Components;
+﻿using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesCreateSystem : IEcsRunSystem
     {
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         private readonly EcsPoolInject<StateComponent> _statePool = default;
         private readonly EcsPoolInject<LifetimeComponent> _lifetimePool = default;
@@ -18,9 +19,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 
         public void Run(IEcsSystems systems)
         {
-            var eventsBus = _sharedData.Value.EventsBus;
-
-            foreach (var eventEntity in eventsBus.GetEventBodies<ChargeCreatedEvent>(out var chargeCreatedEventPool))
+            foreach (var eventEntity in _eventsBus.GetEventBodies<ChargeCreatedEvent>(out var chargeCreatedEventPool))
             {
                 ref var eventBody = ref chargeCreatedEventPool.Get(eventEntity);
 

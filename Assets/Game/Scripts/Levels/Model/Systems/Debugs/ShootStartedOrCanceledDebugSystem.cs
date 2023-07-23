@@ -1,23 +1,22 @@
-﻿using Assets.Game.Scripts.Levels.Model.AppData;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Debugs
 {
     internal sealed class ShootStartedOrCanceledDebugSystem : IEcsRunSystem
     {
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         public void Run(IEcsSystems systems)
         {
-            var eventsBus = _sharedData.Value.EventsBus;
-            if (eventsBus.HasEventSingleton<ShootStartedEvent>())
+            if (_eventsBus.HasEventSingleton<ShootStartedEvent>())
             {
                 Log<ShootStartedEvent>();
             }
-            if (eventsBus.HasEventSingleton<ShootEndedEvent>())
+            if (_eventsBus.HasEventSingleton<ShootEndedEvent>())
             {
                 Log<ShootEndedEvent>();
             }

@@ -5,20 +5,21 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
 using UnityEngine;
-using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components.Charges;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesLifetimeSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<ChargeTag,
+        private readonly EcsFilterInject
+            <Inc<ChargeTag,
                 StateComponent,
                 LifetimeComponent,
                 ReturnToPoolDelayed>> _filter = default;
 
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         public void Run(IEcsSystems systems)
         {
@@ -32,7 +33,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 
                 if (lifetimeComponent.PassedTime >= lifetimeComponent.Lifetime)
                 {
-                    _sharedData.Value.EventsBus.NewEvent<ChargeReturnToPoolEvent>()
+                    _eventsBus.NewEvent<ChargeReturnToPoolEvent>()
                         = new ChargeReturnToPoolEvent
                         {
                             Entity = chargeEntity

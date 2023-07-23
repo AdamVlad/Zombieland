@@ -11,8 +11,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerMoveSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 MonoLink<Transform>,
                 MoveComponent,
                 ShootingComponent,

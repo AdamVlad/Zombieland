@@ -11,8 +11,8 @@ namespace Assets.Game.Scripts.Levels.View.Systems
 {
     internal sealed class AnimationSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<MonoLink<Animator>,
+        private readonly EcsFilterInject
+            <Inc<MonoLink<Animator>,
                 SetAnimatorParameterRequests>> _filter = default;
 
         public void Run(IEcsSystems systems)

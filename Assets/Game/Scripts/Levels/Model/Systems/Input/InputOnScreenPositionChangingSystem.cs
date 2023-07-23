@@ -2,10 +2,12 @@
 using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Input
 {
@@ -13,23 +15,21 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
     {
         private readonly EcsFilterInject<Inc<InputScreenPositionComponent>> _screenFilter = default;
 
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         public void Run(IEcsSystems systems)
         {
-            var eventsBus = _sharedData.Value.EventsBus;
-
-            if (eventsBus.HasEventSingleton<InputOnScreenStartedEvent>(out var inputOnScreenStartedEvent))
+            if (_eventsBus.HasEventSingleton<InputOnScreenStartedEvent>(out var inputOnScreenStartedEvent))
             {
                 SetScreenInputPosition(ref inputOnScreenStartedEvent.ScreenPosition);
                 return;
             }
-            if (eventsBus.HasEventSingleton<InputOnScreenEndedEvent>(out var inputOnScreenEndedEvent))
+            if (_eventsBus.HasEventSingleton<InputOnScreenEndedEvent>(out var inputOnScreenEndedEvent))
             {
                 SetScreenInputPosition(ref inputOnScreenEndedEvent.ScreenPosition);
                 return;
             }
-            if (eventsBus.HasEventSingleton<InputOnScreenPositionChangedEvent>(out var inputOnScreenPositionChangedEvent))
+            if (_eventsBus.HasEventSingleton<InputOnScreenPositionChangedEvent>(out var inputOnScreenPositionChangedEvent))
             {
                 SetScreenInputPosition(ref inputOnScreenPositionChangedEvent.ScreenInputPosition);
             }

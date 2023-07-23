@@ -3,7 +3,6 @@ using Assets.Game.Scripts.Levels.Model.Components.Charges;
 using Assets.Game.Scripts.Levels.Model.Pools;
 using Assets.Game.Scripts.Levels.Model.Repositories;
 using Assets.Plugins.IvaLib.UnityLib.Factory;
-using Leopotam.EcsLite;
 using UnityEngine.Pool;
 
 namespace Assets.Game.Scripts.Levels.Model.Services

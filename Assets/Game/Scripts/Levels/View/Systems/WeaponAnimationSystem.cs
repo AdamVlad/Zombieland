@@ -7,22 +7,23 @@ using DG.Tweening;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.View.Systems
 {
     internal sealed class WeaponAnimationSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<MonoLink<Weapon>,
+        private readonly EcsFilterInject
+            <Inc<MonoLink<Weapon>,
                 MonoLink<Transform>,
                 WeaponAnimationStartRequest>> _startRequestFilter = default;
 
-        private readonly EcsFilterInject<
-            Inc<MonoLink<Weapon>,
+        private readonly EcsFilterInject
+            <Inc<MonoLink<Weapon>,
                 MonoLink<Transform>,
                 WeaponAnimationStopRequest>> _stopRequestFilter = default;
 
-        private readonly EcsCustomInject<SceneConfigurationSo> _sceneConfiguration = default;
+        [Inject] private SceneConfigurationSo _sceneConfiguration;
 
         public void Run(IEcsSystems systems)
         {
@@ -30,8 +31,8 @@ namespace Assets.Game.Scripts.Levels.View.Systems
             {
                 ref var transform = ref _startRequestFilter.Get2(entity).Value;
                 transform
-                    .DORotate(new Vector3(0, _sceneConfiguration.Value.WeaponSpawnerRotationAngle, 0),
-                        _sceneConfiguration.Value.WeaponSpawnerRotationDuration,
+                    .DORotate(new Vector3(0, _sceneConfiguration.WeaponSpawnerRotationAngle, 0),
+                        _sceneConfiguration.WeaponSpawnerRotationDuration,
                         RotateMode.FastBeyond360)
                     .SetLoops(-1, LoopType.Restart)
                     .SetRelative()
@@ -40,8 +41,8 @@ namespace Assets.Game.Scripts.Levels.View.Systems
                 transform
                     .DOMoveY(
                         transform.position.y + 
-                        _sceneConfiguration.Value.WeaponSpawnerClimbingPosition, 
-                        _sceneConfiguration.Value.WeaponSpawnerClimbingDuration)
+                        _sceneConfiguration.WeaponSpawnerClimbingPosition, 
+                        _sceneConfiguration.WeaponSpawnerClimbingDuration)
                     .SetLoops(-1, LoopType.Yoyo)
                     .SetEase(Ease.Linear);
             }

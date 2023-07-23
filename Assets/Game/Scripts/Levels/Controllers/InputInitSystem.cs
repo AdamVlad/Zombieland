@@ -1,17 +1,17 @@
 ﻿using System.Runtime.CompilerServices;
 using Assets.Game.Scripts.Controllers;
-using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Controllers
 {
     internal sealed class InputInitSystem : IEcsInitSystem, IEcsDestroySystem
     {
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         private InputControls _inputControls;
 
@@ -37,7 +37,7 @@ namespace Assets.Game.Scripts.Levels.Controllers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnInputMoveEvent(InputAction.CallbackContext context)
         {
-            _sharedData.Value.EventsBus.NewEventSingleton<InputMoveChangedEvent>() =
+            _eventsBus.NewEventSingleton<InputMoveChangedEvent>() =
                 new InputMoveChangedEvent
                 {
                     Axis = context.ReadValue<Vector2>()
@@ -49,7 +49,7 @@ namespace Assets.Game.Scripts.Levels.Controllers
         {
             _isClickedOrTouched = true;
 
-            _sharedData.Value.EventsBus.NewEventSingleton<InputOnScreenStartedEvent>() =
+            _eventsBus.NewEventSingleton<InputOnScreenStartedEvent>() =
                 new InputOnScreenStartedEvent
                 {
                     ScreenPosition = _inputControls.ActionMap.MouseClickPosition.ReadValue<Vector2>()
@@ -61,7 +61,7 @@ namespace Assets.Game.Scripts.Levels.Controllers
         {
             _isClickedOrTouched = false;
 
-            _sharedData.Value.EventsBus.NewEventSingleton<InputOnScreenEndedEvent>() =
+            _eventsBus.NewEventSingleton<InputOnScreenEndedEvent>() =
                 new InputOnScreenEndedEvent
                 {
                     ScreenPosition = _inputControls.ActionMap.MouseClickPosition.ReadValue<Vector2>()
@@ -73,7 +73,7 @@ namespace Assets.Game.Scripts.Levels.Controllers
         {
             if (!_isClickedOrTouched) return;
 
-            _sharedData.Value.EventsBus.NewEventSingleton<InputOnScreenPositionChangedEvent>() =
+            _eventsBus.NewEventSingleton<InputOnScreenPositionChangedEvent>() =
                 new InputOnScreenPositionChangedEvent
                 {
                     ScreenInputPosition = context.ReadValue<Vector2>()

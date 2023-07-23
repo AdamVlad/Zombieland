@@ -9,19 +9,21 @@ using Assets.Plugins.IvaLib.UnityLib;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerAnimatorMoveParameterRequestSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 MoveComponent,
                 ShootingComponent,
                 BackpackComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
-        private readonly EcsCustomInject<PlayerConfigurationSo> _playerSettings = default;
+
+        [Inject] private PlayerConfigurationSo _playerSettings;
 
         public void Run(IEcsSystems systems)
         {
@@ -80,8 +82,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private void AddRequest(ref SetAnimatorParameterRequests requests, float x, float y)
         {
             requests
-                .Add(_playerSettings.Value.MoveXParameter, x)
-                .Add(_playerSettings.Value.MoveYParameter, y);
+                .Add(_playerSettings.MoveXParameter, x)
+                .Add(_playerSettings.MoveYParameter, y);
         }
     }
 }

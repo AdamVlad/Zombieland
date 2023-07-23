@@ -480,6 +480,9 @@ GameObject:
   - component: {fileID: 3654537795387593712}
   - component: {fileID: 5249125786946270990}
   - component: {fileID: -5395026660230738200}
+  - component: {fileID: 8919866365920085176}
+  - component: {fileID: 4958661150338104943}
+  - component: {fileID: 5985759133818937832}
   m_Layer: 10
   m_Name: TestZombie
   m_TagString: Untagged
@@ -534,6 +537,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aeb2d5ac6c8666949b0759b19c9c9b7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemySettings: {fileID: 11400000, guid: 4ce330893aebe754681323bb9c536bf8, type: 2}
+  _gameSettings: {fileID: 11400000, guid: 9880a129ca5f3314a98e17be6671a06d, type: 2}
+--- !u!114 &8919866365920085176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544232056900254699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b33cdead101b9f8448a9e3dbfe4b7603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _behavioursMono:
+  - {fileID: 4958661150338104943}
+  - {fileID: 5985759133818937832}
+--- !u!114 &4958661150338104943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544232056900254699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f47b9f8e560f04690a2faf1ff2c1e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5985759133818937832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544232056900254699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bd77aa2e181ad45bf043973d79c241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4610755495933644327

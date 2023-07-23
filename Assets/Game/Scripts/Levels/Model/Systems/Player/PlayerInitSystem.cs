@@ -9,15 +9,16 @@ using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerInitSystem : IEcsInitSystem
     {
-        private readonly EcsCustomInject<PlayerConfigurationSo> _bobSettings = default;
-        private readonly EcsCustomInject<GameConfigurationSo> _gameSettings = default;
-
         private readonly EcsFilterInject<Inc<PlayerTagComponent>> _filter = default;
+
+        [Inject] private PlayerConfigurationSo _playerSettings;
+        [Inject] private GameConfigurationSo _gameSettings;
 
         private readonly EcsPoolInject<MonoLink<EntityReference>> _entityReferenceComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;
@@ -31,7 +32,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         public void Init(IEcsSystems systems)
         {
             var playerGO = EcsConverter.InstantiateAndCreateEntity(
-                _bobSettings.Value.Prefab,
+                _playerSettings.Prefab,
                 Vector3.zero,
                 Quaternion.identity,
                 systems.GetWorld());
@@ -59,9 +60,9 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 transformComponent.Value = playerGO.transform;
                 rigidbodyComponent.Value = playerGO.GetComponent<Rigidbody>();
 
-                moveComponent.Speed = _bobSettings.Value.MoveSpeed / _gameSettings.Value.MoveSpeedDivider;
-                rotationComponent.Speed = _bobSettings.Value.RotationSpeed / _gameSettings.Value.RotationSpeedDivider;
-                rotationComponent.SmoothTurningAngle = _bobSettings.Value.SmoothTurningAngle;
+                moveComponent.Speed = _playerSettings.MoveSpeed / _gameSettings.MoveSpeedDivider;
+                rotationComponent.Speed = _playerSettings.RotationSpeed / _gameSettings.RotationSpeedDivider;
+                rotationComponent.SmoothTurningAngle = _playerSettings.SmoothTurningAngle;
                 backpackComponent.WeaponEntity = -1;
             }
         }

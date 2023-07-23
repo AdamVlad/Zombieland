@@ -1,25 +1,28 @@
 ﻿using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.UnityLib;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Input
 {
     internal sealed class InputShootDirectionChangingSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<InputComponent,
+        private readonly EcsFilterInject
+            <Inc<InputComponent,
                 MonoLink<Transform>,
                 ShootingComponent>> _shootingFilter = default;
 
         private readonly EcsFilterInject<Inc<InputScreenPositionComponent>> _screenFilter = default;
-        private readonly EcsCustomInject<SceneConfigurationSo> _sceneSettings = default;
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+
+        [Inject] private SceneConfigurationSo _sceneSettings;
+        [Inject] private Camera _mainCamera;
 
         public void Run(IEcsSystems systems)
         {
@@ -37,8 +40,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
 
                     if (!ScreenPointToWorldConverter.GetWorldPointFrom(
                             ref screenInputPosition,
-                            _sharedData.Value.MainCamera,
-                            _sceneSettings.Value.RaycastableMask,
+                            _mainCamera,
+                            _sceneSettings.RaycastableMask,
                             out var shootDirectionPoint
                         )) return;
 

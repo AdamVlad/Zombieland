@@ -1,26 +1,27 @@
-﻿using Assets.Game.Scripts.Levels.Model.AppData;
-using Assets.Game.Scripts.Levels.Model.Components;
+﻿using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using DG.Tweening;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesMoveSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 MonoLink<Transform>,
                 BackpackComponent>> _playerFilter = default;
 
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         private readonly EcsPoolInject<MonoLink<Charge>> _chargePool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformPool = default;
@@ -28,9 +29,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 
         public void Run(IEcsSystems systems)
         {
-            var eventsBus = _sharedData.Value.EventsBus;
-
-            foreach (var eventEntity in eventsBus.GetEventBodies<ChargeCreatedEvent>(out var chargeCreatedEventPool))
+            foreach (var eventEntity in _eventsBus.GetEventBodies<ChargeCreatedEvent>(out var chargeCreatedEventPool))
             {
                 ref var eventBody = ref chargeCreatedEventPool.Get(eventEntity);
 

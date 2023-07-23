@@ -10,21 +10,23 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
 {
     internal sealed class WeaponSpawnSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<WeaponSpawnDelayed,
+        private readonly EcsFilterInject
+            <Inc<WeaponSpawnDelayed,
                 WeaponSpawnerComponent>> _weaponSpawnersFilter = default;
+
+        [Inject] private WeaponsProviderService _weaponsService;
 
         private readonly EcsPoolInject<WeaponSpawnDelayed> _weaponSpawnDelayedPool = default;
         private readonly EcsPoolInject<MonoLink<Collider>> _colliderPool = default;
         private readonly EcsPoolInject<MonoLink<Rigidbody>> _rigidbodyPool = default;
         private readonly EcsPoolInject<WeaponAnimationStartRequest> _weaponAnimationRequestPool = default;
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
-        private readonly EcsCustomInject<WeaponsProviderService> _weaponsService = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -32,7 +34,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
             {
                 ref var weaponSpawnerComponent = ref _weaponSpawnersFilter.Get2(spawnEntity);
 
-                var weaponGo = _weaponsService.Value.Get(weaponSpawnerComponent.SpawnPoint);
+                var weaponGo = _weaponsService.Get(weaponSpawnerComponent.SpawnPoint);
                 if (weaponGo == null) return;
 
                 var weaponEntityReference = weaponGo.GetComponent<EntityReference>();

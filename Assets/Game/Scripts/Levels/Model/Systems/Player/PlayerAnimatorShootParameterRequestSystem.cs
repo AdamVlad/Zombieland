@@ -6,17 +6,19 @@ using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerAnimatorShootParameterRequestSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 ShootingComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
-        private readonly EcsCustomInject<PlayerConfigurationSo> _playerSettings = default;
+
+        [Inject] private PlayerConfigurationSo _playerSettings;
 
         public void Run(IEcsSystems systems)
         {
@@ -28,18 +30,18 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 {
                     ref var requests = ref _animatorRequestPool.Get(entity);
 
-                    requests.Add(_playerSettings.Value.IsShootingParameter, isShooting);
+                    requests.Add(_playerSettings.IsShootingParameter, isShooting);
                     if (!isShooting) continue;
-                    requests.Add(_playerSettings.Value.ShootParameter);
+                    requests.Add(_playerSettings.ShootParameter);
                 }
                 else
                 {
                     ref var requests = ref _animatorRequestPool.Add(entity);
                     requests.Initialize();
 
-                    requests.Add(_playerSettings.Value.IsShootingParameter, isShooting);
+                    requests.Add(_playerSettings.IsShootingParameter, isShooting);
                     if (!isShooting) continue;
-                    requests.Add(_playerSettings.Value.ShootParameter);
+                    requests.Add(_playerSettings.ShootParameter);
                 }
             }
         }

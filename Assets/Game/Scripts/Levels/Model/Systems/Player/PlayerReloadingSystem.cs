@@ -1,20 +1,21 @@
 ﻿using System.Runtime.CompilerServices;
-using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerReloadingSystem : IEcsRunSystem
     {
-        private readonly EcsWorldInject _world = default;
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EcsWorld _world;
+        [Inject] private EventsBus _eventsBus;
 
         private readonly EcsPoolInject<DelayedRemove<ReloadingDelayed>> _reloadingDelayedTimerPool = default;
         private readonly EcsPoolInject<ReloadingDelayed> _reloadingDelayedPool = default;
@@ -23,8 +24,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
         public void Run(IEcsSystems systems)
         {
-            if (!_sharedData.Value.EventsBus
-                    .HasEventSingleton<PlayerReloadingEvent>(out var eventBody)) return;
+            if (!_eventsBus.HasEventSingleton<PlayerReloadingEvent>(out var eventBody)) return;
 
             ref var weaponClipComponent = ref _weaponClipPool.Get(eventBody.WeaponEntity);
             ref var reloadingDelayComponent = ref _reloadingPool.Get(eventBody.WeaponEntity);

@@ -6,17 +6,19 @@ using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerAnimatorTakeWeaponParameterRequestSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 BackpackComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
-        private readonly EcsCustomInject<PlayerConfigurationSo> _playerSettings = default;
+
+        [Inject] private PlayerConfigurationSo _playerSettings;
 
         public void Run(IEcsSystems systems)
         {
@@ -27,13 +29,13 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 if (_animatorRequestPool.Has(entity))
                 {
                     ref var requests = ref _animatorRequestPool.Get(entity);
-                    requests.Add(_playerSettings.Value.IsWeaponInHandParameter, isWeaponInHand);
+                    requests.Add(_playerSettings.IsWeaponInHandParameter, isWeaponInHand);
                 }
                 else
                 {
                     ref var requests = ref _animatorRequestPool.Add(entity);
                     requests.Initialize();
-                    requests.Add(_playerSettings.Value.IsWeaponInHandParameter, isWeaponInHand);
+                    requests.Add(_playerSettings.IsWeaponInHandParameter, isWeaponInHand);
                 }
             }
         }

@@ -1,13 +1,14 @@
 ﻿using System.Runtime.CompilerServices;
-using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
 {
@@ -16,14 +17,13 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
         private readonly EcsFilterInject<Inc<WeaponSpawnerComponent>> _weaponSpawnersFilter = default;
         private readonly EcsPoolInject<DelayedAdd<WeaponSpawnDelayed>> _timerPool = default;
 
-        private readonly EcsCustomInject<SceneConfigurationSo> _sceneConfig = default;
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
-        private readonly EcsWorldInject _world = default;
-        
+        [Inject] private SceneConfigurationSo _sceneSettings;
+        [Inject] private EventsBus _eventsBus;
+        [Inject] private EcsWorld _world;
+
         public void Run(IEcsSystems systems)
         {
-            var eventsBus = _sharedData.Value.EventsBus;
-            if (!eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out var eventBody)) return;
+            if (!_eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out var eventBody)) return;
 
             foreach (var spawnEntity in _weaponSpawnersFilter.Value)
             {
@@ -32,7 +32,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
                 if (weaponSpawnerComponent.SpawnedWeaponEntity == eventBody.WeaponEntity)
                 {
                     weaponSpawnerComponent.SpawnedWeaponEntity = -1;
-                    SetSpawnTime(spawnEntity, _sceneConfig.Value.WeaponSpawnDelay);
+                    SetSpawnTime(spawnEntity, _sceneSettings.WeaponSpawnDelay);
                 }
             }
         }

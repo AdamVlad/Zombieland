@@ -3,18 +3,13 @@
 using System;
 using AB_Utility.FromSceneToEntityConverter;
 using Assets.Game.Scripts.Levels.Controllers;
-using Assets.Game.Scripts.Levels.Model.AppData;
-using Assets.Game.Scripts.Levels.Model.Components.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Enemies;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
 using Assets.Game.Scripts.Levels.Model.Components.Requests;
-using Assets.Game.Scripts.Levels.Model.Creators;
 using Assets.Game.Scripts.Levels.Model.Factories;
-using Assets.Game.Scripts.Levels.Model.Repositories;
-using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Game.Scripts.Levels.Model.Systems;
 using Assets.Game.Scripts.Levels.Model.Systems.Charges;
@@ -34,6 +29,9 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using UnityEngine;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
+using Assets.Game.Scripts.Levels.Model.Extensions;
+using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
+using Zenject;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -61,19 +59,6 @@ namespace Assets.Game.Scripts.Levels
 
     internal sealed class GameEntryPoint : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private GameConfigurationSo _gameSettings; 
-        [SerializeField] private SceneConfigurationSo _sceneSettings; 
-        [SerializeField] private PlayerConfigurationSo _playerSettings;
-
-        [Space, Header("Weapons")]
-        [SerializeField] private GameObject[] _weapons;
-        [SerializeField] private Transform _weaponsInitialParent;
-
-        [Space, Header("Bullets")]
-        [SerializeField] private Charge[] _charges;
-        [SerializeField] private Transform _chargesInitialParent;
-
         [Space, Header("Enemies")]
         [SerializeField] private Enemy _enemy;
         [SerializeField] private Transform _enemyInitialPosition;
@@ -81,67 +66,44 @@ namespace Assets.Game.Scripts.Levels
         [Space, Header("Debugs")]
         [SerializeField] private DebugControls _debugControls;
 
-        private WeaponsProviderService _weaponsProviderService;
-        private ChargesProviderService _chargesProviderService;
+        [Inject] private WeaponsProviderService _weaponsProviderService;
+        [Inject] private ChargesProviderService _chargesProviderService;
 
-        private EcsWorld _world;
+        [Inject] private EcsWorld _world;
+        [Inject] private EnemyFactory _enemyFactory;
+        [Inject] private EventsBus _eventsBus;
+        [Inject] private DiContainer _container;
+
         private IEcsSystems _initSystems;
         private IEcsSystems _updateSystems;
         private IEcsSystems _fixedUpdateSystems;
-
-        private SharedData _sharedData;
 
         private void Awake()
         {
             //Application.targetFrameRate = 60;
 
-            _world = new EcsWorld();
             EcsPhysicsEvents.World = _world;
 
-            _sharedData = new SharedData
-            {
-                EventsBus = new EventsBus(16),
-                MainCamera = Camera.main,
-            };
-
-            var weaponsRepository = new WeaponsRepository(_weapons);
-            var weaponFactory = new WeaponFactory(_world, _weaponsInitialParent);
-            var weaponsCreator = new WeaponsCreator(
-                weaponsRepository,
-                weaponFactory);
-
-            _weaponsProviderService = new WeaponsProviderService(weaponsCreator);
             _weaponsProviderService.Run();
-
-            var chargesRepository = new ChargesRepository(_charges);
-            var chargesFactory = new ChargesFactory(_world, _chargesInitialParent);
-
-            _chargesProviderService = new ChargesProviderService(
-                chargesRepository,
-                chargesFactory);
             _chargesProviderService.Run();
 
-            var enemyFactory = new EnemyFactory(_world);
-            enemyFactory.Create(_enemy, _enemyInitialPosition.position);
+            _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
 
-            _initSystems = new EcsSystems(_world, _sharedData);
+            _initSystems = new EcsSystems(_world);
             _initSystems
-                .Add(new WeaponInitSystem())
-                .Add(new WeaponSpawnerInitSystem())
-                .Add(new PlayerInitSystem())
-                .Add(new EntityReferenceInitSystem())
-                .Add(new ParentHolderInitSystem())
-                .Add(new InputInitSystem())
-                .Add(new ScreenInitSystem())
-                .Add(new VmCameraInitSystem())
-                .Inject(_playerSettings)
-                .Inject(_gameSettings)
-                .Inject(_weaponsProviderService)
-                .Inject(_chargesProviderService)
+                .Add<WeaponInitSystem>(_container)
+                .Add<WeaponSpawnerInitSystem>(_container)
+                .Add<PlayerInitSystem>(_container)
+                .Add<EntityReferenceInitSystem>(_container)
+                .Add<ParentHolderInitSystem>(_container)
+                .Add<InputInitSystem>(_container)
+                .Add<ScreenInitSystem>(_container)
+                .Add<VmCameraInitSystem>(_container)
+                .Inject()
                 .ConvertScene()
                 .Init();
 
-            _updateSystems = new EcsSystems(_world, _sharedData);
+            _updateSystems = new EcsSystems(_world);
             _updateSystems
                 #region Debug Systems
 #if UNITY_EDITOR
@@ -151,31 +113,33 @@ namespace Assets.Game.Scripts.Levels
                 .Add(new TriggerEnterDebugSystem(), _debugControls.IsTriggerEnterDebugEnable)
 #endif
                 #endregion
-                .Add(new DelayedAddOperationSystem<DestructionDelayed>())
-                .Add(new DelayedAddOperationSystem<WeaponSpawnDelayed>())
-                .Add(new DelayedRemoveOperationSystem<ShootingDelayed>())
-                .Add(new DelayedRemoveOperationSystem<ReloadingDelayed>())
-                .Add(new WeaponsDestructionSystem())
-                .Add(new DestructionSystem())
-                .Add(new InputMoveSystem())
-                .Add(new InputOnScreenPositionChangingSystem())
-                .Add(new InputShootSystem())
-                .Add(new InputShootDirectionChangingSystem())
-                .Add(new PlayerItemPickupSystem())
-                .Add(new PlayerAttackSystem())
-                .Add(new PlayerReloadingSystem())
-                .Add(new ChargesCreateSystem())
-                .Add(new ChargesMoveSystem())
-                .Add(new ChargesLifetimeSystem())
-                .Add(new ChargesCollisionsSystem())
-                .Add(new ChargesReturnToPoolSystem())
+                .Add<DelayedAddOperationSystem<DestructionDelayed>>(_container)
+                .Add< DelayedAddOperationSystem<WeaponSpawnDelayed>>(_container)
+                .Add<DelayedRemoveOperationSystem<ShootingDelayed>>(_container)
+                .Add<DelayedRemoveOperationSystem<ReloadingDelayed>>(_container)
+                .Add<WeaponsDestructionSystem>(_container)
+                .Add<DestructionSystem>(_container)
+                .Add<EnemiesEvaluateSystem>(_container)
+                .Add<EnemiesBehaveSystem>(_container)
+                .Add<InputMoveSystem>(_container)
+                .Add<InputOnScreenPositionChangingSystem>(_container)
+                .Add<InputShootSystem>(_container)
+                .Add<InputShootDirectionChangingSystem>(_container)
+                .Add<PlayerItemPickupSystem>(_container)
+                .Add<PlayerAttackSystem>(_container)
+                .Add<PlayerReloadingSystem>(_container)
+                .Add<ChargesCreateSystem>(_container)
+                .Add<ChargesMoveSystem>(_container)
+                .Add<ChargesLifetimeSystem>(_container)
+                .Add<ChargesCollisionsSystem>(_container)
+                .Add<ChargesReturnToPoolSystem>(_container)
                 .DelHerePhysics()
-                .Add(new PlayerWeaponDropSystem())
-                .Add(new PlayerReloadingBreakSystem())
-                .Add(new PlayerWeaponPickupSystem())
-                .Add(new WeaponSetSpawnTimeSystem())
-                .Add(new WeaponSpawnSystem())
-                .Add(new WeaponAnimationSystem())
+                .Add<PlayerWeaponDropSystem>(_container)
+                .Add<PlayerReloadingBreakSystem>(_container)
+                .Add<PlayerWeaponPickupSystem>(_container)
+                .Add<WeaponSetSpawnTimeSystem>(_container)
+                .Add<WeaponSpawnSystem>(_container)
+                .Add<WeaponAnimationSystem>(_container)
                 .DelHere<WeaponAnimationStartRequest>()
                 .DelHere<WeaponAnimationStopRequest>()
             #region Debug Systems
@@ -187,23 +151,19 @@ namespace Assets.Game.Scripts.Levels
 #endif
             #endregion
                 .Add(GetEventsDestroySystem())
-                //.DelHere<DestructionDelayed>()
-                .Inject(_playerSettings)
-                .Inject(_sceneSettings)
-                .Inject(_weaponsProviderService)
-                .Inject(_chargesProviderService)
+                .Inject()
                 .Init();
 
-            _fixedUpdateSystems = new EcsSystems(_world, _sharedData);
+            _fixedUpdateSystems = new EcsSystems(_world);
             _fixedUpdateSystems
-                .Add(new PlayerRotationSystem())
-                .Add(new PlayerMoveSystem())
-                .Add(new PlayerAnimatorMoveParameterRequestSystem())
-                .Add(new PlayerAnimatorTakeWeaponParameterRequestSystem())
-                .Add(new PlayerAnimatorShootParameterRequestSystem())
-                .Add(new AnimationSystem())
+                .Add<PlayerRotationSystem>(_container)
+                .Add<PlayerMoveSystem>(_container)
+                .Add<PlayerAnimatorMoveParameterRequestSystem>(_container)
+                .Add<PlayerAnimatorTakeWeaponParameterRequestSystem>(_container)
+                .Add<PlayerAnimatorShootParameterRequestSystem>(_container)
+                .Add<AnimationSystem>(_container)
                 .DelHere<SetAnimatorParameterRequests>()
-                .Inject(_playerSettings)
+                .Inject()
                 .Init();
         }
 
@@ -219,7 +179,7 @@ namespace Assets.Game.Scripts.Levels
 
         private IEcsSystem GetEventsDestroySystem()
         {
-            return new DestroyEventsSystem(_sharedData.EventsBus, 16)
+            return new DestroyEventsSystem(_eventsBus, 16)
                 .IncSingleton<InputMoveChangedEvent>()
                 .IncSingleton<InputOnScreenStartedEvent>()
                 .IncSingleton<InputOnScreenEndedEvent>()
@@ -247,7 +207,7 @@ namespace Assets.Game.Scripts.Levels
             _world?.Destroy();
             _world = null;
 
-            _sharedData.EventsBus.Destroy();
+            _eventsBus.Destroy();
         }
     }
 }

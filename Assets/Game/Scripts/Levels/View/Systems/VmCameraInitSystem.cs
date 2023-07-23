@@ -11,9 +11,10 @@ namespace Assets.Game.Scripts.Levels.View.Systems
 {
     internal sealed class VmCameraInitSystem : IEcsInitSystem
     {
-        private readonly EcsFilterInject<Inc<MonoLink<CinemachineVirtualCamera>>> _cameraFilter = default;
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<MonoLink<CinemachineVirtualCamera>>> _cameraFilter = default;
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 MonoLink<Transform>>> _playerFilter = default;
 
         public void Init(IEcsSystems systems)

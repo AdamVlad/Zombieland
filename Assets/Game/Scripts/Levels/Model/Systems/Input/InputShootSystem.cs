@@ -1,36 +1,35 @@
 ﻿using System.Runtime.CompilerServices;
-using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
 using Assets.Game.Scripts.Levels.Model.Components.Player;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Input
 {
     internal sealed class InputShootSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 InputComponent,
                 ShootingComponent,
                 BackpackComponent>> _filter = default;
 
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         public void Run(IEcsSystems systems)
         {
-            var eventsBus = _sharedData.Value.EventsBus;
-
             // по-хорошему тут нужно прокидывать entity, который вызвал событие, и именно для
             // него вызывать соответствующие процессы
-            if (eventsBus.HasEventSingleton<InputOnScreenStartedEvent>())
+            if (_eventsBus.HasEventSingleton<InputOnScreenStartedEvent>())
             {
                 StartProcessShoot();
             }
-            if (eventsBus.HasEventSingleton<InputOnScreenEndedEvent>())
+            if (_eventsBus.HasEventSingleton<InputOnScreenEndedEvent>())
             {
                 EndProcessShoot();
             }
@@ -62,11 +61,11 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
 
                 if (value)
                 {
-                    _sharedData.Value.EventsBus.NewEventSingleton<ShootStartedEvent>();
+                    _eventsBus.NewEventSingleton<ShootStartedEvent>();
                 }
                 else
                 {
-                    _sharedData.Value.EventsBus.NewEventSingleton<ShootEndedEvent>();
+                    _eventsBus.NewEventSingleton<ShootEndedEvent>();
                 }
 
                 ref var shootingComponent = ref _filter.Get3(entity);

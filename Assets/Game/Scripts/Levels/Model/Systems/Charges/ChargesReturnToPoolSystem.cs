@@ -1,32 +1,30 @@
-﻿using Assets.Game.Scripts.Levels.Model.AppData;
-using Assets.Game.Scripts.Levels.Model.Components;
+﻿using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
 using Assets.Game.Scripts.Levels.Model.Services;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using DG.Tweening;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesReturnToPoolSystem : IEcsRunSystem
     {
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
+        [Inject] private ChargesProviderService _chargesService;
 
         private readonly EcsPoolInject<StateComponent> _statePool = default;
         private readonly EcsPoolInject<MonoLink<Charge>> _chargePool = default;
-
         private readonly EcsPoolInject<ReturnToPoolDelayed> _returnToPoolDelayedPool = default;
-        private readonly EcsCustomInject<ChargesProviderService> _chargesService = default;
 
         public void Run(IEcsSystems systems)
         {
-            var eventsBus = _sharedData.Value.EventsBus;
-
-            foreach (var eventEntity in eventsBus.GetEventBodies<ChargeReturnToPoolEvent>(out var chargeReturnToPoolEventPool))
+            foreach (var eventEntity in _eventsBus.GetEventBodies<ChargeReturnToPoolEvent>(out var chargeReturnToPoolEventPool))
             {
                 var chargeEntity = chargeReturnToPoolEventPool.Get(eventEntity).Entity;
 
@@ -39,7 +37,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 
                 DOTween.Kill(charge.transform);
 
-                _chargesService.Value.GetPool(charge.Type).Release(charge);
+                _chargesService.GetPool(charge.Type).Release(charge);
                 stateComponent.IsActive = false;
             }
         }

@@ -1,25 +1,25 @@
 ﻿using System.Runtime.CompilerServices;
-using Assets.Game.Scripts.Levels.Model.AppData;
-using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerItemPickupSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 OnTriggerEnterEvent>> _filter = default;
 
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         private readonly EcsPoolInject<MonoLink<Weapon>> _weaponComponentPool = default;
 
@@ -43,7 +43,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void WeaponPickedUpSendEvent(int playerEntity, int weaponEntity)
         {
-            _sharedData.Value.EventsBus.NewEventSingleton<PlayerPickUpWeaponEvent>() =
+            _eventsBus.NewEventSingleton<PlayerPickUpWeaponEvent>() =
                 new PlayerPickUpWeaponEvent
                 {
                     PlayerEntity = playerEntity,

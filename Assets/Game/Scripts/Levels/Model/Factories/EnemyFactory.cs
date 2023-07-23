@@ -1,13 +1,15 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Enemies;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
-using Assets.Plugins.IvaLib.UnityLib.Factory;
 using Leopotam.EcsLite;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Factories
 {
-    internal class EnemyFactory : IFactory<Enemy, Enemy>
+    internal class EnemyFactory : Plugins.IvaLib.UnityLib.Factory.IFactory<Enemy, Enemy>
     {
+        [Inject] private DiContainer _container;
+
         public EnemyFactory(EcsWorld world, Transform parent = null)
         {
             _world = world;
@@ -16,7 +18,7 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
 
         public Enemy Create(Enemy prefab, Vector3 position)
         {
-            var enemyGo = Object.Instantiate(
+            var enemyGo = _container.InstantiatePrefab(
                 prefab,
                 position,
                 Quaternion.identity,
@@ -34,7 +36,14 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             ref var collider = ref colliderPool.Add(enemyEntity);
             collider.Value = enemyGo.GetComponent<Collider>();
 
-            return enemyGo;
+            // Behaviours
+            var behaviourPool = _world.GetPool<BehaviourComponent>();
+            behaviourPool.Add(enemyEntity);
+            var behavioursScopePool = _world.GetPool<MonoLink<BehavioursScope>>();
+            ref var behaviours = ref behavioursScopePool.Add(enemyEntity);
+            behaviours.Value = enemyGo.GetComponent<BehavioursScope>();
+
+            return enemyGo.GetComponent<Enemy>();
         }
 
         private readonly Transform _parent;

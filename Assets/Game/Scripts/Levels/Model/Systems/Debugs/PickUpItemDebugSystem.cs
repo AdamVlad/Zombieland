@@ -1,18 +1,18 @@
-﻿using Assets.Game.Scripts.Levels.Model.AppData;
-using Assets.Game.Scripts.Levels.Model.Components.Events;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Events;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Debugs
 {
     internal sealed class PickUpItemDebugSystem : IEcsRunSystem
     {
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EventsBus _eventsBus;
 
         public void Run(IEcsSystems systems)
         {
-            if (!_sharedData.Value.EventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out var eventBody)) return;
+            if (!_eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out var eventBody)) return;
 
             Debug.Log("[ Event: PlayerPickUpWeaponEvent ] " +
                                   $"[ Sender entity: {eventBody.PlayerEntity} ] " +

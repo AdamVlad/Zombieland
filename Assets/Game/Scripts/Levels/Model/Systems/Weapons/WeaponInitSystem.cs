@@ -5,6 +5,7 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
 {
@@ -14,8 +15,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<WeaponShootingComponent> _weaponShootingPool = default;
 
-        private readonly EcsCustomInject<ChargesProviderService> _chargesService = default;
-        private readonly EcsCustomInject<GameConfigurationSo> _gameSettings = default;
+        [Inject] private ChargesProviderService _chargesService;
+        [Inject] private GameConfigurationSo _gameSettings;
 
         public void Init(IEcsSystems systems)
         {
@@ -23,11 +24,11 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
             {
                 ref var weaponClipComponent = ref _weaponClipPool.Get(spawnEntity);
                 weaponClipComponent.ChargePool = 
-                    _chargesService.Value.GetPool(weaponClipComponent.ChargeType);
+                    _chargesService.GetPool(weaponClipComponent.ChargeType);
 
                 ref var weaponShootingComponent = ref _weaponShootingPool.Get(spawnEntity);
                 weaponShootingComponent.ShootingPower =
-                    _gameSettings.Value.ShootingPowerDivider - weaponShootingComponent.ShootingPower;
+                    _gameSettings.ShootingPowerDivider - weaponShootingComponent.ShootingPower;
             }
         }
     }

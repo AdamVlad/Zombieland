@@ -4,26 +4,27 @@ using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
-using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerAttackSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 BackpackComponent,
-                ShootingComponent>,
-            Exc<ShootingDelayed,
+                ShootingComponent>, 
+            Exc<ShootingDelayed, 
                 ReloadingDelayed>> _playerFilter = default;
 
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
-        private readonly EcsWorldInject _world = default;
+        [Inject] private EventsBus _eventsBus;
+        [Inject] private EcsWorld _world;
 
         private readonly EcsPoolInject<DelayedRemove<ShootingDelayed>> _shootingDelayedTimerPool = default;
         private readonly EcsPoolInject<ShootingDelayed> _shootingDelayedPool = default;
@@ -45,7 +46,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 if (weaponClipComponent.RestChargeCount <= 0 &&
                     weaponClipComponent.CurrentChargeInClipCount <= 0) return;
 
-                _sharedData.Value.EventsBus.NewEvent<ChargeCreatedEvent>() = new ChargeCreatedEvent
+                _eventsBus.NewEvent<ChargeCreatedEvent>() = new ChargeCreatedEvent
                 {
                     Entity = weaponClipComponent.ChargePool.Get().Entity
                 };
@@ -66,7 +67,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ThrowReloadingEvent(int playerEntity, int weaponEntity)
         {
-            _sharedData.Value.EventsBus.NewEventSingleton<PlayerReloadingEvent>()
+            _eventsBus.NewEventSingleton<PlayerReloadingEvent>()
                 = new PlayerReloadingEvent
                 {
                     PlayerEntity = playerEntity,

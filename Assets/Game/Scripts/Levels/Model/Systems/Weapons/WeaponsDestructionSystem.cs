@@ -6,19 +6,20 @@ using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
 {
     internal sealed class WeaponsDestructionSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<DestructionDelayed,
+        private readonly EcsFilterInject
+            <Inc<DestructionDelayed,
                 MonoLink<Weapon>>> _filter = default;
 
         private readonly EcsPoolInject<DestructionDelayed> _destructionPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformPool = default;
 
-        private readonly EcsCustomInject<WeaponsProviderService> _weaponsService = default;
+        [Inject] private WeaponsProviderService _weaponsService;
 
         public void Run(IEcsSystems systems)
         {
@@ -27,7 +28,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
                 if (_transformPool.Has(entity))
                 {
                     ref var transform = ref _transformPool.Get(entity).Value;
-                    _weaponsService.Value.Return(transform.gameObject);
+                    _weaponsService.Return(transform.gameObject);
                 }
 
                 _destructionPool.Del(entity);

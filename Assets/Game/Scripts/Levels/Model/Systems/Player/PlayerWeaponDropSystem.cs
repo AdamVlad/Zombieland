@@ -1,29 +1,29 @@
 ﻿using System.Runtime.CompilerServices;
-using Assets.Game.Scripts.Levels.Model.AppData;
 using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Player;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerWeaponDropSystem : IEcsRunSystem
     {
-        private readonly EcsFilterInject<
-            Inc<PlayerTagComponent,
+        private readonly EcsFilterInject
+            <Inc<PlayerTagComponent,
                 BackpackComponent>> _filter = default;
 
-        private readonly EcsWorldInject _world = default;
-
-        private readonly EcsCustomInject<SceneConfigurationSo> _sceneSettings = default;
-        private readonly EcsSharedInject<SharedData> _sharedData = default;
+        [Inject] private EcsWorld _world;
+        [Inject] private SceneConfigurationSo _sceneSettings;
+        [Inject] private EventsBus _eventsBus;
 
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Rigidbody>> _rigidbodyComponentPool = default;
@@ -33,8 +33,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
         public void Run(IEcsSystems systems)
         {
-            var eventsBus = _sharedData.Value.EventsBus;
-            if (!eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out _)) return;
+            if (!_eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out _)) return;
 
             foreach (var playerEntity in _filter.Value)
             {
@@ -59,7 +58,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                     var forceDirection = new Vector3(playerTransform.forward.x, 1, playerTransform.forward.z);
                     weaponRigidbody.AddForce(forceDirection * 150, ForceMode.Force);
 
-                    SetDestructionTime(backpackComponent.WeaponEntity, _sceneSettings.Value.WeaponDestructionTime);
+                    SetDestructionTime(backpackComponent.WeaponEntity, _sceneSettings.WeaponDestructionTime);
 
                     backpackComponent.WeaponEntity = -1;
                 }
