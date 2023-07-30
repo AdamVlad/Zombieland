@@ -60,7 +60,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 transformComponent.Value = playerGO.transform;
                 rigidbodyComponent.Value = playerGO.GetComponent<Rigidbody>();
 
-                moveComponent.Speed = _playerSettings.MoveSpeed / _gameSettings.MoveSpeedDivider;
+                moveComponent.Speed = _playerSettings.MoveSpeed / _gameSettings.PlayerMoveSpeedDivider;
                 rotationComponent.Speed = _playerSettings.RotationSpeed / _gameSettings.RotationSpeedDivider;
                 rotationComponent.SmoothTurningAngle = _playerSettings.SmoothTurningAngle;
                 backpackComponent.WeaponEntity = -1;

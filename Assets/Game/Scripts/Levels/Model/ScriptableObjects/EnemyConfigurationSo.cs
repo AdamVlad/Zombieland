@@ -25,5 +25,16 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 
         [SerializeField, Range(0, 5)] private float _attackDelay;
         public float AttackDelay => _attackDelay;
+
+        [Space, Header("Animations")]
+
+        [SerializeField] private string _moveXParameter;
+        public string MoveXParameter => _moveXParameter;
+
+        [SerializeField] private string _moveYParameter;
+        public string MoveYParameter => _moveYParameter;
+
+        [SerializeField] private string _attackTriggerParameter;
+        public string AttackTriggerParameter => _attackTriggerParameter;
     }
 }

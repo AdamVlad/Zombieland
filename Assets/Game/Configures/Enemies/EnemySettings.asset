@@ -16,6 +16,9 @@ MonoBehaviour:
   _detectionMask:
     serializedVersion: 2
     m_Bits: 64
-  _moveSpeed: 47
+  _moveSpeed: 63
   _attackRadius: 0.7
   _attackDelay: 3.04
+  _moveXParameter: x
+  _moveYParameter: y
+  _attackTriggerParameter: Attack

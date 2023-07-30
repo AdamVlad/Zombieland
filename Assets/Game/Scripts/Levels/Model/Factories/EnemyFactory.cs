@@ -1,7 +1,9 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Enemies;
+﻿using Assets.Game.Scripts.Levels.Model.Components;
+using Assets.Game.Scripts.Levels.Model.Components.Enemies;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Factories
@@ -10,6 +12,7 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
     {
         [Inject] private DiContainer _container;
 
+        // Сделать добавление компонентов через .
         public EnemyFactory(EcsWorld world, Transform parent = null)
         {
             _world = world;
@@ -29,6 +32,9 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             // Enemy
             var enemy = enemyGo.GetComponent<Enemy>();
             enemy.Pack(_world, enemyEntity);
+            var enemyPool = _world.GetPool<MonoLink<Enemy>>();
+            ref var enemyComponent = ref enemyPool.Add(enemyEntity);
+            enemyComponent.Value = enemy;
 
             // EnemyTag
             var enemyTagPool = _world.GetPool<EnemyTagComponent>();
@@ -50,6 +56,20 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             var behavioursScopePool = _world.GetPool<MonoLink<BehavioursScope>>();
             ref var behaviours = ref behavioursScopePool.Add(enemyEntity);
             behaviours.Value = enemyGo.GetComponent<BehavioursScope>();
+
+            // Animation
+            var animationPool = _world.GetPool<MonoLink<Animator>>();
+            ref var animatorComponent = ref animationPool.Add(enemyEntity);
+            animatorComponent.Value = enemyGo.GetComponentInChildren<Animator>();
+
+            // NavMesh
+            var navMeshPool = _world.GetPool<MonoLink<NavMeshAgent>>();
+            ref var navMeshAgentComponent = ref navMeshPool.Add(enemyEntity);
+            navMeshAgentComponent.Value = enemyGo.GetComponent<NavMeshAgent>();
+
+            // Attack
+            var attackPool = _world.GetPool<ShootingComponent>();
+            attackPool.Add(enemyEntity);
 
             return enemy;
         }

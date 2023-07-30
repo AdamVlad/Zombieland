@@ -26,6 +26,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours
 
             _attackDelayedTimerPool = _world.GetPool<DelayedRemove<AttackDelayed>>();
             _attackDelayedPool = _world.GetPool<AttackDelayed>();
+            _attackPool = _world.GetPool<ShootingComponent>();
         }
 
         public float Evaluate()
@@ -44,7 +45,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours
             if (!_enemy.Unpack(_world, out var enemyEntity)) return;
             if (_attackDelayedPool.Has(enemyEntity)) return;
 
-            Debug.Log("Attack!");
+            _attackPool.Get(enemyEntity).IsShooting = true;
 
             SetAttackDelayTime(enemyEntity, _enemy.Settings.AttackDelay);
         }
@@ -64,6 +65,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours
 
         private EcsPool<DelayedRemove<AttackDelayed>> _attackDelayedTimerPool;
         private EcsPool<AttackDelayed> _attackDelayedPool;
+        private EcsPool<ShootingComponent> _attackPool;
 
         private Enemy _enemy;
         private Collider[] _hitColliders = new Collider[5];

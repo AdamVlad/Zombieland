@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c708825dabe4562489296afcc35380a9, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  _moveSpeedDivider: 1000
+  _playerMoveSpeedDivider: 1000
+  _enemyMoveSpeedDivider: 35
   _rotationSpeedDivider: 5
   _shootingPowerDivider: 10

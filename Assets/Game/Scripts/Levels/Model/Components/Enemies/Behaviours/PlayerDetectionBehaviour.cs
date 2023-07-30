@@ -2,12 +2,15 @@
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Leopotam.EcsLite;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours
 {
     // Подумать над тем, чтобы выставить приоритеты Evaluate в отдельной сущности
-    [RequireComponent(typeof(Enemy))]
+    [RequireComponent(
+        typeof(Enemy),
+        typeof(NavMeshAgent))]
     internal sealed class PlayerDetectionBehaviour : MonoBehaviour, IBehaviour
     {
         [Inject]
@@ -22,10 +25,12 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours
         private void Start()
         {
             _enemy = GetComponent<Enemy>();
+            _agent = GetComponent<NavMeshAgent>();
 
             _detectionRadius = _enemy.Settings.DetectionRadius;
             _layerMask = _enemy.Settings.DetectionMask;
-            _moveSpeed = _enemy.Settings.MoveSpeed / _gameSettings.MoveSpeedDivider;
+
+            _agent.speed = _enemy.Settings.MoveSpeed / _gameSettings.EnemyMoveSpeedDivider;
 
             _attackDelayedPool = _world.GetPool<AttackDelayed>();
         }
@@ -46,11 +51,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours
 
         public void Behave()
         {
-            var direction = (_hitColliders[0].transform.position - transform.position).normalized;
-
-            transform.position += direction * _moveSpeed;
-
-            transform.LookAt(_hitColliders[0].transform);
+            _agent.SetDestination(_hitColliders[0].transform.position);
         }
 
         private EcsWorld _world;
@@ -58,10 +59,11 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies.Behaviours
         private EcsPool<AttackDelayed> _attackDelayedPool;
 
         private Enemy _enemy;
+        private NavMeshAgent _agent;
+
         private GameConfigurationSo _gameSettings;
         private Collider[] _hitColliders = new Collider[5];
         private float _detectionRadius;
         private LayerMask _layerMask;
-        private float _moveSpeed;
     }
 }
