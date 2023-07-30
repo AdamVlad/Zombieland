@@ -7,15 +7,16 @@ using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine.AI;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
 {
     internal sealed class EnemiesAnimatorMoveParameterRequestSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject
-        <Inc<EnemyTagComponent,
-            MonoLink<NavMeshAgent>,
-            MonoLink<Enemy>>> _filter = default;
+            <Inc<EnemyTagComponent,
+                MonoLink<NavMeshAgent>,
+                MonoLink<Enemy>>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
 
@@ -28,8 +29,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
 
                 SetRequests(
                     entity, 
-                    navMeshAgentComponent.velocity.x, 
-                    navMeshAgentComponent.velocity.z,
+                    Mathf.Abs(navMeshAgentComponent.velocity.x),
+                    Mathf.Abs(navMeshAgentComponent.velocity.z),
                     enemyComponent.Settings.MoveXParameter,
                     enemyComponent.Settings.MoveYParameter);
             }

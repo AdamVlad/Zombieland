@@ -12,9 +12,9 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
     internal sealed class EnemiesAnimatorAttackParameterRequestSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject
-        <Inc<EnemyTagComponent,
-            ShootingComponent,
-            MonoLink<Enemy>>> _filter = default;
+            <Inc<EnemyTagComponent,
+                ShootingComponent,
+                MonoLink<Enemy>>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
 
