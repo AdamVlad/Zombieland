@@ -1,6 +1,7 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Enemies;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.AI;
@@ -40,6 +41,13 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             var enemyTagPool = _world.GetPool<EnemyTagComponent>();
             enemyTagPool.Add(enemyEntity);
 
+            // EntityReference
+            var entityReference = enemyGo.AddComponent<EntityReference>();
+            var entityReferencePool = _world.GetPool<MonoLink<EntityReference>>();
+            ref var entityReferenceComponent = ref entityReferencePool.Add(enemyEntity);
+            entityReference.Pack(enemyEntity);
+            entityReferenceComponent.Value = entityReference;
+
             // Transform
             var transformPool = _world.GetPool<MonoLink<Transform>>();
             ref var transform = ref transformPool.Add(enemyEntity);
@@ -70,6 +78,12 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             // Attack
             var attackPool = _world.GetPool<ShootingComponent>();
             attackPool.Add(enemyEntity);
+
+            // Health
+            var healthPool = _world.GetPool<HealthComponent>();
+            ref var healthComponent = ref healthPool.Add(enemyEntity);
+            healthComponent.MaxHealth = enemy.Settings.MaxHealth;
+            healthComponent.CurrentHealth = enemy.Settings.MaxHealth;
 
             return enemy;
         }

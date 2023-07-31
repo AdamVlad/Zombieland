@@ -5,11 +5,15 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
     [CreateAssetMenu(fileName = "PlayerSettings", menuName = "Settings/PlayerSettings")]
     internal class PlayerConfigurationSo : ScriptableObject
     {
+        [Space, Header("Health")]
+
+        [SerializeField, Range(1, 1000)] private float _maxHealth;
+        public float MaxHealth => _maxHealth;
+
         [SerializeField] private GameObject _prefab;
         public GameObject Prefab => _prefab;
 
-        [Space]
-        [Header("Physics")]
+        [Space, Header("Physics")]
 
         [SerializeField] private float _moveSpeed;
         public float MoveSpeed => _moveSpeed;
@@ -20,8 +24,7 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
         [SerializeField] private float _smoothTurningAngle;
         public float SmoothTurningAngle => _smoothTurningAngle;
 
-        [Space]
-        [Header("Animation")]
+        [Space, Header("Animation")]
 
         [SerializeField] private string _moveXParameter;
         public string MoveXParameter => _moveXParameter;

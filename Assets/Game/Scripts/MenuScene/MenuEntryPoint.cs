@@ -6,7 +6,12 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.ExtendedSystems;
 using Leopotam.EcsLite.Unity.Ugui;
+
+#region Debug Systems
+#if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
+#endif
+#endregion
 
 namespace Assets.Game.Scripts.MenuScene
 {

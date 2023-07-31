@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab7fffada9ec564eaeb8ca20873f7aa, type: 3}
   m_Name: GrandPaSettings
   m_EditorClassIdentifier: 
+  _maxHealth: 92
   _prefab: {fileID: 2512215831435377081, guid: 3bcefbedc8872934fb4dd799fdd080ae, type: 3}
   _moveSpeed: 70
   _rotationSpeed: 25

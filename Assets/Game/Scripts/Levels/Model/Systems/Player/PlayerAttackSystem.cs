@@ -15,6 +15,7 @@ using Zenject;
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     // Тут вынести в отдельную систему SetAttackDelayTime
+    // и отдельную систему, которая задает количество урона пуле
     internal sealed class PlayerAttackSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject
@@ -32,6 +33,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<AttackDelayComponent> _attackDelayPool = default;
+        private readonly EcsPoolInject<DamageComponent> _damagePool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -47,9 +49,14 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 if (weaponClipComponent.RestChargeCount <= 0 &&
                     weaponClipComponent.CurrentChargeInClipCount <= 0) return;
 
+                var chargeEntity = weaponClipComponent.ChargePool.Get().Entity;
+                ref var weaponDamageComponent = ref _damagePool.Get(weaponEntity);
+                ref var chargeDamageComponent = ref _damagePool.Get(chargeEntity);
+                chargeDamageComponent.Damage = weaponDamageComponent.Damage;
+
                 _eventsBus.NewEvent<ChargeCreatedEvent>() = new ChargeCreatedEvent
                 {
-                    Entity = weaponClipComponent.ChargePool.Get().Entity
+                    Entity = chargeEntity
                 };
 
                 weaponClipComponent.CurrentChargeInClipCount--;

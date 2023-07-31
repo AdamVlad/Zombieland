@@ -59,6 +59,10 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             ref var stateComponent = ref statePool.Add(chargeEntity);
             stateComponent.IsActive = false;
 
+            // Damage
+            var damagePool = _world.GetPool<DamageComponent>();
+            damagePool.Add(chargeEntity);
+
             // Lifetime component
             var lifetimePool = _world.GetPool<LifetimeComponent>();
             ref var lifetimeComponent = ref lifetimePool.Add(chargeEntity);

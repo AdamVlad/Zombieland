@@ -28,6 +28,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsPoolInject<InputComponent> _inputComponentPool = default;
         private readonly EcsPoolInject<ShootingComponent> _shootingComponentPool = default;
         private readonly EcsPoolInject<BackpackComponent> _backpackComponentPool = default;
+        private readonly EcsPoolInject<HealthComponent> _healthComponentPool = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -51,6 +52,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 ref var rigidbodyComponent = ref _rigidbodyComponentPool.Add(entity);
                 ref var moveComponent = ref _moveComponentPool.Add(entity);
                 ref var rotationComponent = ref _rotationComponentPool.Add(entity);
+                ref var healthComponent = ref _healthComponentPool.Add(entity);
 
                 ref var backpackComponent = ref _backpackComponentPool.Get(entity);
 
@@ -64,6 +66,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 rotationComponent.Speed = _playerSettings.RotationSpeed / _gameSettings.RotationSpeedDivider;
                 rotationComponent.SmoothTurningAngle = _playerSettings.SmoothTurningAngle;
                 backpackComponent.WeaponEntity = -1;
+                healthComponent.MaxHealth = _playerSettings.MaxHealth;
+                healthComponent.CurrentHealth = _playerSettings.MaxHealth;
             }
         }
     }

@@ -88,6 +88,7 @@ namespace Assets.Game.Scripts.Levels
             _chargesProviderService.Run();
 
             _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
+            _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
 
             _initSystems = new EcsSystems(_world);
             _initSystems
@@ -107,10 +108,10 @@ namespace Assets.Game.Scripts.Levels
             _updateSystems
                 #region Debug Systems
 #if UNITY_EDITOR
-                .Add(new EcsWorldDebugSystem(), _debugControls.IsEcsWorldDebugEnable)
-                .Add(new EcsSystemsDebugSystem(), _debugControls.IsEcsWorldDebugEnable)
-                .Add(new CollisionEnterDebugSystem(), _debugControls.IsCollisionEnterDebugEnable)
-                .Add(new TriggerEnterDebugSystem(), _debugControls.IsTriggerEnterDebugEnable)
+                .Add<EcsWorldDebugSystem>(_container, _debugControls.IsEcsWorldDebugEnable)
+                .Add<EcsSystemsDebugSystem>(_container, _debugControls.IsEcsWorldDebugEnable)
+                .Add<CollisionEnterDebugSystem>(_container, _debugControls.IsCollisionEnterDebugEnable)
+                .Add<TriggerEnterDebugSystem>(_container, _debugControls.IsTriggerEnterDebugEnable)
 #endif
                 #endregion
                 .Add<DelayedAddOperationSystem<DestructionDelayed>>(_container)
@@ -144,10 +145,10 @@ namespace Assets.Game.Scripts.Levels
                 .DelHere<WeaponAnimationStopRequest>()
             #region Debug Systems
 #if UNITY_EDITOR
-                .Add(new PickUpItemDebugSystem(), _debugControls.IsPickUpItemDebugEnable)
-                .Add(new ShootStartedOrCanceledDebugSystem(), _debugControls.IsShootStartedOrCanceledDebugEnable)
-                .Add(new PlayerRotationRaycastSystem(), _debugControls.IsPlayerRotationRaycastEnable)
-                .Add(new ShootingDirectionRaycastSystem(), _debugControls.IsShootingDirectionRaycastEnable)
+                .Add<PickUpItemDebugSystem>(_container, _debugControls.IsPickUpItemDebugEnable)
+                .Add<ShootStartedOrCanceledDebugSystem>(_container, _debugControls.IsShootStartedOrCanceledDebugEnable)
+                .Add<PlayerRotationRaycastSystem>(_container, _debugControls.IsPlayerRotationRaycastEnable)
+                .Add<ShootingDirectionRaycastSystem>(_container, _debugControls.IsShootingDirectionRaycastEnable)
 #endif
             #endregion
                 .Add(GetEventsDestroySystem())

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 383934088675809258}
   - component: {fileID: 1028584480290052734}
   - component: {fileID: 6842592963715236447}
+  - component: {fileID: 6158658915637472020}
   m_Layer: 10
   m_Name: TestZombie1
   m_TagString: Untagged
@@ -111,6 +112,7 @@ MonoBehaviour:
   - {fileID: 383934088675809258}
   - {fileID: 1028584480290052734}
   - {fileID: 6842592963715236447}
+  - {fileID: 6158658915637472020}
 --- !u!114 &383934088675809258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,6 +147,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a951ffd359ec4cb47bb024a2862d07ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6158658915637472020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8160359617563421841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1de0f101b085154caf9745da53d864c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5683550345913438853

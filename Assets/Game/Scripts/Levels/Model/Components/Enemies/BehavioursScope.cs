@@ -12,7 +12,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies
         private ReadOnlyCollection<IBehaviour> _behaviours;
         public ReadOnlyCollection<IBehaviour> Behaviours => _behaviours;
 
-        private void Start()
+        private void Awake()
         {
             var temp = new List<IBehaviour>();
             foreach (var behaviour in _behavioursMono)
