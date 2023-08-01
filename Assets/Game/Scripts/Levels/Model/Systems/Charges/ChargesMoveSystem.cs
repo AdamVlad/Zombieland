@@ -29,7 +29,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var eventEntity in _eventsBus.GetEventBodies<ChargeCreatedEvent>(out var chargeCreatedEventPool))
+            foreach (var eventEntity in _eventsBus.GetEventBodies<ChargeGetFromPoolEvent>(out var chargeCreatedEventPool))
             {
                 ref var eventBody = ref chargeCreatedEventPool.Get(eventEntity);
 

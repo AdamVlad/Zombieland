@@ -54,7 +54,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 ref var chargeDamageComponent = ref _damagePool.Get(chargeEntity);
                 chargeDamageComponent.Damage = weaponDamageComponent.Damage;
 
-                _eventsBus.NewEvent<ChargeCreatedEvent>() = new ChargeCreatedEvent
+                _eventsBus.NewEvent<ChargeGetFromPoolEvent>() = new ChargeGetFromPoolEvent
                 {
                     Entity = chargeEntity
                 };

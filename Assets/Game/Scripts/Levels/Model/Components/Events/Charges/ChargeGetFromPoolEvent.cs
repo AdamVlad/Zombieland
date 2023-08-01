@@ -2,7 +2,7 @@
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Events.Charges
 {
-    internal struct ChargeCreatedEvent : IEventReplicant
+    internal struct ChargeGetFromPoolEvent : IEventReplicant
     {
         public int Entity;
     }

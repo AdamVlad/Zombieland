@@ -85,6 +85,12 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             healthComponent.MaxHealth = enemy.Settings.MaxHealth;
             healthComponent.CurrentHealth = enemy.Settings.MaxHealth;
 
+            // HpBar
+            var hpBarPool = _world.GetPool<HpBarComponent>();
+            ref var hpBarComponent = ref hpBarPool.Add(enemyEntity);
+            hpBarComponent.HpBarCanvas = enemy.HpBarCanvas;
+            hpBarComponent.HpBarCanvas.enabled = false;
+
             return enemy;
         }
 

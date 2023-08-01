@@ -10,6 +10,10 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
         [SerializeField, Range(1, 1000)] private float _maxHealth;
         public float MaxHealth => _maxHealth;
 
+
+        [SerializeField, Range(1, 10)] private float _healthBarHideDelay = 2.5f;
+        public float HealthBarHideDelay => _healthBarHideDelay;
+
         [Space, Header("Moving")]
 
         [SerializeField, Range(1, 1000)] private float _moveSpeed;

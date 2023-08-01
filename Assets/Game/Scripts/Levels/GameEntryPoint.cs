@@ -115,7 +115,7 @@ namespace Assets.Game.Scripts.Levels
 #endif
                 #endregion
                 .Add<DelayedAddOperationSystem<DestructionDelayed>>(_container)
-                .Add< DelayedAddOperationSystem<WeaponSpawnDelayed>>(_container)
+                .Add<DelayedAddOperationSystem<WeaponSpawnDelayed>>(_container)
                 .Add<DelayedRemoveOperationSystem<AttackDelayed>>(_container)
                 .Add<DelayedRemoveOperationSystem<ReloadingDelayed>>(_container)
                 .Add<WeaponsDestructionSystem>(_container)
@@ -127,7 +127,7 @@ namespace Assets.Game.Scripts.Levels
                 .Add<PlayerItemPickupSystem>(_container)
                 .Add<PlayerAttackSystem>(_container)
                 .Add<PlayerReloadingSystem>(_container)
-                .Add<ChargesCreateSystem>(_container)
+                .Add<ChargesGetFromPoolSystem>(_container)
                 .Add<ChargesMoveSystem>(_container)
                 .Add<ChargesLifetimeSystem>(_container)
                 .Add<ChargesCollisionsSystem>(_container)
@@ -141,6 +141,11 @@ namespace Assets.Game.Scripts.Levels
                 .Add<WeaponAnimationSystem>(_container)
                 .Add<EnemiesEvaluateSystem>(_container)
                 .Add<EnemiesBehaveSystem>(_container)
+                .Add<GetDamageSystem>(_container)
+                .Add<EnemyHpBarShowingSystem>(_container)
+                .Add<EnemyHpBarLifetimeSystem>(_container)
+                .Add<EnemyHpBarHidingSystem>(_container)
+                .Add<EnemyHpBarLookAtSystem>(_container)
                 .DelHere<WeaponAnimationStartRequest>()
                 .DelHere<WeaponAnimationStopRequest>()
             #region Debug Systems
@@ -191,7 +196,9 @@ namespace Assets.Game.Scripts.Levels
                 .IncSingleton<ShootEndedEvent>()
                 .IncSingleton<PlayerPickUpWeaponEvent>()
                 .IncSingleton<PlayerReloadingEvent>()
-                .IncReplicant<ChargeCreatedEvent>()
+                .IncReplicant<GetDamageEvent>()
+                .IncReplicant<HideEvent>()
+                .IncReplicant<ChargeGetFromPoolEvent>()
                 .IncReplicant<ChargeReturnToPoolEvent>();
         }
 

@@ -7,7 +7,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.ExtendedSystems;
 using Leopotam.EcsLite.Unity.Ugui;
 
-#region Debug Systems
+#region Debug
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
 #endif

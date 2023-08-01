@@ -9,6 +9,9 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies
         [SerializeField] private EnemyConfigurationSo _settings;
         public EnemyConfigurationSo Settings => _settings;
 
+        [SerializeField] private Canvas _hpBarCanvas;
+        public Canvas HpBarCanvas => _hpBarCanvas;
+
         private EcsPackedEntity _entityPacked;
 
         public bool Unpack(EcsWorld world, out int unpacked)

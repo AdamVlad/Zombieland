@@ -7,6 +7,7 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
@@ -44,9 +45,15 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
                 if (!otherEntityReference.Unpack(out var otherEntity)) continue;
                 if (!_healthPool.Has(otherEntity)) continue;
 
-                ref var healthComponent = ref _healthPool.Get(otherEntity);
                 ref var damageComponent = ref _filter.Get3(entity);
-                healthComponent.CurrentHealth -= damageComponent.Damage;
+
+                _eventsBus.NewEvent<GetDamageEvent>()
+                    = new GetDamageEvent
+                    {
+                        From = entity,
+                        To = otherEntity,
+                        Damage = damageComponent.Damage
+                    };
             }
         }
     }
