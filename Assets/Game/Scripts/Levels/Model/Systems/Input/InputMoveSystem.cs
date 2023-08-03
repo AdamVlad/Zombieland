@@ -1,9 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
-using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
-using Assets.Game.Scripts.Levels.Model.Components.Player;
+
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Input;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;

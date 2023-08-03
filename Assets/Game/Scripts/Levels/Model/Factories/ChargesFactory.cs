@@ -1,5 +1,6 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Checkers;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;

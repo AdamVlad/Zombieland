@@ -1,9 +1,10 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Events;
-using Assets.Game.Scripts.Levels.Model.Components.Requests;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;

@@ -1,4 +1,4 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Events;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Events;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Leopotam.EcsLite;
 using UnityEngine;

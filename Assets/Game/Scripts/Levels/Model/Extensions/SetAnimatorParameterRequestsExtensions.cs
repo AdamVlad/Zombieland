@@ -1,4 +1,4 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Requests;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
 
 namespace Assets.Game.Scripts.Levels.Model.Extensions
 {

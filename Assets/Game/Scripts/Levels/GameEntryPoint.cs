@@ -3,12 +3,13 @@
 using System;
 using AB_Utility.FromSceneToEntityConverter;
 using Assets.Game.Scripts.Levels.Controllers;
-using Assets.Game.Scripts.Levels.Model.Components.Delayed;
-using Assets.Game.Scripts.Levels.Model.Components.Enemies;
-using Assets.Game.Scripts.Levels.Model.Components.Events;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Shoot;
-using Assets.Game.Scripts.Levels.Model.Components.Requests;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Input;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Shoot;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
 using Assets.Game.Scripts.Levels.Model.Factories;
 using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Game.Scripts.Levels.Model.Systems;
@@ -28,10 +29,11 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using UnityEngine;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
 using Assets.Game.Scripts.Levels.Model.Extensions;
 using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
 using Zenject;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -117,6 +119,7 @@ namespace Assets.Game.Scripts.Levels
                 .Add<TriggerEnterDebugSystem>(_container, _debugControls.IsTriggerEnterDebugEnable)
 #endif
                 #endregion
+                .Add<ProcessSystem<HpBarActiveProcess>>(_container)
                 .Add<DelayedAddOperationSystem<DestructionDelayed>>(_container)
                 .Add<DelayedAddOperationSystem<WeaponSpawnDelayed>>(_container)
                 .Add<DelayedRemoveOperationSystem<AttackDelayed>>(_container)
@@ -145,10 +148,8 @@ namespace Assets.Game.Scripts.Levels
                 .Add<EnemiesEvaluateSystem>(_container)
                 .Add<EnemiesBehaveSystem>(_container)
                 .Add<GetDamageSystem>(_container)
-                .Add<EnemyHpBarShowingSystem>(_container)
-                .Add<EnemyHpBarLifetimeSystem>(_container)
-                .Add<EnemyHpBarHidingSystem>(_container)
-                .Add<EnemyHpBarLookAtSystem>(_container)
+                .Add<EnemyHpBarActivateSystem>(_container)
+                .Add<EnemyHpBarDeactivateSystem>(_container)
                 .Add<EnemyHpBarChangeValueSystem>(_container)
                 .DelHere<WeaponAnimationStartRequest>()
                 .DelHere<WeaponAnimationStopRequest>()
@@ -173,6 +174,7 @@ namespace Assets.Game.Scripts.Levels
                 .Add<PlayerAnimatorShootParameterRequestSystem>(_container)
                 .Add<EnemiesAnimatorMoveParameterRequestSystem>(_container)
                 .Add<EnemiesAnimatorAttackParameterRequestSystem>(_container)
+                .Add<EnemyHpBarLookAtSystem>(_container)
                 .Add<AnimationSystem>(_container)
                 .DelHere<SetAnimatorParameterRequests>()
                 .Inject()

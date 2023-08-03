@@ -1,4 +1,4 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Player;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;

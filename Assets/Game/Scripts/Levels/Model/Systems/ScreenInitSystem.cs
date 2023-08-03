@@ -1,5 +1,5 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Player;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 

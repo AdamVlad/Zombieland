@@ -1,8 +1,9 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Delayed;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;

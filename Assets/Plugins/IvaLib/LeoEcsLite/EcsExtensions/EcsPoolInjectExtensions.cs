@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite.Di;
+﻿using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 
 namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions
 {
@@ -22,6 +23,11 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions
         public static void Del<T>(this EcsPoolInject<T> pools, int entity) where T : struct
         {
             pools.Value.Del(entity);
+        }
+
+        public static EcsWorld GetWorld<T>(this EcsPoolInject<T> pools) where T : struct
+        {
+            return pools.Value.GetWorld();
         }
     }
 }

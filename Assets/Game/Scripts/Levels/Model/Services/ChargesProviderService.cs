@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Assets.Game.Scripts.Levels.Model.Components.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Game.Scripts.Levels.Model.Pools;
 using Assets.Game.Scripts.Levels.Model.Repositories;
 using Assets.Plugins.IvaLib.UnityLib.Factory;

@@ -1,6 +1,6 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Delayed;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Leopotam.EcsLite;

@@ -1,11 +1,10 @@
-﻿using Assets.Game.Scripts.Levels.Model.AppData;
-using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Player;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.UnityLib;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Assets.Game.Scripts.Controllers;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Input;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Input;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Leopotam.EcsLite;
 using UnityEngine;

@@ -1,12 +1,14 @@
 ﻿using System.Runtime.CompilerServices;
-using Assets.Game.Scripts.Levels.Model.Components.Events;
-using Assets.Game.Scripts.Levels.Model.Components.Player;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Zenject;

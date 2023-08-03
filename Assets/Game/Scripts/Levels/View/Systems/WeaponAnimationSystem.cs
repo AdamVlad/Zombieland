@@ -1,5 +1,5 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Requests;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;

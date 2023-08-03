@@ -1,5 +1,5 @@
 ﻿using AB_Utility.FromSceneToEntityConverter;
-using Assets.Game.Scripts.Levels.Model.Components.Player;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 
 namespace Assets.Game.Scripts.Levels.View.Components.MonoConverters
 {

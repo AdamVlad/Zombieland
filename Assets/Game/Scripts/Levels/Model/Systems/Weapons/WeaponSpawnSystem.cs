@@ -1,14 +1,16 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Delayed;
-using Assets.Game.Scripts.Levels.Model.Components.Requests;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+﻿using System.Runtime.CompilerServices;
+
 using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
+using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Zenject;
 

@@ -1,4 +1,5 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Enemies;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Behaviours;
+using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;

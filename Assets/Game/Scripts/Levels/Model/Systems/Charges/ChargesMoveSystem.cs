@@ -1,8 +1,9 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Charges;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
-using Assets.Game.Scripts.Levels.Model.Components.Player;
-using Assets.Game.Scripts.Levels.Model.Components.Weapons;
+using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;

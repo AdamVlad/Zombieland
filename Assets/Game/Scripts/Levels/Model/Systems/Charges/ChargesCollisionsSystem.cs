@@ -1,13 +1,14 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Charges;
-using Assets.Game.Scripts.Levels.Model.Components.Events.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Assets.Game.Scripts.Levels.Model.Components.Events;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges

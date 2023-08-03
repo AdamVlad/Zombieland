@@ -1,9 +1,12 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Enemies;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+
 using UnityEngine;
 using Zenject;
 
@@ -17,7 +20,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
             <Inc<EnemyTagComponent,
                 HpBarComponent,
                 MonoLink<Transform>,
-                LifetimeComponent>> _filter = default;
+                Executing<HpBarActiveProcess>>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {

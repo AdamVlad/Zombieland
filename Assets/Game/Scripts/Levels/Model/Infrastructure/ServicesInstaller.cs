@@ -1,4 +1,4 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Charges;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Game.Scripts.Levels.Model.Creators;
 using Assets.Game.Scripts.Levels.Model.Factories;
 using Assets.Game.Scripts.Levels.Model.Repositories;
