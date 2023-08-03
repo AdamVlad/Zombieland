@@ -1,4 +1,5 @@
-﻿using AB_Utility.FromSceneToEntityConverter;
+﻿using System.ComponentModel;
+using AB_Utility.FromSceneToEntityConverter;
 using Assets.Game.Scripts.Levels.Model.Components;
 
 namespace Assets.Game.Scripts.Levels.View.Components.MonoConverters

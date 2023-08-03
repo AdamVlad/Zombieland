@@ -90,6 +90,7 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             ref var hpBarComponent = ref hpBarPool.Add(enemyEntity);
             hpBarComponent.HpBarCanvas = enemy.HpBarCanvas;
             hpBarComponent.HpBarCanvas.enabled = false;
+            hpBarComponent.Fill = enemy.HpImageFill;
 
             return enemy;
         }

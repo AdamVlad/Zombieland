@@ -87,8 +87,11 @@ namespace Assets.Game.Scripts.Levels
             _weaponsProviderService.Run();
             _chargesProviderService.Run();
 
-            _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
-            _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
+            // Сделать пул по созданию врагов
+            for (int i = 0; i < 10; i++)
+            {
+                _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
+            }
 
             _initSystems = new EcsSystems(_world);
             _initSystems
@@ -146,6 +149,7 @@ namespace Assets.Game.Scripts.Levels
                 .Add<EnemyHpBarLifetimeSystem>(_container)
                 .Add<EnemyHpBarHidingSystem>(_container)
                 .Add<EnemyHpBarLookAtSystem>(_container)
+                .Add<EnemyHpBarChangeValueSystem>(_container)
                 .DelHere<WeaponAnimationStartRequest>()
                 .DelHere<WeaponAnimationStopRequest>()
             #region Debug Systems

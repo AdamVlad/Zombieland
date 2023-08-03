@@ -1,6 +1,7 @@
 ﻿using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Leopotam.EcsLite;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Enemies
 {
@@ -11,6 +12,9 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Enemies
 
         [SerializeField] private Canvas _hpBarCanvas;
         public Canvas HpBarCanvas => _hpBarCanvas;
+
+        [SerializeField] private Image _hpImageFill;
+        public Image HpImageFill => _hpImageFill;
 
         private EcsPackedEntity _entityPacked;
 
