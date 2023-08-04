@@ -23,8 +23,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsFilterInject
             <Inc<PlayerTagComponent,
                 BackpackComponent,
-                ShootingComponent>, 
-            Exc<AttackDelayed, 
+                ShootingComponent>,
+            Exc<AttackDelayed,
                 ReloadingDelayed>> _playerFilter = default;
 
         [Inject] private EventsBus _eventsBus;
@@ -35,7 +35,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<AttackDelayComponent> _attackDelayPool = default;
-        private readonly EcsPoolInject<DamageComponent> _damagePool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -45,24 +44,19 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 if (!shootingComponent.IsShooting) continue;
 
                 ref var weaponEntity = ref _playerFilter.Get2(playerEntity).WeaponEntity;
-
                 ref var weaponClipComponent = ref _weaponClipPool.Get(weaponEntity);
 
                 if (weaponClipComponent.RestChargeCount <= 0 &&
                     weaponClipComponent.CurrentChargeInClipCount <= 0) return;
 
-                var chargeEntity = weaponClipComponent.ChargePool.Get().Entity;
-                ref var weaponDamageComponent = ref _damagePool.Get(weaponEntity);
-                ref var chargeDamageComponent = ref _damagePool.Get(chargeEntity);
-                chargeDamageComponent.Damage = weaponDamageComponent.Damage;
-
                 _eventsBus.NewEvent<ChargeGetFromPoolEvent>() = new ChargeGetFromPoolEvent
                 {
-                    Entity = chargeEntity
+                    PlayerEntity = playerEntity,
+                    WeaponEntity = weaponEntity
                 };
 
                 weaponClipComponent.CurrentChargeInClipCount--;
-                
+
                 if (weaponClipComponent.CurrentChargeInClipCount <= 0)
                 {
                     ThrowReloadingEvent(playerEntity, weaponEntity);

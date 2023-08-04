@@ -1,53 +1,44 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Data;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
+
 using DG.Tweening;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
-using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesMoveSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject
-            <Inc<PlayerTagComponent,
+            <Inc<ChargeTagComponent,
                 MonoLink<Transform>,
-                BackpackComponent>> _playerFilter = default;
+                Started<ChargeActiveProcess>>> _filter = default;
 
-        [Inject] private EventsBus _eventsBus;
-
-        private readonly EcsPoolInject<MonoLink<Charge>> _chargePool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformPool = default;
         private readonly EcsPoolInject<WeaponShootingComponent> _weaponShootingPool = default;
+        private readonly EcsPoolInject<ChargeActiveProcess> _chargeActiveProcessPool = default;
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var eventEntity in _eventsBus.GetEventBodies<ChargeGetFromPoolEvent>(out var chargeCreatedEventPool))
+            foreach (var chargeEntity in _filter.Value)
             {
-                ref var eventBody = ref chargeCreatedEventPool.Get(eventEntity);
+                var processEntity = _filter.Get3(chargeEntity).ProcessEntity;
+                ref var activeProcess = ref _chargeActiveProcessPool.Get(processEntity);
 
-                ref var charge = ref _chargePool.Get(eventBody.Entity).Value;
+                ref var chargeTransform = ref _filter.Get2(chargeEntity).Value;
+                ref var playerTransform = ref _transformPool.Get(activeProcess.PlayerEntity).Value;
+                ref var weaponShootingComponent = ref _weaponShootingPool.Get(activeProcess.WeaponEntity);
 
-                foreach (var playerEntity in _playerFilter.Value)
-                {
-                    ref var playerTransform = ref _transformPool.Get(playerEntity).Value;
-                    ref var weaponEntity = ref _playerFilter.Get3(playerEntity).WeaponEntity;
-                    ref var weaponShootingComponent = ref _weaponShootingPool.Get(weaponEntity);
-
-                    charge.transform.position = weaponShootingComponent.StartShootingPoint.position;
-                    charge.transform.DOMove(
-                        charge.transform.position +
-                        playerTransform.forward * weaponShootingComponent.ShootingDistance,
-                        weaponShootingComponent.ShootingPower);
-                }
+                chargeTransform.position = weaponShootingComponent.StartShootingPoint.position;
+                chargeTransform.DOMove(
+                    chargeTransform.position +
+                    playerTransform.forward * weaponShootingComponent.ShootingDistance,
+                    weaponShootingComponent.ShootingPower);
             }
         }
     }

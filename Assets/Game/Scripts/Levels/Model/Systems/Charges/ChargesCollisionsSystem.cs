@@ -1,12 +1,13 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Data;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Events;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Events;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Zenject;
@@ -18,35 +19,29 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
         [Inject] private EventsBus _eventsBus;
 
         private readonly EcsFilterInject
-            <Inc<ChargeTag,
-                StateComponent,
+            <Inc<ChargeTagComponent,
                 DamageComponent,
-                OnTriggerEnterEvent>> _filter = default;
+                OnTriggerEnterEvent,
+                Executing<ChargeActiveProcess>>> _filter = default;
 
         private readonly EcsPoolInject<HealthComponent> _healthPool = default;
+        private readonly EcsPoolInject<Process> _processPool = default;
 
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _filter.Value)
             {
-                ref var stateComponent = ref _filter.Get2(entity);
+                var processEntity = _filter.Get4(entity).ProcessEntity;
+                _processPool.SetDurationToProcess(processEntity, 0);
 
-                if (!stateComponent.IsActive) continue;
-
-                _eventsBus.NewEvent<ChargeReturnToPoolEvent>()
-                    = new ChargeReturnToPoolEvent
-                    {
-                        Entity = entity
-                    };
-
-                ref var triggerEnterComponent = ref _filter.Get4(entity);
+                ref var triggerEnterComponent = ref _filter.Get3(entity);
                 if (!triggerEnterComponent.OtherCollider.TryGetComponent<EntityReference>(
                         out var otherEntityReference)) continue;
 
                 if (!otherEntityReference.Unpack(out var otherEntity)) continue;
                 if (!_healthPool.Has(otherEntity)) continue;
 
-                ref var damageComponent = ref _filter.Get3(entity);
+                ref var damageComponent = ref _filter.Get2(entity);
 
                 _eventsBus.NewEvent<GetDamageEvent>()
                     = new GetDamageEvent

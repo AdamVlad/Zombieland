@@ -120,10 +120,13 @@ namespace Assets.Game.Scripts.Levels
 #endif
                 #endregion
                 .Add<ProcessSystem<HpBarActiveProcess>>(_container)
+                .Add<ProcessSystem<ChargeActiveProcess>>(_container)
+
                 .Add<DelayedAddOperationSystem<DestructionDelayed>>(_container)
                 .Add<DelayedAddOperationSystem<WeaponSpawnDelayed>>(_container)
                 .Add<DelayedRemoveOperationSystem<AttackDelayed>>(_container)
                 .Add<DelayedRemoveOperationSystem<ReloadingDelayed>>(_container)
+
                 .Add<WeaponsDestructionSystem>(_container)
                 .Add<DestructionSystem>(_container)
                 .Add<InputMoveSystem>(_container)
@@ -135,7 +138,6 @@ namespace Assets.Game.Scripts.Levels
                 .Add<PlayerReloadingSystem>(_container)
                 .Add<ChargesGetFromPoolSystem>(_container)
                 .Add<ChargesMoveSystem>(_container)
-                .Add<ChargesLifetimeSystem>(_container)
                 .Add<ChargesCollisionsSystem>(_container)
                 .Add<ChargesReturnToPoolSystem>(_container)
                 .DelHerePhysics()

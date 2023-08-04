@@ -3,6 +3,5 @@
     internal struct LifetimeComponent
     {
         public float Lifetime;
-        public float PassedTime;
     }
 }

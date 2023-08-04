@@ -4,6 +4,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges
 {
     internal struct ChargeGetFromPoolEvent : IEventReplicant
     {
-        public int Entity;
+        public int PlayerEntity;
+        public int WeaponEntity;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Assets.Game.Scripts.Levels.Model.Components.Data.Charges
 {
-    internal struct ChargeTag
+    internal struct ChargeTagComponent
     {
     }
 }

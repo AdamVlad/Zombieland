@@ -6,7 +6,7 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess
 {
     public sealed class ProcessSystem<TProcess> : IEcsRunSystem where TProcess : struct, IProcessData
     {
-        private EcsFilterInject<Inc<TProcess, EcsProcess.Process>> _filter = default;
+        private EcsFilterInject<Inc<TProcess, Process>> _filter = default;
         private EcsFilterInject<Inc<Started<TProcess>>> _started = default;
         private EcsFilterInject<Inc<Completed<TProcess>>> _completed = default;
 

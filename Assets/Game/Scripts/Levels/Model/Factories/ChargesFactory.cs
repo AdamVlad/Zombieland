@@ -1,10 +1,10 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components;
-using Assets.Game.Scripts.Levels.Model.Components.Data;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Checkers;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Assets.Plugins.IvaLib.UnityLib.Factory;
+
 using Leopotam.EcsLite;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -41,8 +41,8 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             // Physics events
             chargeGo.AddComponent<OnTriggerEnterChecker>();
 
-            // ChargeTag
-            var chargesPool = _world.GetPool<ChargeTag>();
+            // ChargeTagComponent
+            var chargesPool = _world.GetPool<ChargeTagComponent>();
             chargesPool.Add(chargeEntity);
 
             // Transform
@@ -55,11 +55,6 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             ref var collider = ref colliderPool.Add(chargeEntity);
             collider.Value = chargeGo.GetComponent<Collider>();
 
-            // State component
-            var statePool = _world.GetPool<StateComponent>();
-            ref var stateComponent = ref statePool.Add(chargeEntity);
-            stateComponent.IsActive = false;
-
             // Damage
             var damagePool = _world.GetPool<DamageComponent>();
             damagePool.Add(chargeEntity);
@@ -68,7 +63,6 @@ namespace Assets.Game.Scripts.Levels.Model.Factories
             var lifetimePool = _world.GetPool<LifetimeComponent>();
             ref var lifetimeComponent = ref lifetimePool.Add(chargeEntity);
             lifetimeComponent.Lifetime = chargeGo.Lifetime;
-            lifetimeComponent.PassedTime = 0;
 
             return chargeGo;
         }

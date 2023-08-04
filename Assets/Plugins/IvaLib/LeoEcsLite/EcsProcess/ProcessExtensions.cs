@@ -24,17 +24,19 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess
             return ref pool.Get(eventData.ProcessEntity);
         }
 
-        public static ref TProcess StartNewProcess<TProcess>(this EcsPoolInject<TProcess> pool, int targetEntity, float duration = 0) where TProcess : struct, IProcessData
+        public static ref TProcess StartNewProcess<TProcess>(this EcsPoolInject<TProcess> pool, int targetEntity, float duration = 0)
+            where TProcess : struct, IProcessData
         {
             return ref StartNewProcess(pool.Value, targetEntity, duration);
         }
 
-        public static ref TProcess StartNewProcess<TProcess>(this EcsPool<TProcess> pool, int targetEntity, float duration = 0) where TProcess : struct, IProcessData
+        public static ref TProcess StartNewProcess<TProcess>(this EcsPool<TProcess> pool, int targetEntity, float duration = 0)
+            where TProcess : struct, IProcessData
         {
             var world = pool.GetWorld();
             var processEntity = world.NewEntity();
 
-            world.GetPool<EcsProcess.Process>().Add(processEntity) = new EcsProcess.Process
+            world.GetPool<Process>().Add(processEntity) = new Process
             {
                 Phase = StatePhase.OnStart,
                 Target = world.PackEntity(targetEntity),
@@ -46,14 +48,35 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess
             return ref pool.Add(processEntity);
         }
 
-        public static void SetDurationToProcess(this EcsPoolInject<EcsProcess.Process> pool, int processEntity, float duration)
+        public static void SetDurationToProcess(this EcsPoolInject<Process> pool, int processEntity, float duration)
         {
             pool.Get(processEntity).Duration = duration;
         }
 
-        public static void SetDurationToProcess(this EcsPool<EcsProcess.Process> pool, int processEntity, float duration)
+        public static void SetDurationToProcess(this EcsPool<Process> pool, int processEntity, float duration)
         {
             pool.Get(processEntity).Duration = duration;
+        }
+
+        public static void KillProcess<TProcess>(this EcsPoolInject<TProcess> pool, int targetEntity)
+            where TProcess : struct, IProcessData
+        {
+            pool.Value.KillProcess(targetEntity);
+        }
+
+        public static void KillProcess<TProcess>(this EcsPool<TProcess> pool, int targetEntity)
+            where TProcess : struct, IProcessData
+        {
+            var world = pool.GetWorld();
+
+            var activeProcessPool = world.GetPool<Executing<TProcess>>();
+            var allProcessPool = world.GetPool<Process>();
+
+            var processEntity = activeProcessPool.Get(targetEntity).ProcessEntity;
+
+            activeProcessPool.Del(targetEntity);
+            allProcessPool.Del(processEntity);
+            pool.Del(processEntity);
         }
     }
 }
