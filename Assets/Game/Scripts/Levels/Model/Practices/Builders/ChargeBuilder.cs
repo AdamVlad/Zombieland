@@ -35,7 +35,7 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
 
         public ChargeBuilder WithDamage()
         {
-            _withLifetime = true;
+            _withDamage = true;
             return this;
         }
 
