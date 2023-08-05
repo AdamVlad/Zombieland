@@ -1,4 +1,4 @@
-namespace Assets.Game.Scripts.Levels.Model.Repositories
+namespace Assets.Game.Scripts.Levels.Model.Practices.Repositories
 {
     internal interface IRepository<out T>
     {

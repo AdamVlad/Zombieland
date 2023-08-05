@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 
-namespace Assets.Game.Scripts.Levels.Model.Repositories
+namespace Assets.Game.Scripts.Levels.Model.Practices.Repositories
 {
     // Сделать абстрактный класс
     internal class ChargesRepository : IRepository<Charge>

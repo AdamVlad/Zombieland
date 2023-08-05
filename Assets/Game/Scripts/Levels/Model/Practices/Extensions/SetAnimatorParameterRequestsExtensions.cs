@@ -1,6 +1,6 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
 
-namespace Assets.Game.Scripts.Levels.Model.Extensions
+namespace Assets.Game.Scripts.Levels.Model.Practices.Extensions
 {
     public static class SetAnimatorParameterRequestsExtensions
     {

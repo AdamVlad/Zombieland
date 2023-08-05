@@ -1,13 +1,13 @@
-using Assets.Game.Scripts.Levels.Model.Components;
 using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Assets.Plugins.IvaLib.UnityLib.Factory;
+
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace Assets.Game.Scripts.Levels.Model.Factories
+namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
 {
     internal class WeaponFactory : IFactory<GameObject, GameObject>
     {

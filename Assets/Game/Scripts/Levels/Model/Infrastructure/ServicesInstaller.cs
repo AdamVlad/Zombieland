@@ -1,8 +1,9 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
-using Assets.Game.Scripts.Levels.Model.Creators;
-using Assets.Game.Scripts.Levels.Model.Factories;
-using Assets.Game.Scripts.Levels.Model.Repositories;
+using Assets.Game.Scripts.Levels.Model.Practices.Creators;
+using Assets.Game.Scripts.Levels.Model.Practices.Factories;
+using Assets.Game.Scripts.Levels.Model.Practices.Repositories;
 using Assets.Game.Scripts.Levels.Model.Services;
+
 using Leopotam.EcsLite;
 using UnityEngine;
 using Zenject;

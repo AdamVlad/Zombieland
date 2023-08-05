@@ -957,14 +957,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemy: {fileID: 6272856255121296639, guid: 52d277b65bcfa1d4db33a968bbae66d8, type: 3}
   _enemyInitialPosition: {fileID: 532481905}
-  _debugControls:
-    IsEcsWorldDebugEnable: 0
-    IsCollisionEnterDebugEnable: 0
-    IsTriggerEnterDebugEnable: 0
-    IsPickUpItemDebugEnable: 0
-    IsShootStartedOrCanceledDebugEnable: 0
-    IsPlayerRotationRaycastEnable: 0
-    IsShootingDirectionRaycastEnable: 0
 --- !u!1 &1196226642
 GameObject:
   m_ObjectHideFlags: 0

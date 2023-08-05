@@ -16,7 +16,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesCollisionsSystem : IEcsRunSystem
     {
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsFilterInject
             <Inc<ChargeTagComponent,

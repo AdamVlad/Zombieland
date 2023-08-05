@@ -1,4 +1,4 @@
-namespace Assets.Game.Scripts.Levels.Model.Creators
+namespace Assets.Game.Scripts.Levels.Model.Practices.Creators
 {
     internal interface ICreator<out T>
     {

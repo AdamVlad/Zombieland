@@ -1,8 +1,9 @@
-using Assets.Game.Scripts.Levels.Model.Repositories;
+using Assets.Game.Scripts.Levels.Model.Practices.Repositories;
 using Assets.Plugins.IvaLib.UnityLib.Factory;
+
 using UnityEngine;
 
-namespace Assets.Game.Scripts.Levels.Model.Creators
+namespace Assets.Game.Scripts.Levels.Model.Practices.Creators
 {
     internal class WeaponsCreator : ICreator<GameObject>
     {

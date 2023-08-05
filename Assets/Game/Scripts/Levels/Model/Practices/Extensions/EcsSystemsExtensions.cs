@@ -1,7 +1,7 @@
 using Leopotam.EcsLite;
 using Zenject;
 
-namespace Assets.Game.Scripts.Levels.Model.Extensions
+namespace Assets.Game.Scripts.Levels.Model.Practices.Extensions
 {
     internal static class EcsSystemsExtensions
     {

@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
-using Assets.Game.Scripts.Levels.Model.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 
@@ -9,6 +8,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine.AI;
 using UnityEngine;
+using Assets.Game.Scripts.Levels.Model.Practices.Extensions;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
 {

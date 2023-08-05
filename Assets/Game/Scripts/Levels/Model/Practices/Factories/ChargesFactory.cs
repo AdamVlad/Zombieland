@@ -9,7 +9,7 @@ using Leopotam.EcsLite;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Assets.Game.Scripts.Levels.Model.Factories
+namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
 {
     internal class ChargesFactory : IFactory<Charge, Charge>
     {

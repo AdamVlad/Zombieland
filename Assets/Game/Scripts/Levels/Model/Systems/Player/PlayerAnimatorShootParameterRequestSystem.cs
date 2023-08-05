@@ -1,7 +1,7 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
-using Assets.Game.Scripts.Levels.Model.Extensions;
+using Assets.Game.Scripts.Levels.Model.Practices.Extensions;
 using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Game.Scripts.Levels.Model.Creators;
+using Assets.Game.Scripts.Levels.Model.Practices.Creators;
 using UnityEngine;
 using Random = System.Random;
 

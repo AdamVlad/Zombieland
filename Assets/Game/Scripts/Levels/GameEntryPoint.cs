@@ -1,7 +1,3 @@
-#region References
-
-using System;
-using AB_Utility.FromSceneToEntityConverter;
 using Assets.Game.Scripts.Levels.Controllers;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
@@ -10,11 +6,9 @@ using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Input;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Shoot;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
-using Assets.Game.Scripts.Levels.Model.Factories;
 using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Game.Scripts.Levels.Model.Systems;
 using Assets.Game.Scripts.Levels.Model.Systems.Charges;
-using Assets.Game.Scripts.Levels.Model.Systems.Debugs;
 using Assets.Game.Scripts.Levels.Model.Systems.Input;
 using Assets.Game.Scripts.Levels.Model.Systems.Player;
 using Assets.Game.Scripts.Levels.Model.Systems.Weapons;
@@ -25,36 +19,22 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Emitter;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
+using Assets.Game.Scripts.Levels.Model.Practices.Extensions;
+using Assets.Game.Scripts.Levels.Model.Practices.Factories;
+using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
+
+using System;
+using AB_Utility.FromSceneToEntityConverter;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using UnityEngine;
-using Assets.Game.Scripts.Levels.Model.Extensions;
-using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
 using Zenject;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
-
-#if UNITY_EDITOR
-using Leopotam.EcsLite.UnityEditor;
-#endif
-
-#endregion
 
 namespace Assets.Game.Scripts.Levels
 {
-    [Serializable]
-    internal struct DebugControls
-    {
-        public bool IsEcsWorldDebugEnable;
-        public bool IsCollisionEnterDebugEnable;
-        public bool IsTriggerEnterDebugEnable;
-        public bool IsPickUpItemDebugEnable;
-        public bool IsShootStartedOrCanceledDebugEnable;
-        public bool IsPlayerRotationRaycastEnable;
-        public bool IsShootingDirectionRaycastEnable;
-    }
-
     // TODO:
     // Убрать MonoLink<Weapon> и сделать отдельный компонент для Weapon - WeaponComponent
     // Разбить код на методы во входной точке
@@ -64,9 +44,6 @@ namespace Assets.Game.Scripts.Levels
         [Space, Header("Enemies")]
         [SerializeField] private Enemy _enemy;
         [SerializeField] private Transform _enemyInitialPosition;
-
-        [Space, Header("Debugs")]
-        [SerializeField] private DebugControls _debugControls;
 
         [Inject] private WeaponsProviderService _weaponsProviderService;
         [Inject] private ChargesProviderService _chargesProviderService;
@@ -111,14 +88,6 @@ namespace Assets.Game.Scripts.Levels
 
             _updateSystems = new EcsSystems(_world);
             _updateSystems
-                #region Debug Systems
-#if UNITY_EDITOR
-                .Add<EcsWorldDebugSystem>(_container, _debugControls.IsEcsWorldDebugEnable)
-                .Add<EcsSystemsDebugSystem>(_container, _debugControls.IsEcsWorldDebugEnable)
-                .Add<CollisionEnterDebugSystem>(_container, _debugControls.IsCollisionEnterDebugEnable)
-                .Add<TriggerEnterDebugSystem>(_container, _debugControls.IsTriggerEnterDebugEnable)
-#endif
-                #endregion
                 .Add<ProcessSystem<HpBarActiveProcess>>(_container)
                 .Add<ProcessSystem<ChargeActiveProcess>>(_container)
 
@@ -155,14 +124,6 @@ namespace Assets.Game.Scripts.Levels
                 .Add<EnemyHpBarChangeValueSystem>(_container)
                 .DelHere<WeaponAnimationStartRequest>()
                 .DelHere<WeaponAnimationStopRequest>()
-            #region Debug Systems
-#if UNITY_EDITOR
-                .Add<PickUpItemDebugSystem>(_container, _debugControls.IsPickUpItemDebugEnable)
-                .Add<ShootStartedOrCanceledDebugSystem>(_container, _debugControls.IsShootStartedOrCanceledDebugEnable)
-                .Add<PlayerRotationRaycastSystem>(_container, _debugControls.IsPlayerRotationRaycastEnable)
-                .Add<ShootingDirectionRaycastSystem>(_container, _debugControls.IsShootingDirectionRaycastEnable)
-#endif
-            #endregion
                 .Add(GetEventsDestroySystem())
                 .Inject()
                 .Init();

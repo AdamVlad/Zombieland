@@ -1,4 +1,4 @@
-﻿using Assets.Game.Scripts.Levels.Model.Factories;
+﻿using Assets.Game.Scripts.Levels.Model.Practices.Factories;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Infrastructure

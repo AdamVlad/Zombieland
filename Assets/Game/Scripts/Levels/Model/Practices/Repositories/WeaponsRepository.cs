@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Game.Scripts.Levels.Model.Repositories
+namespace Assets.Game.Scripts.Levels.Model.Practices.Repositories
 {
     internal class WeaponsRepository : IRepository<GameObject>
     {
