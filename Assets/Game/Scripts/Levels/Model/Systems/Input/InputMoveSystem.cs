@@ -18,7 +18,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
             <Inc<InputComponent,
                 PlayerMoveComponent>> _movingFilter = default;
 
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         public void Run(IEcsSystems systems)
         {

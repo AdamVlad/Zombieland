@@ -22,7 +22,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
             <Inc<WeaponSpawnDelayed,
                 WeaponSpawnerComponent>> _weaponSpawnersFilter = default;
 
-        [Inject] private WeaponsProviderService _weaponsService;
+        [Inject] private readonly WeaponsProviderService _weaponsService;
 
         private readonly EcsPoolInject<WeaponSpawnDelayed> _weaponSpawnDelayedPool = default;
         private readonly EcsPoolInject<MonoLink<Collider>> _colliderPool = default;

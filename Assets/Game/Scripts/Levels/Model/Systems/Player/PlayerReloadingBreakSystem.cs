@@ -21,8 +21,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsFilterInject
             <Inc<DelayedRemove<ReloadingDelayed>>> _delayedFilter = default;
 
-        [Inject] private EcsWorld _world;
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EcsWorld _world;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<ReloadingDelayed> _reloadingDelayedPool = default;
 

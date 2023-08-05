@@ -11,7 +11,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
 {
     internal sealed class EnemyHpBarChangeValueSystem : IEcsRunSystem
     {
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<HpBarComponent> _hpBarPool = default;
         private readonly EcsPoolInject<HealthComponent> _healthPool = default;

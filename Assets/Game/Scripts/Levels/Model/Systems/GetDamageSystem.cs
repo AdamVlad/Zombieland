@@ -11,7 +11,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems
 {
     internal sealed class GetDamageSystem : IEcsRunSystem
     {
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<HealthComponent> _healthPool = default;
 
@@ -26,10 +26,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems
                 ref var healthComponent = ref _healthPool.Get(getDamageEvent.To);
 
                 healthComponent.CurrentHealth -= getDamageEvent.Damage;
-                if (healthComponent.CurrentHealth <= 0)
-                {
-                    // Уничтожить или вернуть в пул
-                }
             }
         }
     }

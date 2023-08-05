@@ -1,5 +1,6 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 

@@ -9,8 +9,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
     {
         [SerializeField] private List<MonoBehaviour> _behavioursMono;
 
-        private ReadOnlyCollection<IBehaviour> _behaviours;
-        public ReadOnlyCollection<IBehaviour> Behaviours => _behaviours;
+        public ReadOnlyCollection<IBehaviour> Behaviours { get; private set; }
 
         private void Awake()
         {
@@ -23,7 +22,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
                 }
             }
 
-            _behaviours = new ReadOnlyCollection<IBehaviour>(temp);
+            Behaviours = new ReadOnlyCollection<IBehaviour>(temp);
         }
     }
 }

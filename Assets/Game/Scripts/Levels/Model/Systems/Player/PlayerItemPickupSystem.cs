@@ -21,7 +21,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
             <Inc<PlayerTagComponent,
                 OnTriggerEnterEvent>> _filter = default;
 
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<MonoLink<Weapon>> _weaponComponentPool = default;
 

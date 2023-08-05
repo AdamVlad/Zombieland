@@ -27,8 +27,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
             Exc<AttackDelayed,
                 ReloadingDelayed>> _playerFilter = default;
 
-        [Inject] private EventsBus _eventsBus;
-        [Inject] private EcsWorld _world;
+        [Inject] private readonly EventsBus _eventsBus;
+        [Inject] private readonly EcsWorld _world;
 
         private readonly EcsPoolInject<DelayedRemove<AttackDelayed>> _attackDelayedTimerPool = default;
         private readonly EcsPoolInject<AttackDelayed> _attackDelayedPool = default;

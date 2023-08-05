@@ -11,8 +11,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
     internal sealed class DeathBehaviour : MonoBehaviour, IBehaviour
     {
         [Inject]
-        private void Construct(
-            EcsWorld world)
+        private void Construct(EcsWorld world)
         {
             _world = world;
         }

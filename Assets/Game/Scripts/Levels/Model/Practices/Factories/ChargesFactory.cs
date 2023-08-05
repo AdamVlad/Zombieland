@@ -1,12 +1,9 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Checkers;
-using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
-using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+using Assets.Game.Scripts.Levels.Model.Practices.Builders.Context;
+using Assets.Game.Scripts.Levels.Model.Practices.Builders;
 using Assets.Plugins.IvaLib.UnityLib.Factory;
 
 using Leopotam.EcsLite;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
@@ -21,50 +18,20 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
 
         public Charge Create(Charge prefab, Vector3 position)
         {
-            var chargeGo = Object.Instantiate(prefab, position, Quaternion.identity, _parent);
+            var builder = new ChargeBuilder(new EcsContext(_world));
 
-            var chargeEntity = _world.NewEntity();
-
-            // Charge link
-            var bulletPool = _world.GetPool<MonoLink<Charge>>();
-            ref var bulletComponent = ref bulletPool.Add(chargeEntity);
-            bulletComponent.Value = chargeGo;
-
-            // Entity reference
-            var entityReference = chargeGo.AddComponent<EntityReference>();
-            var entityReferencePool = _world.GetPool<MonoLink<EntityReference>>();
-            ref var entityReferenceComponent = ref entityReferencePool.Add(chargeEntity);
-            entityReference.Pack(chargeEntity);
-            entityReferenceComponent.Value = entityReference;
-            chargeGo.Entity = chargeEntity;
-
-            // Physics events
-            chargeGo.AddComponent<OnTriggerEnterChecker>();
-
-            // ChargeTagComponent
-            var chargesPool = _world.GetPool<ChargeTagComponent>();
-            chargesPool.Add(chargeEntity);
-
-            // Transform
-            var transformPool = _world.GetPool<MonoLink<Transform>>();
-            ref var transform = ref transformPool.Add(chargeEntity);
-            transform.Value = chargeGo.transform;
-
-            // Collider
-            var colliderPool = _world.GetPool<MonoLink<Collider>>();
-            ref var collider = ref colliderPool.Add(chargeEntity);
-            collider.Value = chargeGo.GetComponent<Collider>();
-
-            // Damage
-            var damagePool = _world.GetPool<DamageComponent>();
-            damagePool.Add(chargeEntity);
-
-            // Lifetime component
-            var lifetimePool = _world.GetPool<LifetimeComponent>();
-            ref var lifetimeComponent = ref lifetimePool.Add(chargeEntity);
-            lifetimeComponent.Lifetime = chargeGo.Lifetime;
-
-            return chargeGo;
+            return builder
+                .WithCharge()
+                .WithTag()
+                .WithDamage()
+                .WithLifetime()
+                .WithPrefab(prefab)
+                .WithPositionInitialize(position)
+                .WithParentInitialize(_parent)
+                .WithTransform()
+                .WithCollider()
+                .WithEntityReference()
+                .Build();
         }
 
         private readonly Transform _parent;

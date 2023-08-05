@@ -1,10 +1,13 @@
 ﻿using Assets.Game.Scripts.Levels.Model.ScriptableObjects;
+using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
+
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Data.Enemies
 {
+    [RequireComponent(typeof(EntityReference))]
     internal class Enemy : MonoBehaviour
     {
         [SerializeField] private EnemyConfigurationSo _settings;

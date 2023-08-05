@@ -14,7 +14,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesGetFromPoolSystem : IEcsRunSystem
     {
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<LifetimeComponent> _lifetimePool = default;

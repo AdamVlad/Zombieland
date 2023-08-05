@@ -21,8 +21,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
 
         private readonly EcsFilterInject<Inc<InputScreenPositionComponent>> _screenFilter = default;
 
-        [Inject] private SceneConfigurationSo _sceneSettings;
-        [Inject] private Camera _mainCamera;
+        [Inject] private readonly SceneConfigurationSo _sceneSettings;
+        [Inject] private readonly Camera _mainCamera;
 
         public void Run(IEcsSystems systems)
         {

@@ -14,7 +14,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesReturnToPoolSystem : IEcsRunSystem
     {
-        [Inject] private ChargesProviderService _chargesService;
+        [Inject] private readonly ChargesProviderService _chargesService;
 
         private readonly EcsFilterInject
             <Inc<ChargeTagComponent,

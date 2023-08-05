@@ -1,18 +1,18 @@
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Repositories
 {
-    internal class WeaponsRepository : IRepository<GameObject>
+    internal class WeaponsRepository : IRepository<Weapon>
     {
-        public WeaponsRepository(IEnumerable<GameObject> objects)
+        public WeaponsRepository(IEnumerable<Weapon> objects)
         {
             _weapons = objects.ToArray();
         }
 
-        public GameObject Get(int index)
+        public Weapon Get(int index)
         {
             if (index < 0 || index >= _weapons.Length)
             {
@@ -24,6 +24,6 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Repositories
 
         public int Count() => _weapons.Length;
 
-        private readonly GameObject[] _weapons;
+        private readonly Weapon[] _weapons;
     }
 }

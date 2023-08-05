@@ -1,3 +1,4 @@
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Game.Scripts.Levels.Model.Practices.Repositories;
 using Assets.Plugins.IvaLib.UnityLib.Factory;
 
@@ -5,17 +6,17 @@ using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Creators
 {
-    internal class WeaponsCreator : ICreator<GameObject>
+    internal class WeaponsCreator : ICreator<Weapon>
     {
         public WeaponsCreator(
-            IRepository<GameObject> weaponsRepository,
-            IFactory<GameObject, GameObject> weaponFactory)
+            IRepository<Weapon> weaponsRepository,
+            IFactory<Weapon, Weapon> weaponFactory)
         {
             _weaponsRepository = weaponsRepository;
             _weaponFactory = weaponFactory;
         }
 
-        public GameObject CreateNext()
+        public Weapon CreateNext()
         {
             if (_nextIndex >= _weaponsRepository.Count()) return null;
 
@@ -26,8 +27,8 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Creators
 
         public bool CanCreate() => _nextIndex < _weaponsRepository.Count();
 
-        private readonly IRepository<GameObject> _weaponsRepository;
-        private readonly IFactory<GameObject, GameObject> _weaponFactory;
+        private readonly IRepository<Weapon> _weaponsRepository;
+        private readonly IFactory<Weapon, Weapon> _weaponFactory;
         private int _nextIndex;
     }
 }

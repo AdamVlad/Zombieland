@@ -10,6 +10,7 @@ using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using System.Runtime.CompilerServices;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
@@ -31,8 +32,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
         {
             foreach (var entity in _filter.Value)
             {
-                var processEntity = _filter.Get4(entity).ProcessEntity;
-                _processPool.SetDurationToProcess(processEntity, 0);
+                StopChargesActiveProcess(entity);
 
                 ref var triggerEnterComponent = ref _filter.Get3(entity);
                 if (!triggerEnterComponent.OtherCollider.TryGetComponent<EntityReference>(
@@ -51,6 +51,13 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
                         Damage = damageComponent.Damage
                     };
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void StopChargesActiveProcess(int entity)
+        {
+            var processEntity = _filter.Get4(entity).ProcessEntity;
+            _processPool.SetDurationToProcess(processEntity, 0);
         }
     }
 }

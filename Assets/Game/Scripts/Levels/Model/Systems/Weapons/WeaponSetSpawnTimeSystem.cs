@@ -19,9 +19,9 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
         private readonly EcsFilterInject<Inc<WeaponSpawnerComponent>> _weaponSpawnersFilter = default;
         private readonly EcsPoolInject<DelayedAdd<WeaponSpawnDelayed>> _timerPool = default;
 
-        [Inject] private SceneConfigurationSo _sceneSettings;
-        [Inject] private EventsBus _eventsBus;
-        [Inject] private EcsWorld _world;
+        [Inject] private readonly SceneConfigurationSo _sceneSettings;
+        [Inject] private readonly EventsBus _eventsBus;
+        [Inject] private readonly EcsWorld _world;
 
         public void Run(IEcsSystems systems)
         {

@@ -16,8 +16,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
     internal sealed class EnemyAttackBehaviour : MonoBehaviour, IBehaviour
     {
         [Inject]
-        private void Construct(
-            EcsWorld world)
+        private void Construct(EcsWorld world)
         {
             _world = world;
         }
@@ -73,7 +72,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
         private EcsPool<ShootingComponent> _attackPool;
 
         private Enemy _enemy;
-        private Collider[] _hitColliders = new Collider[5];
+        private readonly Collider[] _hitColliders = new Collider[5];
         private float _attackRadius;
         private LayerMask _layerMask;
     }

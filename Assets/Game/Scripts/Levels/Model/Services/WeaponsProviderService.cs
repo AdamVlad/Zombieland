@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Game.Scripts.Levels.Model.Practices.Creators;
 using UnityEngine;
 using Random = System.Random;
@@ -8,7 +9,7 @@ namespace Assets.Game.Scripts.Levels.Model.Services
 {
     internal sealed class WeaponsProviderService
     {
-        public WeaponsProviderService(ICreator<GameObject> creator)
+        public WeaponsProviderService(ICreator<Weapon> creator)
         {
             _creator = creator;
             _random = new Random();
@@ -27,7 +28,7 @@ namespace Assets.Game.Scripts.Levels.Model.Services
             }
         }
 
-        public GameObject Get(Transform spawnPoint)
+        public Weapon Get(Transform spawnPoint)
         {
             var result = GetInternal(Priority.High);
             if (result == null) result = GetInternal(Priority.Medium);
@@ -41,23 +42,23 @@ namespace Assets.Game.Scripts.Levels.Model.Services
 
             result.transform.position = spawnPoint.position;
             result.transform.rotation = Quaternion.identity;
-            result.SetActive(true);
+            result.gameObject.SetActive(true);
 
             return result;
         }
 
-        public void Return(GameObject weapon)
+        public void Return(Weapon weapon)
         {
             if (_pool.TryGetValue(weapon, out var priority))
             {
                 priority.Value = Priority.Low;
             }
-            weapon.SetActive(false);
+            weapon.gameObject.SetActive(false);
 
             UpdatePrioritiesIfNeedIt();
         }
 
-        private GameObject GetInternal(Priority priority)
+        private Weapon GetInternal(Priority priority)
         {
             var selected = _pool
                 .Where(p => p.Value.Value == priority)
@@ -110,8 +111,8 @@ namespace Assets.Game.Scripts.Levels.Model.Services
             public Priority Value;
         }
 
-        private readonly Dictionary<GameObject, PriorityComponent> _pool = new();
-        private readonly ICreator<GameObject> _creator;
+        private readonly Dictionary<Weapon, PriorityComponent> _pool = new();
+        private readonly ICreator<Weapon> _creator;
         private readonly Random _random;
         private int _interactions;
     }

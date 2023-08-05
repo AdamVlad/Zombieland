@@ -23,9 +23,9 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
             <Inc<PlayerTagComponent,
                 BackpackComponent>> _filter = default;
 
-        [Inject] private EcsWorld _world;
-        [Inject] private SceneConfigurationSo _sceneSettings;
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EcsWorld _world;
+        [Inject] private readonly SceneConfigurationSo _sceneSettings;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Rigidbody>> _rigidbodyComponentPool = default;

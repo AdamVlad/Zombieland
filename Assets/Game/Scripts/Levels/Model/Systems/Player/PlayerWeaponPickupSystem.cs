@@ -14,7 +14,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerWeaponPickupSystem : IEcsRunSystem
     {
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<BackpackComponent> _backpackComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;

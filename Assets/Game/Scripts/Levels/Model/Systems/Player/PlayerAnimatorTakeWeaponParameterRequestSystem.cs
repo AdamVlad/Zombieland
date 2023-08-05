@@ -19,7 +19,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
 
-        [Inject] private PlayerConfigurationSo _playerSettings;
+        [Inject] private readonly PlayerConfigurationSo _playerSettings;
 
         public void Run(IEcsSystems systems)
         {

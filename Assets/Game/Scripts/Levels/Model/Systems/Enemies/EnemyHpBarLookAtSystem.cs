@@ -14,7 +14,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
 {
     internal sealed class EnemyHpBarLookAtSystem : IEcsRunSystem
     {
-        [Inject] private Camera _camera;
+        [Inject] private readonly Camera _camera;
 
         private readonly EcsFilterInject
             <Inc<EnemyTagComponent,

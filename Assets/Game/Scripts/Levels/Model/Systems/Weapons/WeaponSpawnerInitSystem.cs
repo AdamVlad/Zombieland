@@ -15,15 +15,15 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
         private readonly EcsFilterInject<Inc<WeaponSpawnerComponent>> _weaponSpawnersFilter = default;
         private readonly EcsPoolInject<WeaponAnimationStartRequest> _weaponAnimationRequestPool = default;
 
-        [Inject] private WeaponsProviderService _weaponsService;
+        [Inject] private readonly WeaponsProviderService _weaponsService;
         
         public void Init(IEcsSystems systems)
         {
             foreach (var spawnEntity in _weaponSpawnersFilter.Value)
             {
                 ref var weaponSpawnerComponent = ref _weaponSpawnersFilter.Get1(spawnEntity);
-                var weaponGO = _weaponsService.Get(weaponSpawnerComponent.SpawnPoint);
-                var weaponEntityReference = weaponGO.GetComponent<EntityReference>();
+                var weapon = _weaponsService.Get(weaponSpawnerComponent.SpawnPoint);
+                var weaponEntityReference = weapon.gameObject.GetComponent<EntityReference>();
 
                 if (weaponEntityReference.Unpack(out var weaponEntity))
                 {

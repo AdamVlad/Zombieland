@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Game.Scripts.Levels.Model.Practices.Creators;
 using Assets.Game.Scripts.Levels.Model.Practices.Factories;
 using Assets.Game.Scripts.Levels.Model.Practices.Repositories;
@@ -30,26 +31,51 @@ namespace Assets.Game.Scripts.Levels.Model.Infrastructure
 
         private void WeaponsProviderServiceInstall()
         {
-            var weaponsRepository = new WeaponsRepository(_weapons);
-            var weaponFactory = new WeaponFactory(_world, _weaponsInitialParent);
-            var weaponsCreator = new WeaponsCreator(
-                weaponsRepository,
-                weaponFactory);
+            var temp = new Weapon[_weapons.Length];
+            for (int i = 0; i < _weapons.Length; i++)
+            {
+                temp[i] = _weapons[i].GetComponent<Weapon>();
+            }
+
+            Container
+                .Bind<IRepository<Weapon>>()
+                .To<WeaponsRepository>()
+                .FromInstance(new WeaponsRepository(temp))
+                .AsSingle();
+
+            Container
+                .Bind<Plugins.IvaLib.UnityLib.Factory.IFactory<Weapon, Weapon>>()
+                .To<WeaponFactory>()
+                .FromInstance(new WeaponFactory(_world, _weaponsInitialParent))
+                .AsSingle();
+
+            Container
+                .Bind<ICreator<Weapon>>()
+                .To<WeaponsCreator>()
+                .AsSingle();
 
             Container
                 .Bind<WeaponsProviderService>()
-                .FromInstance(new WeaponsProviderService(weaponsCreator))
                 .AsSingle();
         }
 
         private void ChargesProviderServiceInstall()
         {
-            var chargesRepository = new ChargesRepository(_charges);
-            var chargesFactory = new ChargesFactory(_world, _chargesInitialParent);
+            Container
+                .Bind<IRepository<Charge>>()
+                .To<ChargesRepository>()
+                .FromInstance(new ChargesRepository(_charges))
+                .AsSingle();
+
+            Container
+                .Bind<Plugins.IvaLib.UnityLib.Factory.IFactory<Charge, Charge>>()
+                .To<ChargesFactory>()
+                .FromInstance(new ChargesFactory(_world, _chargesInitialParent))
+                .AsSingle();
 
             Container
                 .Bind<ChargesProviderService>()
-                .FromInstance(new ChargesProviderService(chargesRepository, chargesFactory))
+                .ToSelf()
                 .AsSingle();
         }
     }

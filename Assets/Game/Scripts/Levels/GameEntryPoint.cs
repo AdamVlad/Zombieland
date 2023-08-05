@@ -15,7 +15,6 @@ using Assets.Game.Scripts.Levels.Model.Systems.Weapons;
 using Assets.Game.Scripts.Levels.View.Systems;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Emitter;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
@@ -25,13 +24,16 @@ using Assets.Game.Scripts.Levels.Model.Practices.Extensions;
 using Assets.Game.Scripts.Levels.Model.Practices.Factories;
 using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
 
-using System;
 using AB_Utility.FromSceneToEntityConverter;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using UnityEngine;
 using Zenject;
+
+#if UNITY_EDITOR
+using Leopotam.EcsLite.UnityEditor;
+#endif
 
 namespace Assets.Game.Scripts.Levels
 {
@@ -66,7 +68,7 @@ namespace Assets.Game.Scripts.Levels
             _weaponsProviderService.Run();
             _chargesProviderService.Run();
 
-            // Сделать пул по созданию врагов
+            //Сделать пул по созданию врагов
             for (int i = 0; i < 10; i++)
             {
                 _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
@@ -88,6 +90,12 @@ namespace Assets.Game.Scripts.Levels
 
             _updateSystems = new EcsSystems(_world);
             _updateSystems
+
+#if UNITY_EDITOR
+                .Add<EcsWorldDebugSystem>(_container)
+                .Add<EcsSystemsDebugSystem>(_container)
+#endif
+
                 .Add<ProcessSystem<HpBarActiveProcess>>(_container)
                 .Add<ProcessSystem<ChargeActiveProcess>>(_container)
 

@@ -19,8 +19,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
     {
         private readonly EcsFilterInject<Inc<PlayerTagComponent>> _filter = default;
 
-        [Inject] private PlayerConfigurationSo _playerSettings;
-        [Inject] private GameConfigurationSo _gameSettings;
+        [Inject] private readonly PlayerConfigurationSo _playerSettings;
+        [Inject] private readonly GameConfigurationSo _gameSettings;
 
         private readonly EcsPoolInject<MonoLink<EntityReference>> _entityReferenceComponentPool = default;
         private readonly EcsPoolInject<MonoLink<Transform>> _transformComponentPool = default;

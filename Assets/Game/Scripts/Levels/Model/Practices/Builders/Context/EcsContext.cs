@@ -1,6 +1,8 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Behaviours;
 using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 
@@ -15,7 +17,12 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
         public EcsContext(EcsWorld world)
         {
             _world = world;
+        }
+
+        public EcsContext SetNewEntity()
+        {
             _entity = _world.NewEntity();
+            return this;
         }
 
         public EcsContext SetTransform(Transform transform)
@@ -32,6 +39,15 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
             var colliderPool = _world.GetPool<MonoLink<Collider>>();
             ref var colliderComponent = ref colliderPool.Add(_entity);
             colliderComponent.Value = collider;
+
+            return this;
+        }
+
+        public EcsContext SetRigidbody(Rigidbody rigidbody)
+        {
+            var rigidbodyPool = _world.GetPool<MonoLink<Rigidbody>>();
+            ref var rigidbodyComponent = ref rigidbodyPool.Add(_entity);
+            rigidbodyComponent.Value = rigidbody;
 
             return this;
         }
@@ -122,7 +138,110 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
             return this;
         }
 
-        protected readonly EcsWorld _world;
-        protected readonly int _entity;
+        public EcsContext SetDamage(int damage = default)
+        {
+            var damagePool = _world.GetPool<DamageComponent>();
+            damagePool.Add(_entity) = new DamageComponent
+            {
+                Damage = damage
+            };
+
+            return this;
+        }
+
+        public EcsContext SetLifetime(float lifetime)
+        {
+            var lifetimePool = _world.GetPool<LifetimeComponent>();
+            ref var lifetimeComponent = ref lifetimePool.Add(_entity);
+            lifetimeComponent.Lifetime = lifetime;
+
+            return this;
+        }
+
+        public EcsContext SetCharge(Charge charge)
+        {
+            var chargePool = _world.GetPool<MonoLink<Charge>>();
+            ref var chargeComponent = ref chargePool.Add(_entity);
+            chargeComponent.Value = charge;
+            chargeComponent.Value.Entity = _entity;
+
+            return this;
+        }
+
+        public EcsContext SetChargeTag()
+        {
+            var chargesPool = _world.GetPool<ChargeTagComponent>();
+            chargesPool.Add(_entity);
+
+            return this;
+        }
+
+        public EcsContext SetWeapon(Weapon weapon)
+        {
+            var weaponPool = _world.GetPool<MonoLink<Weapon>>();
+            ref var weaponComponent = ref weaponPool.Add(_entity);
+            weaponComponent.Value = weapon;
+
+            return this;
+        }
+
+        public EcsContext SetWeaponClip(Weapon weapon)
+        {
+            var weaponClipPool = _world.GetPool<WeaponClipComponent>();
+            weaponClipPool.Add(_entity) = new WeaponClipComponent(
+                weapon.Settings.ChargeType,
+                weapon.Settings.TotalCharge,
+                weapon.Settings.CapacityCharge);
+
+            return this;
+        }
+
+        public EcsContext SetParent(Transform parent)
+        {
+            var parentComponentPool = _world.GetPool<ParentComponent>();
+            ref var parentComponent = ref parentComponentPool.Add(_entity);
+            parentComponent.InitParentTransform = parent;
+            parentComponent.CurrentParentTransform = parent;
+
+            return this;
+        }
+
+        public EcsContext SetAttackDelay(float delay)
+        {
+            var attackDelayPool = _world.GetPool<AttackDelayComponent>();
+            attackDelayPool.Add(_entity) = new AttackDelayComponent
+            {
+                Delay = delay
+            };
+
+            return this;
+        }
+
+        public EcsContext SetReloadingDelay(float delay)
+        {
+            var reloadingPool = _world.GetPool<ReloadingComponent>();
+            reloadingPool.Add(_entity) = new ReloadingComponent
+            {
+                Delay = delay
+            };
+
+            return this;
+        }
+
+        public EcsContext SetWeaponShooting(Weapon weapon)
+        {
+            var shootPointPool = _world.GetPool<WeaponShootingComponent>();
+            shootPointPool.Add(_entity) = new WeaponShootingComponent
+            {
+                StartShootingPoint = weapon.ShootPoint,
+                ShootingDistance = weapon.Settings.ShootingDistance,
+                ShootingPower = weapon.Settings.ShootingPower
+            };
+
+            return this;
+        }
+
+        private readonly EcsWorld _world;
+        private int _entity;
     }
 }

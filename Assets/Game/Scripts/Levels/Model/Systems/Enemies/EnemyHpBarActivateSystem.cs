@@ -16,7 +16,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
 {
     internal sealed class EnemyHpBarActivateSystem : IEcsRunSystem
     {
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<Executing<HpBarActiveProcess>> _executingProcessPool = default;
         private readonly EcsPoolInject<HpBarActiveProcess> _activateProcessPool = default;

@@ -16,8 +16,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
     internal sealed class PlayerReloadingSystem : IEcsRunSystem
     {
-        [Inject] private EcsWorld _world;
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EcsWorld _world;
+        [Inject] private readonly EventsBus _eventsBus;
 
         private readonly EcsPoolInject<DelayedRemove<ReloadingDelayed>> _reloadingDelayedTimerPool = default;
         private readonly EcsPoolInject<ReloadingDelayed> _reloadingDelayedPool = default;

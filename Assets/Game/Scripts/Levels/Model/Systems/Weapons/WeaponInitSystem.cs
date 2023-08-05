@@ -16,8 +16,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Weapons
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<WeaponShootingComponent> _weaponShootingPool = default;
 
-        [Inject] private ChargesProviderService _chargesService;
-        [Inject] private GameConfigurationSo _gameSettings;
+        [Inject] private readonly ChargesProviderService _chargesService;
+        [Inject] private readonly GameConfigurationSo _gameSettings;
 
         public void Init(IEcsSystems systems)
         {

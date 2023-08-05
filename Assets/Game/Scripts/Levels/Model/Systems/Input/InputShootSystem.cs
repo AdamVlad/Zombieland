@@ -21,7 +21,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
                 ShootingComponent,
                 BackpackComponent>> _filter = default;
 
-        [Inject] private EventsBus _eventsBus;
+        [Inject] private readonly EventsBus _eventsBus;
 
         public void Run(IEcsSystems systems)
         {

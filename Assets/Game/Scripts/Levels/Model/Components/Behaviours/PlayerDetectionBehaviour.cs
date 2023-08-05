@@ -66,7 +66,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
         private NavMeshAgent _agent;
 
         private GameConfigurationSo _gameSettings;
-        private Collider[] _hitColliders = new Collider[5];
+        private readonly Collider[] _hitColliders = new Collider[5];
         private float _detectionRadius;
         private LayerMask _layerMask;
     }
