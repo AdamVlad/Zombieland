@@ -12,6 +12,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
     internal sealed class EnemyHpBarChangeValueSystem : IEcsRunSystem
     {
         [Inject] private readonly EventsBus _eventsBus;
+        [Inject] private readonly EcsWorld _world;
 
         private readonly EcsPoolInject<HpBarComponent> _hpBarPool = default;
         private readonly EcsPoolInject<HealthComponent> _healthPool = default;
@@ -20,8 +21,9 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
         {
             foreach (var eventEntity in _eventsBus.GetEventBodies<GetDamageEvent>(out var getDamagePool))
             {
-                var entity = getDamagePool.Get(eventEntity).To;
+                var entityPacked = getDamagePool.Get(eventEntity).To;
 
+                if (!entityPacked.Unpack(_world, out var entity)) continue;
                 if (!_hpBarPool.Has(entity)) continue;
                 if (!_healthPool.Has(entity)) continue;
 

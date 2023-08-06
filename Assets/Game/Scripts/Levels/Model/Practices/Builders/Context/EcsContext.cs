@@ -2,6 +2,7 @@
 using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
@@ -237,6 +238,74 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
                 ShootingDistance = weapon.Settings.ShootingDistance,
                 ShootingPower = weapon.Settings.ShootingPower
             };
+
+            return this;
+        }
+
+        public EcsContext SetPlayerMove(float speed)
+        {
+            var movePool = _world.GetPool<PlayerMoveComponent>();
+            movePool.Add(_entity) = new PlayerMoveComponent
+            {
+                Speed = speed
+            };
+
+            return this;
+        }
+
+        public EcsContext SetPlayerRotation(float speed, float turnAngle)
+        {
+            var rotationPool = _world.GetPool<RotationComponent>();
+            rotationPool.Add(_entity) = new RotationComponent
+            {
+                Speed = speed,
+                SmoothTurningAngle = turnAngle
+            };
+
+            return this;
+        }
+
+        public EcsContext SetInput()
+        {
+            var inputPool = _world.GetPool<InputComponent>();
+            inputPool.Add(_entity);
+
+            return this;
+        }
+
+        public EcsContext SetShooting()
+        {
+            var shootingPool = _world.GetPool<ShootingComponent>();
+            shootingPool.Add(_entity);
+
+            return this;
+        }
+
+        public EcsContext SetBackpack(int weaponEntity, Transform weaponHolderPoint)
+        {
+            var backpackPool = _world.GetPool<BackpackComponent>();
+            backpackPool.Add(_entity) = new BackpackComponent
+            {
+                WeaponEntity = weaponEntity,
+                WeaponHolderPoint = weaponHolderPoint
+            };
+
+            return this;
+        }
+
+        public EcsContext SetPlayerTag()
+        {
+            var playerPool = _world.GetPool<PlayerTagComponent>();
+            playerPool.Add(_entity);
+
+            return this;
+        }
+
+        public EcsContext SetPlayer(Player player)
+        {
+            var playerPool = _world.GetPool<MonoLink<Player>>();
+            ref var playerComponent = ref playerPool.Add(_entity);
+            playerComponent.Value = player;
 
             return this;
         }

@@ -18,7 +18,7 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
             _parent = parent;
         }
 
-        public Enemy Create(Enemy prefab, Vector3 position)
+        public Enemy Create(Enemy prefab, Vector3 position = default)
         {
             var builder = new EnemyBuilder(new EcsContext(_world));
 

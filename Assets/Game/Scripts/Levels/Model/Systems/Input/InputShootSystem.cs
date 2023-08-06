@@ -25,8 +25,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
 
         public void Run(IEcsSystems systems)
         {
-            // по-хорошему тут нужно прокидывать entity, который вызвал событие, и именно для
-            // него вызывать соответствующие процессы
             if (_eventsBus.HasEventSingleton<InputOnScreenStartedEvent>())
             {
                 StartProcessShoot();

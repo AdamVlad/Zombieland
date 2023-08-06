@@ -16,14 +16,14 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
             _parent = parent;
         }
 
-        public Weapon Create(Weapon prefab, Vector3 position)
+        public Weapon Create(Weapon prefab, Vector3 position = default)
         {
             var builder = new WeaponBuilder(new EcsContext(_world));
 
             return builder
                 .WithWeapon()
                 .WithClip()
-                .WithShooting()
+                .WithWeaponShooting()
                 .WithDamage()
                 .WithAttackDelay()
                 .WithReloadingDelay()

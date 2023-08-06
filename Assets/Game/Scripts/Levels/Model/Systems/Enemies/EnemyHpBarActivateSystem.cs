@@ -17,6 +17,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
     internal sealed class EnemyHpBarActivateSystem : IEcsRunSystem
     {
         [Inject] private readonly EventsBus _eventsBus;
+        [Inject] private readonly EcsWorld _world;
 
         private readonly EcsPoolInject<Executing<HpBarActiveProcess>> _executingProcessPool = default;
         private readonly EcsPoolInject<HpBarActiveProcess> _activateProcessPool = default;
@@ -29,22 +30,23 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
         {
             foreach (var eventEntity in _eventsBus.GetEventBodies<GetDamageEvent>(out var getDamageEventPool))
             {
-                var getDamageEvent = getDamageEventPool.Get(eventEntity);
+                var hittedEntityPacked = getDamageEventPool.Get(eventEntity).To;
 
-                if (!_enemyPool.Has(getDamageEvent.To)) continue;
-                if (!_hpPool.Has(getDamageEvent.To)) continue;
+                if (!hittedEntityPacked.Unpack(_world, out var hittedEntity)) continue;
+                if (!_enemyPool.Has(hittedEntity)) continue;
+                if (!_hpPool.Has(hittedEntity)) continue;
 
-                ref var enemy = ref _enemyPool.Get(getDamageEvent.To).Value;
-                ref var hpBarComponent = ref _hpPool.Get(getDamageEvent.To);
+                ref var enemy = ref _enemyPool.Get(hittedEntity).Value;
+                ref var hpBarComponent = ref _hpPool.Get(hittedEntity);
 
                 if (hpBarComponent.HpBarCanvas.enabled)
                 {
-                    ReshowHpBar(getDamageEvent.To, enemy.Settings.HealthBarHideDelay);
+                    ReshowHpBar(hittedEntity, enemy.Settings.HealthBarHideDelay);
                 }
                 else
                 {
                     hpBarComponent.HpBarCanvas.enabled = true;
-                    ShowHpBar(getDamageEvent.To, enemy.Settings.HealthBarHideDelay);
+                    ShowHpBar(hittedEntity, enemy.Settings.HealthBarHideDelay);
                 }
             }
         }

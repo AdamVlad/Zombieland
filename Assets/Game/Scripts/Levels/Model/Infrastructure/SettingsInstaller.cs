@@ -9,13 +9,16 @@ namespace Assets.Game.Scripts.Levels.Model.Infrastructure
     {
         [SerializeField] private GameConfigurationSo _gameSettings;
         [SerializeField] private SceneConfigurationSo _sceneSettings;
-        [SerializeField] private PlayerConfigurationSo _playerSettings;
 
         private void Awake()
         {
             if (_gameSettings == null)
             {
-                throw new NullReferenceException("Player settings not set");
+                throw new NullReferenceException("Game settings not set");
+            }
+            if (_sceneSettings == null)
+            {
+                throw new NullReferenceException("Scene settings not set");
             }
         }
 
@@ -23,7 +26,6 @@ namespace Assets.Game.Scripts.Levels.Model.Infrastructure
         {
             GameSettingsInstall();
             SceneSettingsInstall();
-            PlayerSettingsInstall();
         }
 
         private void GameSettingsInstall()
@@ -39,14 +41,6 @@ namespace Assets.Game.Scripts.Levels.Model.Infrastructure
             Container
                 .Bind<SceneConfigurationSo>()
                 .FromScriptableObject(_sceneSettings)
-                .AsSingle();
-        }
-
-        private void PlayerSettingsInstall()
-        {
-            Container
-                .Bind<PlayerConfigurationSo>()
-                .FromScriptableObject(_playerSettings)
                 .AsSingle();
         }
     }

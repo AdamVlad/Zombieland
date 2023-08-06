@@ -12,15 +12,15 @@ namespace Assets.Game.Scripts.Levels.Model.Systems
     {
         private readonly EcsFilterInject<Inc<ParentComponent>> _filter = default;
 
-        private readonly EcsPoolInject<MonoLink<Transform>> transformPool = default;
+        private readonly EcsPoolInject<MonoLink<Transform>> _transformPool = default;
 
         public void Init(IEcsSystems systems)
         {
             foreach (var entity in _filter.Value)
             {
-                if (!transformPool.Has(entity)) continue;
+                if (!_transformPool.Has(entity)) continue;
 
-                ref var transformComponent = ref transformPool.Get(entity);
+                ref var transformComponent = ref _transformPool.Get(entity);
                 ref var parentComponent = ref _filter.Get1(entity);
 
                 parentComponent.InitParentTransform = transformComponent.Value.parent;

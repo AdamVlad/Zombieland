@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite;
+﻿using Assets.Game.Scripts.Levels.Model.Practices.Builders.Context;
+using Leopotam.EcsLite;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Infrastructure
@@ -7,12 +8,8 @@ namespace Assets.Game.Scripts.Levels.Model.Infrastructure
     {
         public override void InstallBindings()
         {
-            DiContainerInstall();
-        }
-
-        private void DiContainerInstall()
-        {
             EcsWorldInstall();
+            EcsContextInstall();
         }
 
         private void EcsWorldInstall()
@@ -21,6 +18,13 @@ namespace Assets.Game.Scripts.Levels.Model.Infrastructure
                 .Bind<EcsWorld>()
                 .AsSingle()
                 .NonLazy();
+        }
+
+        private void EcsContextInstall()
+        {
+            Container
+                .Bind<EcsContext>()
+                .AsSingle();
         }
     }
 }

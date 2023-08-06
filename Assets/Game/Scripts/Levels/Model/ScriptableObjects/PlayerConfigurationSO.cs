@@ -10,9 +10,6 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
         [SerializeField, Range(1, 1000)] private float _maxHealth;
         public float MaxHealth => _maxHealth;
 
-        [SerializeField] private GameObject _prefab;
-        public GameObject Prefab => _prefab;
-
         [Space, Header("Physics")]
 
         [SerializeField] private float _moveSpeed;

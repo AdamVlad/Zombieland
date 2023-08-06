@@ -47,7 +47,7 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
             return this;
         }
 
-        public WeaponBuilder WithShooting()
+        public WeaponBuilder WithWeaponShooting()
         {
             _withShooting = true;
             return this;

@@ -6,13 +6,13 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess
 {
     public sealed class ProcessSystem<TProcess> : IEcsRunSystem where TProcess : struct, IProcessData
     {
-        private EcsFilterInject<Inc<TProcess, Process>> _filter = default;
-        private EcsFilterInject<Inc<Started<TProcess>>> _started = default;
-        private EcsFilterInject<Inc<Completed<TProcess>>> _completed = default;
+        private readonly EcsFilterInject<Inc<TProcess, Process>> _filter = default;
+        private readonly EcsFilterInject<Inc<Started<TProcess>>> _started = default;
+        private readonly EcsFilterInject<Inc<Completed<TProcess>>> _completed = default;
 
-        private EcsPoolInject<Started<TProcess>> _startedPool = default;
-        private EcsPoolInject<Executing<TProcess>> _executingPool = default;
-        private EcsPoolInject<Completed<TProcess>> _completedPool = default;
+        private readonly EcsPoolInject<Started<TProcess>> _startedPool = default;
+        private readonly EcsPoolInject<Executing<TProcess>> _executingPool = default;
+        private readonly EcsPoolInject<Completed<TProcess>> _completedPool = default;
 
         public void Run(IEcsSystems systems)
         {

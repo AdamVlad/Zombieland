@@ -13,18 +13,20 @@ using Assets.Game.Scripts.Levels.Model.Systems.Input;
 using Assets.Game.Scripts.Levels.Model.Systems.Player;
 using Assets.Game.Scripts.Levels.Model.Systems.Weapons;
 using Assets.Game.Scripts.Levels.View.Systems;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
+using Assets.Game.Scripts.Levels.Model.Practices.Extensions;
+using Assets.Game.Scripts.Levels.Model.Practices.Factories;
+using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
+
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Emitter;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
-using Assets.Game.Scripts.Levels.Model.Practices.Extensions;
-using Assets.Game.Scripts.Levels.Model.Practices.Factories;
-using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
 
 using AB_Utility.FromSceneToEntityConverter;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
@@ -43,15 +45,17 @@ namespace Assets.Game.Scripts.Levels
 
     internal sealed class GameEntryPoint : MonoBehaviour
     {
-        [Space, Header("Enemies")]
         [SerializeField] private Enemy _enemy;
         [SerializeField] private Transform _enemyInitialPosition;
+
+        [SerializeField] private Player _player;
 
         [Inject] private WeaponsProviderService _weaponsProviderService;
         [Inject] private ChargesProviderService _chargesProviderService;
 
         [Inject] private EcsWorld _world;
         [Inject] private EnemyFactory _enemyFactory;
+        [Inject] private PlayerFactory _playerFactory;
         [Inject] private EventsBus _eventsBus;
         [Inject] private DiContainer _container;
 
@@ -68,6 +72,8 @@ namespace Assets.Game.Scripts.Levels
             _weaponsProviderService.Run();
             _chargesProviderService.Run();
 
+            _playerFactory.Create(_player);
+
             //Сделать пул по созданию врагов
             for (int i = 0; i < 10; i++)
             {
@@ -78,7 +84,6 @@ namespace Assets.Game.Scripts.Levels
             _initSystems
                 .Add<WeaponInitSystem>(_container)
                 .Add<WeaponSpawnerInitSystem>(_container)
-                .Add<PlayerInitSystem>(_container)
                 .Add<EntityReferenceInitSystem>(_container)
                 .Add<ParentHolderInitSystem>(_container)
                 .Add<InputInitSystem>(_container)
@@ -126,10 +131,10 @@ namespace Assets.Game.Scripts.Levels
                 .Add<WeaponAnimationSystem>(_container)
                 .Add<EnemiesEvaluateSystem>(_container)
                 .Add<EnemiesBehaveSystem>(_container)
-                .Add<GetDamageSystem>(_container)
                 .Add<EnemyHpBarActivateSystem>(_container)
                 .Add<EnemyHpBarDeactivateSystem>(_container)
                 .Add<EnemyHpBarChangeValueSystem>(_container)
+                .Add<GetDamageSystem>(_container)
                 .DelHere<WeaponAnimationStartRequest>()
                 .DelHere<WeaponAnimationStopRequest>()
                 .Add(GetEventsDestroySystem())
@@ -175,8 +180,7 @@ namespace Assets.Game.Scripts.Levels
                 .IncSingleton<PlayerReloadingEvent>()
                 .IncReplicant<GetDamageEvent>()
                 .IncReplicant<HideEvent>()
-                .IncReplicant<ChargeGetFromPoolEvent>()
-                .IncReplicant<ChargeReturnToPoolEvent>();
+                .IncReplicant<ChargeGetFromPoolEvent>();
         }
 
         private void OnDestroy()

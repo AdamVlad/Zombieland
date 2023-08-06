@@ -18,6 +18,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
     internal sealed class ChargesCollisionsSystem : IEcsRunSystem
     {
         [Inject] private readonly EventsBus _eventsBus;
+        [Inject] private readonly EcsWorld _world;
+
 
         private readonly EcsFilterInject
             <Inc<ChargeTagComponent,
@@ -46,8 +48,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
                 _eventsBus.NewEvent<GetDamageEvent>()
                     = new GetDamageEvent
                     {
-                        From = entity,
-                        To = otherEntity,
+                        From = _world.PackEntity(entity),
+                        To = _world.PackEntity(otherEntity),
                         Damage = damageComponent.Damage
                     };
             }

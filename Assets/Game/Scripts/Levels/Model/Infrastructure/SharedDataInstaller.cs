@@ -16,7 +16,7 @@ namespace Assets.Game.Scripts.Levels.Model.Infrastructure
         {
             Container
                 .Bind<EventsBus>()
-                .FromInstance(new EventsBus(16))
+                .FromInstance(new EventsBus(32))
                 .AsSingle();
         }
 

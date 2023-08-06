@@ -16,7 +16,7 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
             _parent = parent;
         }
 
-        public Charge Create(Charge prefab, Vector3 position)
+        public Charge Create(Charge prefab, Vector3 position = default)
         {
             var builder = new ChargeBuilder(new EcsContext(_world));
 

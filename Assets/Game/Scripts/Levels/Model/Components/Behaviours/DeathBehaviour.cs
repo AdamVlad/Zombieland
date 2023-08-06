@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 
 using Leopotam.EcsLite;
@@ -20,6 +21,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
         {
             _enemy = GetComponent<Enemy>();
             _healthPool = _world.GetPool<HealthComponent>();
+            _destructionPool = _world.GetPool<DestructionDelayed>();
         }
 
         public float Evaluate()
@@ -34,12 +36,14 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
         {
             if (!_enemy.Unpack(_world, out var enemyEntity)) return;
 
-            _world.DelEntity(enemyEntity);
-            Destroy(gameObject);
+            _destructionPool.Add(enemyEntity);
+            //_world.DelEntity(enemyEntity);
+            //Destroy(gameObject);
         }
 
         private EcsWorld _world;
         private EcsPool<HealthComponent> _healthPool;
+        private EcsPool<DestructionDelayed> _destructionPool;
         private Enemy _enemy;
     }
 }

@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 107942018}
   - component: {fileID: 107942019}
   m_Layer: 0
-  m_Name: EnemyFactoriesInstaller
+  m_Name: FactoriesInstaller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -957,6 +957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemy: {fileID: 6272856255121296639, guid: 52d277b65bcfa1d4db33a968bbae66d8, type: 3}
   _enemyInitialPosition: {fileID: 532481905}
+  _player: {fileID: 7120716301859112179, guid: 29a7cbb11cc0f754e810dd757c3b6caa, type: 3}
 --- !u!1 &1196226642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1087,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameSettings: {fileID: 11400000, guid: 9880a129ca5f3314a98e17be6671a06d, type: 2}
   _sceneSettings: {fileID: 11400000, guid: 9e3cb7b0eb67cf944bd6100921300de3, type: 2}
-  _playerSettings: {fileID: 11400000, guid: df45059558b26af4cb8c471074e39450, type: 2}
 --- !u!1 &1542352013
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,8 +1338,8 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
+  m_UpdateMethod: 0
+  m_BlendUpdateMethod: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 2
@@ -1379,7 +1379,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1426,7 +1426,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
