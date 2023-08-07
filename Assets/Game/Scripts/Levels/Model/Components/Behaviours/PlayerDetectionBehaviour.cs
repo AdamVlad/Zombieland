@@ -9,8 +9,7 @@ using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
 {
-    // Подумать над тем, чтобы выставить приоритеты Evaluate в отдельной сущности
-    // Вынести базовый класс для Behaviour
+
     [RequireComponent(
         typeof(Enemy),
         typeof(NavMeshAgent),

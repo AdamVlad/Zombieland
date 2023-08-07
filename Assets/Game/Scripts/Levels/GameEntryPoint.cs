@@ -32,6 +32,7 @@ using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using UnityEngine;
 using Zenject;
+using Assets.Game.Scripts.Levels.View.Widgets;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -89,6 +90,7 @@ namespace Assets.Game.Scripts.Levels
                 .Add<InputInitSystem>(_container)
                 .Add<ScreenInitSystem>(_container)
                 .Add<VmCameraInitSystem>(_container)
+                .Add<HudsViewInitSystem>(_container)
                 .Inject()
                 .ConvertScene()
                 .Init();
@@ -135,6 +137,10 @@ namespace Assets.Game.Scripts.Levels
                 .Add<EnemyHpBarDeactivateSystem>(_container)
                 .Add<EnemyHpBarChangeValueSystem>(_container)
                 .Add<GetDamageSystem>(_container)
+
+                .Add<UpdateWidgetSystem<PlayerHpWidget, float>>(_container)
+                .DelHere<UpdateWidgetRequest<PlayerHpWidget, float>>()
+
                 .DelHere<WeaponAnimationStartRequest>()
                 .DelHere<WeaponAnimationStopRequest>()
                 .Add(GetEventsDestroySystem())

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Assets.Game.Scripts.Levels.Model.Components.Abilities;
 using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
@@ -6,10 +7,12 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 
 using Leopotam.EcsLite;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
 {
+    // Сделать абстрактное поведение collisionBehaviour
     [RequireComponent(
         typeof(Enemy),
         typeof(BehavioursScope))]
@@ -21,9 +24,14 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
             _world = world;
         }
 
+        [SerializeField] private MonoBehaviour _attackAbilityMono;
+        private IAbility _attackAbility;
+
         private void Start()
         {
             _enemy = GetComponent<Enemy>();
+
+            _attackAbility = _attackAbilityMono as IAbility;
 
             _attackRadius = _enemy.Settings.AttackRadius;
             _layerMask = _enemy.Settings.DetectionMask;
@@ -51,6 +59,8 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
 
             _attackPool.Get(enemyEntity).IsShooting = true;
 
+            _attackAbility?.Execute();
+
             SetAttackDelayTime(enemyEntity, _enemy.Settings.AttackDelay);
         }
 
@@ -72,6 +82,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
         private EcsPool<ShootingComponent> _attackPool;
 
         private Enemy _enemy;
+
         private readonly Collider[] _hitColliders = new Collider[5];
         private float _attackRadius;
         private LayerMask _layerMask;

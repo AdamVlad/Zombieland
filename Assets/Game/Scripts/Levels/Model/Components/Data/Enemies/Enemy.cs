@@ -20,6 +20,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Data.Enemies
         public Image HpImageFill => _hpImageFill;
 
         private EcsPackedEntity _entityPacked;
+        public EcsPackedEntity EntityPacked => _entityPacked;
 
         public bool Unpack(EcsWorld world, out int unpacked)
         {

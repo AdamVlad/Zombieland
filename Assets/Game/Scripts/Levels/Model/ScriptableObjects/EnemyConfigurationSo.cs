@@ -21,6 +21,9 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 
         [Space, Header("Attack")]
 
+        [SerializeField, Range(0.1f, 50)] private int _damage;
+        public float Damage => _damage;
+
         [SerializeField, Range(0.1f, 50)] private float _attackRadius;
         public float AttackRadius => _attackRadius;
 
@@ -34,8 +37,6 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 
         [SerializeField] private LayerMask _detectionMask;
         public LayerMask DetectionMask => _detectionMask;
-
-
 
         [Space, Header("Animations")]
 

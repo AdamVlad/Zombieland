@@ -37,8 +37,6 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
             if (!_enemy.Unpack(_world, out var enemyEntity)) return;
 
             _destructionPool.Add(enemyEntity);
-            //_world.DelEntity(enemyEntity);
-            //Destroy(gameObject);
         }
 
         private EcsWorld _world;

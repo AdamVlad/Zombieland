@@ -8,6 +8,7 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference
     public class EntityReference : MonoBehaviour
     {
         private EcsPackedEntity _entityPacked;
+        public EcsPackedEntity EntityPacked => _entityPacked;
 
         public bool Unpack(out int unpacked)
         {

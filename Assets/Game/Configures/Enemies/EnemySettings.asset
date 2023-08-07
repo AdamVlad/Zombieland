@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
   _maxHealth: 106
+  _healthBarHideDelay: 2.5
   _moveSpeed: 63
+  _damage: 12
   _attackRadius: 0.7
   _attackDelay: 3.04
   _detectionRadius: 11

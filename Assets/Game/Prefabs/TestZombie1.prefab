@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4663721890395303886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2754781279860789604}
+  m_Layer: 0
+  m_Name: DamagingPart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2754781279860789604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4663721890395303886}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6293123139040963917}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8160359617563421841
 GameObject:
   m_ObjectHideFlags: 0
@@ -18,6 +49,7 @@ GameObject:
   - component: {fileID: 1028584480290052734}
   - component: {fileID: 6842592963715236447}
   - component: {fileID: 6158658915637472020}
+  - component: {fileID: -6740166880205234342}
   m_Layer: 10
   m_Name: TestZombie1
   m_TagString: Untagged
@@ -165,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a951ffd359ec4cb47bb024a2862d07ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackAbilityMono: {fileID: -6740166880205234342}
 --- !u!114 &6158658915637472020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +210,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1de0f101b085154caf9745da53d864c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6740166880205234342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8160359617563421841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b0419c50d20fd4d856b5d760c7ddb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackThroughTime: 0.6
+  _damagingRadius: 0.4
+  _damagingPart: {fileID: 2754781279860789604}
 --- !u!1001 &3656373445525981092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -385,11 +433,19 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 9461770a6d1852d4a82f1403ddb20db1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1852576806548013000, guid: 5f217944c33766441bc8701621bc234a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2754781279860789604}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f217944c33766441bc8701621bc234a, type: 3}
 --- !u!4 &5290251338461312366 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5f217944c33766441bc8701621bc234a, type: 3}
+  m_PrefabInstance: {fileID: 5683550345913438853}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6293123139040963917 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: 5f217944c33766441bc8701621bc234a, type: 3}
   m_PrefabInstance: {fileID: 5683550345913438853}
   m_PrefabAsset: {fileID: 0}
