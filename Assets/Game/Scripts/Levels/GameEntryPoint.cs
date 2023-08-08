@@ -135,11 +135,14 @@ namespace Assets.Game.Scripts.Levels
                 .Add<EnemiesBehaveSystem>(_container)
                 .Add<EnemyHpBarActivateSystem>(_container)
                 .Add<EnemyHpBarDeactivateSystem>(_container)
-                .Add<EnemyHpBarChangeValueSystem>(_container)
                 .Add<GetDamageSystem>(_container)
+                .Add<PlayerHpWidgetRequestSystem>(_container)
+                .Add<EnemyHpWidgetsUpdateRequestSystem>(_container)
 
                 .Add<UpdateWidgetSystem<PlayerHpWidget, float>>(_container)
                 .DelHere<UpdateWidgetRequest<PlayerHpWidget, float>>()
+                .Add<UpdateWidgetSystem<EnemyHpWidget, float>>(_container)
+                .DelHere<UpdateWidgetRequest<EnemyHpWidget, float>>()
 
                 .DelHere<WeaponAnimationStartRequest>()
                 .DelHere<WeaponAnimationStopRequest>()

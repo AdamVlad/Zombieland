@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+
 using Assets.Game.Scripts.Levels.Model.Components.Abilities;
+using Assets.Game.Scripts.Levels.Model.Components.Behaviours.Base;
 using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
@@ -7,52 +9,45 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 
 using Leopotam.EcsLite;
 using UnityEngine;
-using UnityEngine.AI;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
 {
-    // Сделать абстрактное поведение collisionBehaviour
-    [RequireComponent(
-        typeof(Enemy),
-        typeof(BehavioursScope))]
-    internal sealed class EnemyAttackBehaviour : MonoBehaviour, IBehaviour
+    [RequireComponent(typeof(Enemy))]
+    internal sealed class EnemyAttackBehaviour : CollisionBehaviourBase
     {
-        [Inject]
-        private void Construct(EcsWorld world)
-        {
-            _world = world;
-        }
+        [Inject] private EcsWorld _world;
 
         [SerializeField] private MonoBehaviour _attackAbilityMono;
-        private IAbility _attackAbility;
 
         private void Start()
         {
             _enemy = GetComponent<Enemy>();
 
-            _attackAbility = _attackAbilityMono as IAbility;
+            Initialize(
+                5,
+                _enemy.Settings.AttackRadius,
+                _enemy.Settings.DetectionMask);
 
-            _attackRadius = _enemy.Settings.AttackRadius;
-            _layerMask = _enemy.Settings.DetectionMask;
+            _attackAbility = _attackAbilityMono as IAbility;
 
             _attackDelayedTimerPool = _world.GetPool<DelayedRemove<AttackDelayed>>();
             _attackDelayedPool = _world.GetPool<AttackDelayed>();
             _attackPool = _world.GetPool<ShootingComponent>();
         }
 
-        public float Evaluate()
+        public override float Evaluate()
         {
             var hits = Physics.OverlapSphereNonAlloc(
                 transform.position,
-                _attackRadius,
-                _hitColliders,
-                _layerMask);
+                CollisionRadius,
+                HittedColliders,
+                CollisionLayers); ;
 
             return hits != 0 ? 0.9f : 0;
         }
 
-        public void Behave()
+        public override void Behave()
         {
             if (!_enemy.Unpack(_world, out var enemyEntity)) return;
             if (_attackDelayedPool.Has(enemyEntity)) return;
@@ -75,16 +70,11 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
             timer.Target = _world.PackEntity(targetEntity);
         }
 
-        private EcsWorld _world;
+        private Enemy _enemy;
+        private IAbility _attackAbility;
 
         private EcsPool<DelayedRemove<AttackDelayed>> _attackDelayedTimerPool;
         private EcsPool<AttackDelayed> _attackDelayedPool;
         private EcsPool<ShootingComponent> _attackPool;
-
-        private Enemy _enemy;
-
-        private readonly Collider[] _hitColliders = new Collider[5];
-        private float _attackRadius;
-        private LayerMask _layerMask;
     }
 }

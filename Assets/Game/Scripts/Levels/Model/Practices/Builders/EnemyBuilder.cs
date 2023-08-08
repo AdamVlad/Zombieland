@@ -1,6 +1,7 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 using Assets.Game.Scripts.Levels.Model.Practices.Builders.Base;
 using Assets.Game.Scripts.Levels.Model.Practices.Builders.Context;
+using Assets.Game.Scripts.Levels.View.Widgets;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
 {
@@ -15,6 +16,8 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
         private bool _withHpBar;
         private bool _withHealth;
 
+        private bool _isHpBarEnabledOnStart;
+
         public EnemyBuilder WithEnemy()
         {
             _withEnemy = true;
@@ -27,9 +30,10 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
             return this;
         }
 
-        public EnemyBuilder WithHpBar()
+        public EnemyBuilder WithHpBar(bool isEnableOnStart)
         {
             _withHpBar = true;
+            _isHpBarEnabledOnStart = isEnableOnStart;
             return this;
         }
 
@@ -43,8 +47,8 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
         {
             var enemy = ObjectGo.GetComponent<Enemy>();
             if (_withEnemy) Context.SetEnemy(enemy);
-            if (_withHpBar) Context.SetEnemyHpBar(enemy);
             if (_withHealth) Context.SetHealth(enemy.Settings.MaxHealth);
+            if (_withHpBar) Context.SetEnemyHpBar(ObjectGo.GetComponentInChildren<EnemyHpWidget>(), _isHpBarEnabledOnStart);
             if (_withTag) Context.SetEnemyTag();
         }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Behaviours.Interfaces;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
 {

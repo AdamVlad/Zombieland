@@ -1,6 +1,7 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
+using Assets.Game.Scripts.Levels.View.Widgets;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
@@ -18,17 +19,17 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
 
         private readonly EcsFilterInject
             <Inc<EnemyTagComponent,
-                HpBarComponent,
-                MonoLink<Transform>,
-                Executing<HpBarActiveProcess>>> _filter = default;
+                MonoLink<EnemyHpWidget>,
+                MonoLink<Transform>//,
+                /*Executing<HpBarActiveProcess>*/>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {
             foreach (var entity in _filter.Value)
             {
-                ref var hpBarComponent = ref _filter.Get2(entity);
+                var hpBarWidget = _filter.Get2(entity).Value;
                 ref var transformComponent = ref _filter.Get3(entity).Value;
-                hpBarComponent.HpBarCanvas.transform.LookAt(transformComponent.position + _camera.transform.forward);
+                hpBarWidget.transform.LookAt(transformComponent.position + _camera.transform.forward);
             }
         }
     }

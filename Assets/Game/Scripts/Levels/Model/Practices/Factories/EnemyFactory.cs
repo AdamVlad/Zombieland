@@ -25,7 +25,7 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
             return builder
                 .WithEnemy()
                 .WithHealth()
-                .WithHpBar()
+                .WithHpBar(false)
                 .WithTag()
                 .WithPrefab(prefab)
                 .WithPositionInitialize(position)

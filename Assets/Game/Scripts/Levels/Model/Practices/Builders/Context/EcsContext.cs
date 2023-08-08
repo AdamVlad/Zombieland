@@ -4,12 +4,15 @@ using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
+using Assets.Game.Scripts.Levels.View;
+using Assets.Game.Scripts.Levels.View.Widgets;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.VirtualTexturing;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
 {
@@ -128,13 +131,11 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
             return this;
         }
 
-        public EcsContext SetEnemyHpBar(Enemy enemy)
+        public EcsContext SetEnemyHpBar(EnemyHpWidget hpWidget, bool isEnabledOnStart)
         {
-            var hpBarPool = _world.GetPool<HpBarComponent>();
-            ref var hpBarComponent = ref hpBarPool.Add(_entity);
-            hpBarComponent.HpBarCanvas = enemy.HpBarCanvas;
-            hpBarComponent.HpBarCanvas.enabled = false;
-            hpBarComponent.Fill = enemy.HpImageFill;
+            hpWidget.OnInit(1, _world);
+            hpWidget.BindWidget(_world, _entity);
+            hpWidget.gameObject.SetActive(isEnabledOnStart);
 
             return this;
         }

@@ -1,11 +1,11 @@
 ﻿using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
-using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
+using Assets.Game.Scripts.Levels.View.Widgets;
 
 using System.Runtime.CompilerServices;
 using Leopotam.EcsLite;
@@ -23,29 +23,26 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
         private readonly EcsPoolInject<HpBarActiveProcess> _activateProcessPool = default;
         private readonly EcsPoolInject<Process> _processPool = default;
 
-        private readonly EcsPoolInject<HpBarComponent> _hpPool = default;
+        private readonly EcsPoolInject<MonoLink<EnemyHpWidget>> _enemyHpWidgetPool = default;
         private readonly EcsPoolInject<MonoLink<Enemy>> _enemyPool = default;
 
         public void Run(IEcsSystems systems)
         {
             foreach (var eventEntity in _eventsBus.GetEventBodies<GetDamageEvent>(out var getDamageEventPool))
             {
-                var hittedEntityPacked = getDamageEventPool.Get(eventEntity).To;
+                if (!getDamageEventPool.Get(eventEntity).To.Unpack(_world, out var hittedEntity)) continue;
+                if (!_enemyHpWidgetPool.Has(hittedEntity)) continue;
 
-                if (!hittedEntityPacked.Unpack(_world, out var hittedEntity)) continue;
-                if (!_enemyPool.Has(hittedEntity)) continue;
-                if (!_hpPool.Has(hittedEntity)) continue;
+                var hpWidgetGo = _enemyHpWidgetPool.Get(hittedEntity).Value.gameObject;
+                var enemy = _enemyPool.Get(hittedEntity).Value;
 
-                ref var enemy = ref _enemyPool.Get(hittedEntity).Value;
-                ref var hpBarComponent = ref _hpPool.Get(hittedEntity);
-
-                if (hpBarComponent.HpBarCanvas.enabled)
+                if (hpWidgetGo.activeSelf)
                 {
                     ReshowHpBar(hittedEntity, enemy.Settings.HealthBarHideDelay);
                 }
                 else
                 {
-                    hpBarComponent.HpBarCanvas.enabled = true;
+                    hpWidgetGo.SetActive(true);
                     ShowHpBar(hittedEntity, enemy.Settings.HealthBarHideDelay);
                 }
             }

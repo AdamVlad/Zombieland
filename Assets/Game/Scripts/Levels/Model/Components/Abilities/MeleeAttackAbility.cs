@@ -10,7 +10,7 @@ using Zenject;
 namespace Assets.Game.Scripts.Levels.Model.Components.Abilities
 {
     [RequireComponent(typeof(Enemy))]
-    internal class AttackAbility : MonoBehaviour, IAbility
+    internal class MeleeAttackAbility : MonoBehaviour, IAbility
     {
         [SerializeField] private float _attackThroughTime;
         [SerializeField] private float _damagingRadius;
@@ -64,7 +64,7 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Abilities
             }
         }
 
-        private readonly Collider[] _hitted = new Collider[10];
+        private readonly Collider[] _hitted = new Collider[5];
         private Enemy _enemy;
     }
 }

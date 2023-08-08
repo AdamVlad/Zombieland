@@ -1,4 +1,5 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Behaviours.Interfaces;
+using Assets.Game.Scripts.Levels.Model.Components.Data;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Delayed;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 
@@ -8,14 +9,12 @@ using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
 {
-    [RequireComponent(typeof(BehavioursScope))]
+    [RequireComponent(
+        typeof(Enemy),
+        typeof(BehavioursScope))]
     internal sealed class DeathBehaviour : MonoBehaviour, IBehaviour
     {
-        [Inject]
-        private void Construct(EcsWorld world)
-        {
-            _world = world;
-        }
+        [Inject] private readonly EcsWorld _world;
 
         private void Start()
         {
@@ -39,7 +38,6 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Behaviours
             _destructionPool.Add(enemyEntity);
         }
 
-        private EcsWorld _world;
         private EcsPool<HealthComponent> _healthPool;
         private EcsPool<DestructionDelayed> _destructionPool;
         private Enemy _enemy;
