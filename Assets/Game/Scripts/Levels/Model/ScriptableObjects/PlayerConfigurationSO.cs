@@ -5,6 +5,10 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
     [CreateAssetMenu(fileName = "PlayerSettings", menuName = "Settings/PlayerSettings")]
     internal class PlayerConfigurationSo : ScriptableObject
     {
+        [Space]
+        [SerializeField] private Sprite _icon;
+        public Sprite Icon => _icon;
+
         [Space, Header("Health")]
 
         [SerializeField, Range(1, 1000)] private float _maxHealth;

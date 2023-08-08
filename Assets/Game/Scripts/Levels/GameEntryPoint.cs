@@ -17,7 +17,8 @@ using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
 using Assets.Game.Scripts.Levels.Model.Practices.Extensions;
 using Assets.Game.Scripts.Levels.Model.Practices.Factories;
 using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
-
+using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
+using Assets.Game.Scripts.Levels.View.Widgets;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Emitter;
@@ -25,14 +26,12 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Extensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
 
+using UnityEngine;
 using AB_Utility.FromSceneToEntityConverter;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
-using UnityEngine;
 using Zenject;
-using Assets.Game.Scripts.Levels.View.Widgets;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -76,7 +75,7 @@ namespace Assets.Game.Scripts.Levels
             _playerFactory.Create(_player);
 
             //Сделать пул по созданию врагов
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 40; i++)
             {
                 _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
             }
