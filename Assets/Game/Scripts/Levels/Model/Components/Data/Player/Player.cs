@@ -16,6 +16,5 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Data.Player
 
         [SerializeField] private Transform _weaponHolderPoint;
         public Transform WeaponHolderPoint => _weaponHolderPoint;
-
     }
 }

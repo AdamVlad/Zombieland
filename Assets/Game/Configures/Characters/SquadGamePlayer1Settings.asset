@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bab7fffada9ec564eaeb8ca20873f7aa, type: 3}
-  m_Name: TestPlayerSettings
+  m_Name: SquadGamePlayer1Settings
   m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 6184c4e5fff14cf499bdf958b67ae772, type: 3}
   _maxHealth: 94
-  _prefab: {fileID: 1315996973343497886, guid: b5cd9f68df5186d4d85a293432fb3d58, type: 3}
-  _moveSpeed: 70
-  _rotationSpeed: 25
+  _moveSpeed: 80
+  _rotationSpeed: 30
   _smoothTurningAngle: 200
   _moveXParameter: x
   _moveYParameter: y

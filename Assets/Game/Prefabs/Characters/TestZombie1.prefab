@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7981744373761038542}
-  - component: {fileID: 1391937238262157076}
+  - component: {fileID: 7473139648944663979}
   - component: {fileID: -477210754379704194}
   - component: {fileID: 6272856255121296639}
   - component: {fileID: 5117967374677767261}
@@ -66,7 +66,7 @@ Transform:
   m_GameObject: {fileID: 8160359617563421841}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.155, y: 0.037, z: 0.476}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1061, y: 1.1061, z: 1.1061}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5290251338461312366}
@@ -74,8 +74,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1391937238262157076
-BoxCollider:
+--- !u!136 &7473139648944663979
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,9 +92,11 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.35042745, y: 1.152394, z: 0.49141198}
-  m_Center: {x: -0.048348695, y: 0.57921326, z: 0.0936099}
+  serializedVersion: 2
+  m_Radius: 0.32996583
+  m_Height: 1.7131755
+  m_Direction: 1
+  m_Center: {x: -0.012901811, y: 0.86036336, z: 0}
 --- !u!195 &-477210754379704194
 NavMeshAgent:
   m_ObjectHideFlags: 0
