@@ -6,6 +6,10 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
     [CreateAssetMenu(fileName = "WeaponSettings", menuName = "Settings/WeaponSettings")]
     internal sealed class WeaponConfigurationSo : ScriptableObject
     {
+        [Space]
+        [SerializeField] private Sprite _icon;
+        public Sprite Icon => _icon;
+
         [SerializeField, Range(1,1000)] private int _damage;
         public int Damage => _damage;
 

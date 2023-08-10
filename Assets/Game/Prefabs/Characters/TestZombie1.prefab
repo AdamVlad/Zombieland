@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackThroughTime: 0.6
-  _damagingRadius: 0.4
+  _damagingRadius: 0.5
   _damagingPart: {fileID: 2754781279860789604}
 --- !u!1001 &3656373445525981092
 PrefabInstance:

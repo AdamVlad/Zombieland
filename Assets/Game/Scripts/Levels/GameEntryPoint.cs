@@ -75,7 +75,7 @@ namespace Assets.Game.Scripts.Levels
             _playerFactory.Create(_player);
 
             //Сделать пул по созданию врагов
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 1; i++)
             {
                 _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
             }

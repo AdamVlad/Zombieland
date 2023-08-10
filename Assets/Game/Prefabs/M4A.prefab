@@ -2604,6 +2604,7 @@ GameObject:
   - component: {fileID: 7690883844671183130}
   - component: {fileID: 4915016647733780389}
   - component: {fileID: 2705933650816867130}
+  - component: {fileID: 2062899910384742676}
   m_Layer: 7
   m_Name: M4A
   m_TagString: Untagged
@@ -2690,6 +2691,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings: {fileID: 11400000, guid: 0588bfd073113ed41a81a6a34077f6b5, type: 2}
   _shootPoint: {fileID: 3760061200099725542}
+--- !u!114 &2062899910384742676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6727417795630783889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70847cb5fb87474d8faaef489e46026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6893067811271902770
 GameObject:
   m_ObjectHideFlags: 0
