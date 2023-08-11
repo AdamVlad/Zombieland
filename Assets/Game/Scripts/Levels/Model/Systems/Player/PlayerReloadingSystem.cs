@@ -10,6 +10,7 @@ using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
@@ -32,12 +33,17 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
             ref var reloadingDelayComponent = ref _reloadingPool.Get(eventBody.WeaponEntity);
 
             var difference = weaponClipComponent.RestChargeCount - weaponClipComponent.ClipCapacity;
-
-            weaponClipComponent.CurrentChargeInClipCount = difference > 0
-                ? weaponClipComponent.ClipCapacity
-                : weaponClipComponent.RestChargeCount;
-
-            weaponClipComponent.RestChargeCount = difference;
+            
+            if (difference > 0)
+            {
+                weaponClipComponent.CurrentChargeInClipCount = weaponClipComponent.ClipCapacity;
+                weaponClipComponent.RestChargeCount = difference;
+            }
+            else
+            {
+                weaponClipComponent.CurrentChargeInClipCount = weaponClipComponent.RestChargeCount;
+                weaponClipComponent.RestChargeCount = 0;
+            }
 
             SetReloadingDelayTime(eventBody.PlayerEntity, reloadingDelayComponent.Delay);
         }

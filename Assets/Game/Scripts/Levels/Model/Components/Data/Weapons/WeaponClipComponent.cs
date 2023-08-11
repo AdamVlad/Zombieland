@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+using UnityEngine;
 using UnityEngine.Pool;
 
 namespace Assets.Game.Scripts.Levels.Model.Components.Data.Weapons
@@ -25,6 +26,11 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Data.Weapons
             int clipCapacity,
             IObjectPool<Charge> chargePool = null)
         {
+            if (totalCharge < clipCapacity)
+            {
+                Debug.LogError("Total capacity less than clip capacity");
+            }
+
             _chargeType = chargeType;
             _totalCharge = totalCharge;
             _clipCapacity = clipCapacity;

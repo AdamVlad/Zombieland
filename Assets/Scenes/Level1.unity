@@ -734,6 +734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerHudView: {fileID: 1907424548}
+  _weaponHudView: {fileID: 1750889669}
 --- !u!1 &532481904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,18 +1418,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2169221363442727828, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2169221363442727828, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2169221363442727828, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2169221363442727828, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1476,33 +1465,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2466644359380750648, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 2466644359380750648, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 120
-      objectReference: {fileID: 0}
     - target: {fileID: 5116075903125609284, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
       propertyPath: m_Name
       value: WeaponCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7684128597048812327, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7684128597048812327, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7684128597048812327, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7684128597048812327, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
-      propertyPath: m_Color.r
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1514,6 +1479,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2169221363442727828, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
   m_PrefabInstance: {fileID: 1750889667}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1750889669 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3358641293532641563, guid: bac9d41e0d2b52743b85fa2e07ecdfb4, type: 3}
+  m_PrefabInstance: {fileID: 1750889667}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f09d5b52dece9343a9d70a6d2854595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1851263015
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,22 +2124,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 146417063}
     m_Modifications:
-    - target: {fileID: 1810944024684612747, guid: 526f86ca7b0821d40931632f43b1bd9a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 195
-      objectReference: {fileID: 0}
-    - target: {fileID: 1810944024684612747, guid: 526f86ca7b0821d40931632f43b1bd9a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -125
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884036446889280787, guid: 526f86ca7b0821d40931632f43b1bd9a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 445.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1884036446889280787, guid: 526f86ca7b0821d40931632f43b1bd9a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -118.10004
-      objectReference: {fileID: 0}
     - target: {fileID: 3796351639948339131, guid: 526f86ca7b0821d40931632f43b1bd9a, type: 3}
       propertyPath: m_Name
       value: PlayerCanvas

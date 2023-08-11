@@ -20,8 +20,8 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
         private readonly EcsPoolInject<HealthComponent> _healthPool = default;
         private readonly EcsPoolInject<MonoLink<PlayerHpWidget>> _playerHpWidgetPool = default;
-        private readonly EcsPoolInject<UpdateWidgetRequest<PlayerHpWidget, float>> _updatePlayerHpWidgetRequestPool = 
-            default;
+        private readonly EcsPoolInject<UpdateWidgetRequest<PlayerHpWidget, float>> 
+            _updatePlayerHpWidgetRequestPool = default;
 
         public void Run(IEcsSystems systems)
         {
