@@ -25,7 +25,6 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
                 .WithBackpack()
                 .WithTag()
                 .WithPlayer()
-                
                 .WithPrefab(prefab)
                 .WithParentInitialize(_parent)
                 .WithPositionInitialize(position)

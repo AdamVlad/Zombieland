@@ -1030,7 +1030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemy: {fileID: 6272856255121296639, guid: 52d277b65bcfa1d4db33a968bbae66d8, type: 3}
   _enemyInitialPosition: {fileID: 532481905}
-  _player: {fileID: 7120716301859112179, guid: 29a7cbb11cc0f754e810dd757c3b6caa, type: 3}
+  _player: {fileID: 8629464777387127643, guid: 069a99903c802a24fa14484c7165f91b, type: 3}
 --- !u!1 &1124554835
 GameObject:
   m_ObjectHideFlags: 0

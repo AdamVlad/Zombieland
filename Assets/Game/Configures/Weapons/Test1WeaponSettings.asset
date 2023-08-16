@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _icon: {fileID: 21300000, guid: b52361f5bb39dc44c832500a92b17942, type: 3}
   _charge: {fileID: -1798642649067396449, guid: 0d4c6b5e79b95e44f8144eabc27e553d, type: 3}
-  _clipCapacity: 52
-  _damage: 16
+  _clipCapacity: 69
+  _damage: 38
   _shootingDistance: 14.3
   _shootingPower: 9
-  _shootingDelay: 0.15
+  _cooldown: 0.3
   _reloadingTime: 0.56

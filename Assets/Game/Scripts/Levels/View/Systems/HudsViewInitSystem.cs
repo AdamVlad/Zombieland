@@ -22,7 +22,7 @@ namespace Assets.Game.Scripts.Levels.View.Systems
             <Inc<MonoLink<Player>,
                 BackpackComponent>> _playerFilter = default;
 
-        private readonly EcsPoolInject<MonoLink<Weapon>> _weaponPool = default;
+        private readonly EcsPoolInject<MonoLink<RangedWeapon>> _weaponPool = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -37,9 +37,9 @@ namespace Assets.Game.Scripts.Levels.View.Systems
             _playerHudView.PlayerHpWidget.BindWidget(_world, playerEntity);
 
             _weaponHudView.CurrentChargesCountWidget.BindWidget(_world, playerEntity);
-            _weaponHudView.IconWidget.OnInit(weapon.Settings.Icon, _world);
-            _weaponHudView.CurrentChargesCountWidget.OnInit(weapon.Settings.ClipCapacity, _world);
-            _weaponHudView.TotalChargesCountWidget.OnInit(weapon.Settings.ClipCapacity, _world);
+            _weaponHudView.IconWidget.OnInit(weapon.Icon, _world);
+            _weaponHudView.CurrentChargesCountWidget.OnInit(weapon.ClipCapacity, _world);
+            _weaponHudView.TotalChargesCountWidget.OnInit(weapon.ClipCapacity, _world);
         }
     }
 }

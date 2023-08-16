@@ -9,7 +9,7 @@ using UnityEngine.Pool;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
 {
-    internal class WeaponBuilder : EcsObjectsBuilder<Weapon>
+    internal class WeaponBuilder : EcsObjectsBuilder<RangedWeapon>
     {
         public WeaponBuilder(EcsContext context) : base(context)
         {
@@ -70,15 +70,14 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
 
         protected override void BuildInternal()
         {
-            var weapon = ObjectGo.GetComponent<Weapon>();
-            var settings = weapon.Settings;
+            var weapon = ObjectGo.GetComponent<RangedWeapon>();
 
             if (_withWeapon) Context.SetWeapon(weapon);
-            if (_withClip) Context.SetWeaponClip(settings.ClipCapacity, _chargesPool);
-            if (_withShooting) Context.SetWeaponShooting(weapon.ShootPoint, settings.ShootingDistance, settings.ShootingPower);
-            if (_withDamage) Context.SetDamage(settings.Damage);
-            if (_withAttackDelay) Context.SetAttackDelay(settings.ShootingDelay);
-            if (_withReloadingDelay) Context.SetReloadingDelay(settings.ReloadingTime);
+            if (_withClip) Context.SetWeaponClip(weapon.ClipCapacity, _chargesPool);
+            if (_withShooting) Context.SetWeaponShooting(weapon.ShootPoint, weapon.ShootingDistance, weapon.ShootingPower);
+            if (_withDamage) Context.SetDamage(weapon.Damage);
+            if (_withAttackDelay) Context.SetAttackDelay(weapon.Cooldown);
+            if (_withReloadingDelay) Context.SetReloadingDelay(weapon.ReloadingTime);
             if (_withConnectToPlayer) Context.ConnectToPlayer();
         }
 

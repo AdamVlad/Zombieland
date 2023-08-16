@@ -179,11 +179,11 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
             return this;
         }
 
-        public EcsContext SetWeapon(Weapon weapon)
+        public EcsContext SetWeapon(RangedWeapon rangedWeapon)
         {
-            var weaponPool = _world.GetPool<MonoLink<Weapon>>();
+            var weaponPool = _world.GetPool<MonoLink<RangedWeapon>>();
             ref var weaponComponent = ref weaponPool.Add(_entity);
-            weaponComponent.Value = weapon;
+            weaponComponent.Value = rangedWeapon;
 
             return this;
         }

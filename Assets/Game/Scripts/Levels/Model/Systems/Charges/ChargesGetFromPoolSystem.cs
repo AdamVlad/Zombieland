@@ -19,7 +19,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
         private readonly EcsPoolInject<WeaponClipComponent> _weaponClipPool = default;
         private readonly EcsPoolInject<LifetimeComponent> _lifetimePool = default;
         private readonly EcsPoolInject<DamageComponent> _damagePool = default;
-
         private readonly EcsPoolInject<ChargeActiveProcess> _chargeActiveProcessPool = default;
 
         public void Run(IEcsSystems systems)

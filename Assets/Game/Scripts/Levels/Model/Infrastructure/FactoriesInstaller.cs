@@ -21,7 +21,7 @@ namespace Assets.Game.Scripts.Levels.Model.Infrastructure
             PlayerFactoryInstall();
 
             Container
-                .Bind<Plugins.IvaLib.UnityLib.Factory.IFactory<Weapon, Weapon>>()
+                .Bind<Plugins.IvaLib.UnityLib.Factory.IFactory<RangedWeapon, RangedWeapon>>()
                 .To<WeaponFactory>()
                 .FromInstance(new WeaponFactory(_world))
                 .AsSingle();

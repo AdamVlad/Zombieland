@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
 {
-    internal class WeaponFactory : IFactory<Weapon, Weapon>
+    internal class WeaponFactory : IFactory<RangedWeapon, RangedWeapon>
     {
         public WeaponFactory(EcsWorld world, Transform parent = null)
         {
@@ -17,12 +17,12 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
             _parent = parent;
         }
 
-        public Weapon Create(Weapon prefab, Vector3 position = default)
+        public RangedWeapon Create(RangedWeapon prefab, Vector3 position = default)
         {
             var builder = new WeaponBuilder(new EcsContext(_world));
 
             var chargeFactory = new ChargesFactory(_world);
-            var chargesPool = new ChargesPool(prefab.Settings.Charge, 20, chargeFactory);
+            var chargesPool = new ChargesPool(prefab.Charge, 20, chargeFactory);
 
             return builder
                 .ConnectToPlayer()

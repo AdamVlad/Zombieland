@@ -17,6 +17,7 @@ using Assets.Game.Scripts.Levels.Model.Practices.Factories;
 using Assets.Game.Scripts.Levels.Model.Systems.Enemies;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Assets.Game.Scripts.Levels.View.Widgets;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsDelay;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsEvents;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsPhysics.Emitter;
@@ -30,9 +31,6 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using Zenject;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
-using Assets.Game.Scripts.Levels.Model.Components.Data;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -41,7 +39,7 @@ using Leopotam.EcsLite.UnityEditor;
 namespace Assets.Game.Scripts.Levels
 {
     // TODO:
-    // Убрать MonoLink<Weapon> и сделать отдельный компонент для Weapon - WeaponComponent
+    // Убрать MonoLink<RangedWeapon> и сделать отдельный компонент для RangedWeapon - WeaponComponent
     // Разбить код на методы во входной точке
 
     internal sealed class GameEntryPoint : MonoBehaviour
@@ -54,7 +52,7 @@ namespace Assets.Game.Scripts.Levels
         [Inject] private EcsWorld _world;
         [Inject] private EnemyFactory _enemyFactory;
         [Inject] private PlayerFactory _playerFactory;
-        [Inject] private Plugins.IvaLib.UnityLib.Factory.IFactory<Weapon, Weapon> _weaponFactory;
+        [Inject] private Plugins.IvaLib.UnityLib.Factory.IFactory<RangedWeapon, RangedWeapon> _weaponFactory;
         [Inject] private EventsBus _eventsBus;
         [Inject] private DiContainer _container;
 
@@ -111,7 +109,6 @@ namespace Assets.Game.Scripts.Levels
                 .Add<InputOnScreenPositionChangingSystem>(_container)
                 .Add<InputShootSystem>(_container)
                 .Add<InputShootDirectionChangingSystem>(_container)
-                .Add<PlayerItemPickupSystem>(_container)
                 .Add<PlayerAttackSystem>(_container)
                 .Add<PlayerReloadingSystem>(_container)
                 .Add<ChargesGetFromPoolSystem>(_container)

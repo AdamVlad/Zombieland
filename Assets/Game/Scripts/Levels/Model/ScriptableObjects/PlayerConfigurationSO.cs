@@ -39,8 +39,8 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
         [SerializeField] private string _shootParameter;
         public string ShootParameter => _shootParameter;
 
-        [Space, Header("Weapon")]
-        [SerializeField] private Weapon _weaponPrefab;
-        public Weapon WeaponPrefab => _weaponPrefab;
+        [Space, Header("RangedWeapon")]
+        [SerializeField] private RangedWeapon _weaponPrefab;
+        public RangedWeapon WeaponPrefab => _weaponPrefab;
     }
 }

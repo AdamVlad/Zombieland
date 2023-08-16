@@ -1,10 +1,8 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Data;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
-using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 using Assets.Game.Scripts.Levels.View.Widgets;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
-using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
+
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -20,8 +18,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Enemies
         private readonly EcsFilterInject
             <Inc<EnemyTagComponent,
                 MonoLink<EnemyHpWidget>,
-                MonoLink<Transform>//,
-                /*Executing<HpBarActiveProcess>*/>> _filter = default;
+                MonoLink<Transform>>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {
