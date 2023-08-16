@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -6,37 +7,24 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Data.Weapons
 {
     internal struct WeaponClipComponent
     {
-        private ChargeType _chargeType;
-        public ChargeType ChargeType => _chargeType;
+        public int ClipCapacity { get; }
 
-        private int _totalCharge;
-        public int TotalCharge => _totalCharge;
+        public int CurrentCharge { get; set; }
 
-        private int _clipCapacity;
-        public int ClipCapacity => _clipCapacity;
-
-        public int CurrentChargeInClipCount;
-        public int RestChargeCount;
-
-        public IObjectPool<Charge> ChargePool;
+        public IObjectPool<Charge> ChargePool { get; }
 
         public WeaponClipComponent(
-            ChargeType chargeType,
-            int totalCharge,
             int clipCapacity,
-            IObjectPool<Charge> chargePool = null)
+            IObjectPool<Charge> pool)
         {
-            if (totalCharge < clipCapacity)
+            if (clipCapacity < 0)
             {
-                Debug.LogError("Total capacity less than clip capacity");
+                Debug.LogError("Clip capacity can not less than zero");
             }
 
-            _chargeType = chargeType;
-            _totalCharge = totalCharge;
-            _clipCapacity = clipCapacity;
-            CurrentChargeInClipCount = _clipCapacity;
-            RestChargeCount = _totalCharge - _clipCapacity;
-            ChargePool = chargePool;
+            ClipCapacity = clipCapacity;
+            CurrentCharge = ClipCapacity;
+            ChargePool = pool;
         }
     }
 }

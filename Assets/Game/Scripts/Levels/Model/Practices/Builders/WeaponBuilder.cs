@@ -1,6 +1,11 @@
-﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
+﻿using System;
+
+using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Game.Scripts.Levels.Model.Practices.Builders.Base;
 using Assets.Game.Scripts.Levels.Model.Practices.Builders.Context;
+
+using UnityEngine.Pool;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
 {
@@ -16,6 +21,9 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
         private bool _withAttackDelay;
         private bool _withReloadingDelay;
         private bool _withShooting;
+        private bool _withConnectToPlayer;
+
+        private IObjectPool<Charge> _chargesPool;
 
         public WeaponBuilder WithWeapon()
         {
@@ -23,8 +31,9 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
             return this;
         }
 
-        public WeaponBuilder WithClip()
+        public WeaponBuilder WithClip(IObjectPool<Charge> chargesPool)
         {
+            _chargesPool = chargesPool ?? throw new ArgumentNullException();
             _withClip = true;
             return this;
         }
@@ -53,15 +62,24 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
             return this;
         }
 
+        public WeaponBuilder ConnectToPlayer()
+        {
+            _withConnectToPlayer = true;
+            return this;
+        }
+
         protected override void BuildInternal()
         {
             var weapon = ObjectGo.GetComponent<Weapon>();
+            var settings = weapon.Settings;
+
             if (_withWeapon) Context.SetWeapon(weapon);
-            if (_withClip) Context.SetWeaponClip(weapon);
-            if (_withShooting) Context.SetWeaponShooting(weapon);
-            if (_withDamage) Context.SetDamage(weapon.Settings.Damage);
-            if (_withAttackDelay) Context.SetAttackDelay(weapon.Settings.ShootingDelay);
-            if (_withReloadingDelay) Context.SetReloadingDelay(weapon.Settings.ReloadingTime);
+            if (_withClip) Context.SetWeaponClip(settings.ClipCapacity, _chargesPool);
+            if (_withShooting) Context.SetWeaponShooting(weapon.ShootPoint, settings.ShootingDistance, settings.ShootingPower);
+            if (_withDamage) Context.SetDamage(settings.Damage);
+            if (_withAttackDelay) Context.SetAttackDelay(settings.ShootingDelay);
+            if (_withReloadingDelay) Context.SetReloadingDelay(settings.ReloadingTime);
+            if (_withConnectToPlayer) Context.ConnectToPlayer();
         }
 
         protected override void ResetInternal()
@@ -72,6 +90,9 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
             _withDamage = false;
             _withAttackDelay = false;
             _withReloadingDelay = false;
+            _withConnectToPlayer = false;
+
+            _chargesPool = null;
         }
     }
 }

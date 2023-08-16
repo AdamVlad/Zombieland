@@ -19,6 +19,6 @@ MonoBehaviour:
   _smoothTurningAngle: 200
   _moveXParameter: x
   _moveYParameter: y
-  _isWeaponInHandParameter: WeaponInHand
   _isShootingParameter: IsShooting
   _shootParameter: Shoot
+  _weaponPrefab: {fileID: -3437072371158831272, guid: e6803768a5fe4b8458c7aa6da2a9ea94, type: 3}

@@ -27,7 +27,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
             foreach (var eventEntity in _eventsBus.GetEventBodies<ChargeGetFromPoolEvent>(out var chargeCreatedEventPool))
             {
                 ref var eventBody = ref chargeCreatedEventPool.Get(eventEntity);
-
                 ref var weaponClipComponent = ref _weaponClipPool.Get(eventBody.WeaponEntity);
 
                 var chargeEntity = weaponClipComponent.ChargePool.Get().Entity;

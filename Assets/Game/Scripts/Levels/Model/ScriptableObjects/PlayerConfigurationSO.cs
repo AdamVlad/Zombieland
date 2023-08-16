@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "PlayerSettings", menuName = "Settings/PlayerSettings")]
     internal class PlayerConfigurationSo : ScriptableObject
     {
-        [Space]
-        [SerializeField] private Sprite _icon;
+        [Space, SerializeField] private Sprite _icon;
         public Sprite Icon => _icon;
 
         [Space, Header("Health")]
@@ -33,13 +33,14 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
         [SerializeField] private string _moveYParameter;
         public string MoveYParameter => _moveYParameter;
 
-        [SerializeField] private string _isWeaponInHandParameter;
-        public string IsWeaponInHandParameter => _isWeaponInHandParameter;
-
         [SerializeField] private string _isShootingParameter;
         public string IsShootingParameter => _isShootingParameter;
 
         [SerializeField] private string _shootParameter;
         public string ShootParameter => _shootParameter;
+
+        [Space, Header("Weapon")]
+        [SerializeField] private Weapon _weaponPrefab;
+        public Weapon WeaponPrefab => _weaponPrefab;
     }
 }

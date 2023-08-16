@@ -18,8 +18,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
         private readonly EcsFilterInject
             <Inc<PlayerTagComponent,
                 InputComponent,
-                ShootingComponent,
-                BackpackComponent>> _filter = default;
+                ShootingComponent>> _filter = default;
 
         [Inject] private readonly EventsBus _eventsBus;
 
@@ -52,13 +51,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Input
         {
             foreach (var entity in _filter.Value)
             {
-                ref var backpackComponent = ref _filter.Get4(entity);
-
-                // Если оружие не в руках, то игрок не может начать стрелять.
-                // При этом дополнительное условие Value нужно для того, чтобы 
-                // была возможность перестать стрелять, если оружие не в руках
-                if (!backpackComponent.IsWeaponInHand && value) continue;
-
                 if (value)
                 {
                     _eventsBus.NewEventSingleton<ShootStartedEvent>();

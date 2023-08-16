@@ -46,18 +46,15 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 ref var weaponEntity = ref _playerFilter.Get2(playerEntity).WeaponEntity;
                 ref var weaponClipComponent = ref _weaponClipPool.Get(weaponEntity);
 
-                if (weaponClipComponent.RestChargeCount <= 0 &&
-                    weaponClipComponent.CurrentChargeInClipCount <= 0) return;
-
                 _eventsBus.NewEvent<ChargeGetFromPoolEvent>() = new ChargeGetFromPoolEvent
                 {
                     PlayerEntity = playerEntity,
                     WeaponEntity = weaponEntity
                 };
 
-                weaponClipComponent.CurrentChargeInClipCount--;
+                weaponClipComponent.CurrentCharge--;
 
-                if (weaponClipComponent.CurrentChargeInClipCount <= 0)
+                if (weaponClipComponent.CurrentCharge <= 0)
                 {
                     ThrowReloadingEvent(playerEntity, weaponEntity);
                 }

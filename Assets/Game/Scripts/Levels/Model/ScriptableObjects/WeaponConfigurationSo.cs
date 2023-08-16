@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
@@ -10,21 +11,18 @@ namespace Assets.Game.Scripts.Levels.Model.ScriptableObjects
         [SerializeField] private Sprite _icon;
         public Sprite Icon => _icon;
 
-        [SerializeField, Range(1,1000)] private int _damage;
-        public int Damage => _damage;
+        [Space, Header("Clip")]
 
-        [Space, Header("Charge")]
+        [SerializeField] private Charge _charge;
+        public Charge Charge => _charge;
 
-        [SerializeField] private ChargeType _chargeType;
-        public ChargeType ChargeType => _chargeType;
-
-        [SerializeField, Range(1, 1000)] private int _totalCharge;
-        public int TotalCharge => _totalCharge;
-
-        [SerializeField, Range(1, 1000)] private int _capacityCharge;
-        public int CapacityCharge => _capacityCharge;
+        [SerializeField, Range(1, 1000)] private int _clipCapacity;
+        public int ClipCapacity => _clipCapacity;
 
         [Space, Header("Shooting")]
+
+        [SerializeField, Range(1, 1000)] private int _damage;
+        public int Damage => _damage;
 
         [SerializeField, Range(0, 100)] private float _shootingDistance;
         public float ShootingDistance => _shootingDistance;

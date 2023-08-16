@@ -31,7 +31,6 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Base
         private bool _withEntityReference;
         private bool _withBehaviours;
         private bool _withAttack;
-        private bool _withParent;
         private bool _withShooting;
 
         public EcsObjectsBuilder<T> WithPrefab(T prefab)
@@ -85,12 +84,6 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Base
         public EcsObjectsBuilder<T> WithEntityReference()
         {
             _withEntityReference = true;
-            return this;
-        }
-
-        public EcsObjectsBuilder<T> WithParent()
-        {
-            _withParent = true;
             return this;
         }
 
@@ -149,7 +142,6 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Base
             if (_withNavMesh) Context.SetNavMesh(ObjectGo.GetComponent<NavMeshAgent>());
             if (_withBehaviours) Context.SetBehaviours(ObjectGo.GetComponent<BehavioursScope>());
             if (_withEntityReference) Context.SetEntityReference(ObjectGo.GetComponent<EntityReference>());
-            if (_withParent) Context.SetParent(_parent);
             if (_withAttack) Context.SetAttack();
             if (_withShooting) Context.SetShooting();
 
@@ -173,7 +165,6 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Base
             _withNavMesh = false;
             _withBehaviours = false;
             _withEntityReference = false;
-            _withParent = false;
             _withAttack = false;
             _withShooting = false;
 

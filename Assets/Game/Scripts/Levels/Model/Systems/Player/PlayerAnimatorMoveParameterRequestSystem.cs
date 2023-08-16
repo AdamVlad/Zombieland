@@ -19,8 +19,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsFilterInject
             <Inc<PlayerTagComponent,
                 PlayerMoveComponent,
-                ShootingComponent,
-                BackpackComponent>> _filter = default;
+                ShootingComponent>> _filter = default;
 
         private readonly EcsPoolInject<SetAnimatorParameterRequests> _animatorRequestPool = default;
         private readonly EcsPoolInject<MonoLink<Components.Data.Player.Player>> _playerPool = default;
@@ -31,7 +30,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
             {
                 ref var moveComponent = ref _filter.Get2(entity);
                 ref var shootingComponent = ref _filter.Get3(entity);
-                ref var backpackComponent = ref _filter.Get4(entity);
                 ref var player = ref _playerPool.Get(entity).Value;
 
                 if (!moveComponent.IsMoving)
@@ -47,7 +45,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 
                 Vector2 convertedInputAxis;
 
-                if (!shootingComponent.IsShooting || !backpackComponent.IsWeaponInHand)
+                if (!shootingComponent.IsShooting)
                 {
                     convertedInputAxis = IvaMaths.ConvertCoordinatesToForward(ref moveComponent.MoveInputAxis);
                 }

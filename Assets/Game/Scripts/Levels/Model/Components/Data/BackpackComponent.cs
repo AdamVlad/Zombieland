@@ -9,7 +9,5 @@ namespace Assets.Game.Scripts.Levels.Model.Components.Data
         public Transform WeaponHolderPoint;
 
         [HideInInspector] public int WeaponEntity;
-
-        [HideInInspector] public bool IsWeaponInHand => WeaponEntity != -1;
     }
 }

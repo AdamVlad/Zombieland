@@ -6,6 +6,6 @@ namespace Assets.Plugins.IvaLib.UnityLib.Factory
     {
         TResult Create(
             TPrefab prefab,
-            Vector3 position);
+            Vector3 position = default);
     }
 }

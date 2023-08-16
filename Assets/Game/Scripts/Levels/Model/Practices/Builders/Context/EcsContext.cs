@@ -4,15 +4,16 @@ using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Enemies;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Player;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
-using Assets.Game.Scripts.Levels.View;
 using Assets.Game.Scripts.Levels.View.Widgets;
+using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering.VirtualTexturing;
+using UnityEngine.Pool;
 
 namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
 {
@@ -187,23 +188,12 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
             return this;
         }
 
-        public EcsContext SetWeaponClip(Weapon weapon)
+        public EcsContext SetWeaponClip(int capacity, IObjectPool<Charge> pool)
         {
             var weaponClipPool = _world.GetPool<WeaponClipComponent>();
             weaponClipPool.Add(_entity) = new WeaponClipComponent(
-                weapon.Settings.ChargeType,
-                weapon.Settings.TotalCharge,
-                weapon.Settings.CapacityCharge);
-
-            return this;
-        }
-
-        public EcsContext SetParent(Transform parent)
-        {
-            var parentComponentPool = _world.GetPool<ParentComponent>();
-            ref var parentComponent = ref parentComponentPool.Add(_entity);
-            parentComponent.InitParentTransform = parent;
-            parentComponent.CurrentParentTransform = parent;
+                capacity,
+                pool);
 
             return this;
         }
@@ -230,14 +220,17 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
             return this;
         }
 
-        public EcsContext SetWeaponShooting(Weapon weapon)
+        public EcsContext SetWeaponShooting(
+            Transform startShootingPoint,
+            float shootingDistance,
+            float shootingPower)
         {
             var shootPointPool = _world.GetPool<WeaponShootingComponent>();
             shootPointPool.Add(_entity) = new WeaponShootingComponent
             {
-                StartShootingPoint = weapon.ShootPoint,
-                ShootingDistance = weapon.Settings.ShootingDistance,
-                ShootingPower = weapon.Settings.ShootingPower
+                StartShootingPoint = startShootingPoint,
+                ShootingDistance = shootingDistance,
+                ShootingPower = shootingPower
             };
 
             return this;
@@ -307,6 +300,18 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders.Context
             var playerPool = _world.GetPool<MonoLink<Player>>();
             ref var playerComponent = ref playerPool.Add(_entity);
             playerComponent.Value = player;
+
+            return this;
+        }
+
+        public EcsContext ConnectToPlayer()
+        {
+            var filter = _world.Filter<PlayerTagComponent>().End();
+            if (filter.GetFirstEntity(out var playerEntity))
+            {
+                var backpackPool = _world.GetPool<BackpackComponent>();
+                backpackPool.Get(playerEntity).WeaponEntity = _entity;
+            }
 
             return this;
         }

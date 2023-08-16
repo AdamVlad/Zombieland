@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 
-using Assets.Game.Scripts.Levels.Model.Components.Data.Events;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
@@ -25,11 +24,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 
         public void Run(IEcsSystems systems)
         {
-            if (_eventsBus.HasEventSingleton<PlayerPickUpWeaponEvent>(out var pickupEventBody))
-            {
-                SetUpdateRequest(pickupEventBody.PlayerEntity, pickupEventBody.WeaponEntity);
-            }
-
             foreach (var eventEntity in _eventsBus.GetEventBodies<ChargeGetFromPoolEvent>(out var eventPool))
             {
                 var shootEventBody = eventPool.Get(eventEntity);
@@ -49,7 +43,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
             _updateCurrentChargesWidgetRequestPool.Value.Add(playerEntity) =
                 new UpdateWidgetRequest<CurrentChargesCountWidget, int>
                 {
-                    Value = clipComponent.CurrentChargeInClipCount
+                    Value = clipComponent.CurrentCharge
                 };
         }
     }

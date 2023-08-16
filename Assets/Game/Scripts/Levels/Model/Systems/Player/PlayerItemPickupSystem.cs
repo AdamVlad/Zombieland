@@ -11,7 +11,6 @@ using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents.EntityReference;
 
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Player
 {
@@ -20,10 +19,6 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
         private readonly EcsFilterInject
             <Inc<PlayerTagComponent,
                 OnTriggerEnterEvent>> _filter = default;
-
-        [Inject] private readonly EventsBus _eventsBus;
-
-        private readonly EcsPoolInject<MonoLink<Weapon>> _weaponComponentPool = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -34,23 +29,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 if (!triggerEnterEvent.OtherCollider.TryGetComponent<EntityReference>(out var otherEntityReference)) return;
 
                 if (!otherEntityReference.Unpack(out var otherEntity)) return;
-
-                if (_weaponComponentPool.Has(otherEntity))
-                {
-                    WeaponPickedUpSendEvent(playerEntity, otherEntity);
-                }
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void WeaponPickedUpSendEvent(int playerEntity, int weaponEntity)
-        {
-            _eventsBus.NewEventSingleton<PlayerPickUpWeaponEvent>() =
-                new PlayerPickUpWeaponEvent
-                {
-                    PlayerEntity = playerEntity,
-                    WeaponEntity = weaponEntity
-                };
         }
     }
 }

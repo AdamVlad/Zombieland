@@ -19,8 +19,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 MonoLink<Transform>,
                 RotationComponent,
                 PlayerMoveComponent,
-                ShootingComponent,
-                BackpackComponent>> _filter = default;
+                ShootingComponent>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -30,12 +29,10 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 ref var rotationComponent = ref _filter.Get3(entity);
                 ref var moveComponent = ref _filter.Get4(entity);
                 ref var shootingComponent = ref _filter.Get5(entity);
-                ref var backpackComponent = ref _filter.Get6(entity);
 
-                if (!moveComponent.IsMoving && 
-                    (!backpackComponent.IsWeaponInHand || !shootingComponent.IsShooting)) continue;
+                if (!moveComponent.IsMoving && !shootingComponent.IsShooting) continue;
 
-                if (shootingComponent.IsShooting && backpackComponent.IsWeaponInHand)
+                if (shootingComponent.IsShooting)
                 {
                     RotateInShootingDirection(ref shootingComponent, ref transform, ref rotationComponent);
                 }

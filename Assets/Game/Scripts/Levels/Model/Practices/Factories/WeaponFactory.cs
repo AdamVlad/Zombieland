@@ -1,6 +1,7 @@
 using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
 using Assets.Game.Scripts.Levels.Model.Practices.Builders;
 using Assets.Game.Scripts.Levels.Model.Practices.Builders.Context;
+using Assets.Game.Scripts.Levels.Model.Practices.Pools;
 using Assets.Plugins.IvaLib.UnityLib.Factory;
 
 using Leopotam.EcsLite;
@@ -20,9 +21,13 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
         {
             var builder = new WeaponBuilder(new EcsContext(_world));
 
+            var chargeFactory = new ChargesFactory(_world);
+            var chargesPool = new ChargesPool(prefab.Settings.Charge, 20, chargeFactory);
+
             return builder
+                .ConnectToPlayer()
                 .WithWeapon()
-                .WithClip()
+                .WithClip(chargesPool.Pool)
                 .WithWeaponShooting()
                 .WithDamage()
                 .WithAttackDelay()
@@ -30,11 +35,6 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Factories
                 .WithPrefab(prefab)
                 .WithParentInitialize(_parent)
                 .WithPositionInitialize(position)
-                .WithTransform()
-                .WithCollider()
-                .WithRigidbody()
-                .WithEntityReference()
-                .WithParent()
                 .Build();
         }
 

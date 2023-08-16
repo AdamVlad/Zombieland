@@ -1,5 +1,7 @@
 ﻿using Leopotam.EcsLite.Di;
+
 using System.Runtime.CompilerServices;
+using Leopotam.EcsLite;
 
 namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions
 {
@@ -317,6 +319,20 @@ namespace Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions
             where T6 : struct
         {
             var enumerator = filter.Value.GetEnumerator();
+            if (enumerator.MoveNext())
+            {
+                entity = enumerator.Current;
+                return true;
+            }
+
+            entity = -1;
+            return false;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool GetFirstEntity(this EcsFilter filter, out int entity)
+        {
+            var enumerator = filter.GetEnumerator();
             if (enumerator.MoveNext())
             {
                 entity = enumerator.Current;

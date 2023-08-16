@@ -17,8 +17,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
             <Inc<PlayerTagComponent,
                 MonoLink<Transform>,
                 PlayerMoveComponent,
-                ShootingComponent,
-                BackpackComponent>> _filter = default;
+                ShootingComponent>> _filter = default;
 
         public void Run(IEcsSystems systems)
         {
@@ -27,11 +26,10 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Player
                 ref var transform = ref _filter.Get2(entity).Value;
                 ref var moveComponent = ref _filter.Get3(entity);
                 ref var shootingComponent = ref _filter.Get4(entity);
-                ref var backpackComponent = ref _filter.Get5(entity);
 
                 if (!moveComponent.IsMoving) continue;
 
-                if (shootingComponent.IsShooting && backpackComponent.IsWeaponInHand)
+                if (shootingComponent.IsShooting)
                 {
                     MoveInAllDirections(ref transform, ref moveComponent);
                 }

@@ -1,6 +1,5 @@
 ﻿using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
-using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsExtensions;
 using Assets.Plugins.IvaLib.LeoEcsLite.EcsProcess;
 using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
@@ -8,14 +7,11 @@ using Assets.Plugins.IvaLib.LeoEcsLite.UnityEcsComponents;
 using DG.Tweening;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Zenject;
 
 namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 {
     internal sealed class ChargesReturnToPoolSystem : IEcsRunSystem
     {
-        [Inject] private readonly ChargesProviderService _chargesService;
-
         private readonly EcsFilterInject
             <Inc<ChargeTagComponent,
                 MonoLink<Charge>,
@@ -29,7 +25,7 @@ namespace Assets.Game.Scripts.Levels.Model.Systems.Charges
 
                 DOTween.Kill(charge.transform);
 
-                _chargesService.GetPool(charge.Type).Release(charge);
+                charge.Pool.Release(charge);
             }
         }
     }

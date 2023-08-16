@@ -68,12 +68,14 @@ namespace Assets.Game.Scripts.Levels.Model.Practices.Builders
         protected override void BuildInternal()
         {
             var player = ObjectGo.GetComponent<Player>();
+            var playerSettings = player.Settings;
+
             if (_withInput) Context.SetInput();
-            if (_withHealth) Context.SetHealth(player.Settings.MaxHealth);
-            if (_withMove) Context.SetPlayerMove(player.Settings.MoveSpeed / _gameSettings.PlayerMoveSpeedDivider);
+            if (_withHealth) Context.SetHealth(playerSettings.MaxHealth);
+            if (_withMove) Context.SetPlayerMove(playerSettings.MoveSpeed / _gameSettings.PlayerMoveSpeedDivider);
             if (_withRotation) Context.SetPlayerRotation(
-                player.Settings.RotationSpeed / _gameSettings.RotationSpeedDivider, 
-                player.Settings.SmoothTurningAngle);
+                playerSettings.RotationSpeed / _gameSettings.RotationSpeedDivider,
+                playerSettings.SmoothTurningAngle);
             if (_withBackpack) Context.SetBackpack(-1, player.WeaponHolderPoint);
             if (_withTag) Context.SetPlayerTag();
             if (_withPlayer) Context.SetPlayer(player);

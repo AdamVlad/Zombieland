@@ -6,9 +6,15 @@ using Assets.Plugins.IvaLib.UnityLib.Factory;
 
 namespace Assets.Plugins.IvaLib.UnityLib.Pools
 {
+    public abstract class PoolsItemBase<TObject> : MonoBehaviour
+        where TObject : MonoBehaviour
+    {
+        public IObjectPool<TObject> Pool { get; set; }
+    }
+
     public abstract class PoolBase<TGameObject, TFactory>
-        where TGameObject : MonoBehaviour
         where TFactory : IFactory<TGameObject, TGameObject>
+        where TGameObject : PoolsItemBase<TGameObject>
     {
         protected PoolBase(
             TGameObject prefab,
@@ -45,7 +51,9 @@ namespace Assets.Plugins.IvaLib.UnityLib.Pools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private TGameObject CreatedPooledItem()
         {
-            return _factory.Create(_prefab, _position);
+            var item = _factory.Create(_prefab, _position);
+            item.Pool = Pool;
+            return item;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -6,12 +6,10 @@ using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Charges;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Input;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Events.Shoot;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Requests;
-using Assets.Game.Scripts.Levels.Model.Services;
 using Assets.Game.Scripts.Levels.Model.Systems;
 using Assets.Game.Scripts.Levels.Model.Systems.Charges;
 using Assets.Game.Scripts.Levels.Model.Systems.Input;
 using Assets.Game.Scripts.Levels.Model.Systems.Player;
-using Assets.Game.Scripts.Levels.Model.Systems.Weapons;
 using Assets.Game.Scripts.Levels.View.Systems;
 using Assets.Game.Scripts.Levels.Model.Components.Data.Processes;
 using Assets.Game.Scripts.Levels.Model.Practices.Extensions;
@@ -32,6 +30,9 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.ExtendedSystems;
 using Zenject;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Charges;
+using Assets.Game.Scripts.Levels.Model.Components.Data.Weapons;
+using Assets.Game.Scripts.Levels.Model.Components.Data;
 
 #if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
@@ -50,12 +51,10 @@ namespace Assets.Game.Scripts.Levels
 
         [SerializeField] private Player _player;
 
-        [Inject] private WeaponsProviderService _weaponsProviderService;
-        [Inject] private ChargesProviderService _chargesProviderService;
-
         [Inject] private EcsWorld _world;
         [Inject] private EnemyFactory _enemyFactory;
         [Inject] private PlayerFactory _playerFactory;
+        [Inject] private Plugins.IvaLib.UnityLib.Factory.IFactory<Weapon, Weapon> _weaponFactory;
         [Inject] private EventsBus _eventsBus;
         [Inject] private DiContainer _container;
 
@@ -69,23 +68,21 @@ namespace Assets.Game.Scripts.Levels
 
             EcsPhysicsEvents.World = _world;
 
-            _weaponsProviderService.Run();
-            _chargesProviderService.Run();
-
-            _playerFactory.Create(_player);
+            var player = _playerFactory.Create(_player);
+            var weapon = _weaponFactory.Create(player.Settings.WeaponPrefab);
+            weapon.transform.parent = player.WeaponHolderPoint;
+            weapon.transform.localPosition = Vector3.zero;
+            weapon.transform.localRotation = Quaternion.identity;
 
             //Сделать пул по созданию врагов
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 20; i++)
             {
                 _enemyFactory.Create(_enemy, _enemyInitialPosition.position);
             }
 
             _initSystems = new EcsSystems(_world);
             _initSystems
-                .Add<WeaponInitSystem>(_container)
-                .Add<WeaponSpawnerInitSystem>(_container)
                 .Add<EntityReferenceInitSystem>(_container)
-                .Add<ParentHolderInitSystem>(_container)
                 .Add<InputInitSystem>(_container)
                 .Add<ScreenInitSystem>(_container)
                 .Add<VmCameraInitSystem>(_container)
@@ -106,11 +103,9 @@ namespace Assets.Game.Scripts.Levels
                 .Add<ProcessSystem<ChargeActiveProcess>>(_container)
 
                 .Add<DelayedAddOperationSystem<DestructionDelayed>>(_container)
-                .Add<DelayedAddOperationSystem<WeaponSpawnDelayed>>(_container)
                 .Add<DelayedRemoveOperationSystem<AttackDelayed>>(_container)
                 .Add<DelayedRemoveOperationSystem<ReloadingDelayed>>(_container)
 
-                .Add<WeaponsDestructionSystem>(_container)
                 .Add<DestructionSystem>(_container)
                 .Add<InputMoveSystem>(_container)
                 .Add<InputOnScreenPositionChangingSystem>(_container)
@@ -124,16 +119,9 @@ namespace Assets.Game.Scripts.Levels
                 .Add<ChargesCollisionsSystem>(_container)
                 .Add<ChargesReturnToPoolSystem>(_container)
                 .Add<ChargesCurrentCountWidgetRequestsSystem>(_container)
-                .Add<ChargesTotalCountWidgetRequestsSystem>(_container)
 
                 .DelHerePhysics()
-                .Add<PlayerWeaponDropSystem>(_container)
-                .Add<PlayerReloadingBreakSystem>(_container)
-                .Add<PlayerWeaponPickupSystem>(_container)
-                .Add<WeaponIconWidgetRequestsSystem>(_container)
-                .Add<WeaponSetSpawnTimeSystem>(_container)
-                .Add<WeaponSpawnSystem>(_container)
-                .Add<WeaponAnimationSystem>(_container)
+
                 .Add<EnemiesEvaluateSystem>(_container)
                 .Add<EnemiesBehaveSystem>(_container)
                 .Add<EnemyHpBarActivateSystem>(_container)
@@ -153,8 +141,6 @@ namespace Assets.Game.Scripts.Levels
                 .Add<UpdateWidgetSystem<TotalChargesCountWidget, int>>(_container)
                 .DelHere<UpdateWidgetRequest<TotalChargesCountWidget, int>>()
 
-                .DelHere<WeaponAnimationStartRequest>()
-                .DelHere<WeaponAnimationStopRequest>()
                 .Add(GetEventsDestroySystem())
                 .Inject()
                 .Init();
@@ -164,7 +150,6 @@ namespace Assets.Game.Scripts.Levels
                 .Add<PlayerRotationSystem>(_container)
                 .Add<PlayerMoveSystem>(_container)
                 .Add<PlayerAnimatorMoveParameterRequestSystem>(_container)
-                .Add<PlayerAnimatorTakeWeaponParameterRequestSystem>(_container)
                 .Add<PlayerAnimatorShootParameterRequestSystem>(_container)
                 .Add<EnemiesAnimatorMoveParameterRequestSystem>(_container)
                 .Add<EnemiesAnimatorAttackParameterRequestSystem>(_container)
@@ -194,7 +179,6 @@ namespace Assets.Game.Scripts.Levels
                 .IncSingleton<InputOnScreenPositionChangedEvent>()
                 .IncSingleton<ShootStartedEvent>()
                 .IncSingleton<ShootEndedEvent>()
-                .IncSingleton<PlayerPickUpWeaponEvent>()
                 .IncSingleton<PlayerReloadingEvent>()
                 .IncReplicant<GetDamageEvent>()
                 .IncReplicant<HideEvent>()
